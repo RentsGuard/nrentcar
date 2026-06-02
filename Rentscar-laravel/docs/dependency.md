@@ -240,9 +240,9 @@ Contoh pada RentsCar:
 composer require barryvdh/laravel-debugbar --dev
 ```
 
-* **Package ini digunakan untuk membantu developer dalam melakukan debugging.
-* **Menampilkan query database, request, dan response secara real-time pada browser.
-* **Tidak diaktifkan di production karena hanya untuk kebutuhan pengembangan.
+* **Package ini digunakan untuk membantu developer dalam melakukan debugging.**
+* **Menampilkan query database, request, dan response secara real-time pada browser.**
+* **Tidak diaktifkan di production karena hanya untuk kebutuhan pengembangan.**
 
 ## Install Dependency Frontend
 
@@ -255,13 +255,14 @@ npm install chart.js
 npm install alpinejs
 npm install sweetalert2
 ```
-* **Chart.js digunakan untuk menampilkan grafik data rental seperti jumlah transaksi dan laporan pendapatan.
-* **Alpine.js digunakan untuk memberikan interaktivitas ringan seperti modal, dropdown, dan sidebar.
-* **SweetAlert2 digunakan untuk menampilkan notifikasi pop-up yang lebih interaktif dan modern dibanding alert default browser.
+* **Chart.js digunakan untuk menampilkan grafik data rental seperti jumlah transaksi dan laporan pendapatan.**
+* **Alpine.js digunakan untuk memberikan interaktivitas ringan seperti modal, dropdown, dan sidebar.**
+* **SweetAlert2 digunakan untuk menampilkan notifikasi pop-up yang lebih interaktif dan modern dibanding alert default browser.**
 
 ## Build Asset Frontend
 
 Setelah semua dependency frontend terinstal, aset harus dikompilasi agar dapat digunakan oleh aplikasi.
+
 ```bash 
 npm run build
 ```
@@ -312,16 +313,17 @@ File ini mengunci versi semua dependency frontend yang telah diinstal melalui NP
 
 Penggunaan dependency pada proyek RentsCar memberikan beberapa dampak penting terhadap pengembangan sistem.
 
-1. Mempercepat Proses Development
+1. **Mempercepat Proses Development**
 
 Dengan adanya dependency seperti DOMPDF, Laravel Excel, dan Activity Log, pengembang tidak perlu membuat fitur dari awal.
 
 Contohnya:
 
-* **Generate invoice PDF tanpa membuat parser HTML sendiri
-* **Export laporan ke Excel tanpa membangun library dari nol**
-Mencatat aktivitas user secara otomatis
-2. Standarisasi dan Keamanan Sistem
+* **Generate invoice PDF tanpa membuat parser HTML sendiri**
+* **Export laporan ke Excel tanpa membangun library dari nol
+Mencatat aktivitas user secara otomatis**
+
+2. **Standarisasi dan Keamanan Sistem**
 
 Dependency yang digunakan merupakan library yang sudah banyak digunakan oleh komunitas Laravel sehingga lebih aman dibandingkan implementasi manual.
 
@@ -330,7 +332,7 @@ Namun tetap diperlukan:
 * **update versi secara berkala**
 * **monitoring security vulnerability**
 
-3. Meningkatkan Kualitas UI/UX**
+3. **Meningkatkan Kualitas UI/UX**
 
 Frontend dependency seperti Tailwind CSS, Alpine.js, Chart.js, dan SweetAlert2 membantu menciptakan tampilan sistem yang modern dan interaktif.
 
@@ -340,7 +342,7 @@ Hal ini berdampak pada:
 * **interaksi pengguna lebih responsif**
 * **pengalaman pengguna lebih baik**
 
-4. Konsistensi Lingkungan Pengembangan
+4. **Konsistensi Lingkungan Pengembangan**
 
 File seperti composer.lock dan package-lock.json memastikan seluruh developer menggunakan versi dependency yang sama.
 
@@ -354,18 +356,19 @@ Manfaatnya:
 
 Walaupun sangat membantu, penggunaan dependency juga memiliki beberapa risiko.
 
-1. Kompatibilitas Versi
+1. **Kompatibilitas Versi**
 
 Perubahan besar pada Laravel atau library tertentu dapat menyebabkan error dan membutuhkan penyesuaian kode.
 
-2. Ketergantungan Pihak Ketiga
+2. **Ketergantungan Pihak Ketiga**
 
 Jika sebuah library tidak lagi dikembangkan, maka:
 
 * **bug tidak diperbaiki**
 * **keamanan tidak diperbarui**
 * **sistem menjadi rentan**
-3. Konsumsi Resource
+
+3. **Konsumsi Resource**
 
 Beberapa library seperti DOMPDF atau Excel export membutuhkan memori besar jika memproses data dalam jumlah besar.
 
@@ -373,7 +376,8 @@ Solusi:
 
 * **chunking data**
 * **queue processing**
-4. Vendor Lock-in
+
+4. **Vendor Lock-in**
 
 Terlalu banyak bergantung pada library tertentu dapat menyulitkan migrasi ke teknologi lain di masa depan.
 

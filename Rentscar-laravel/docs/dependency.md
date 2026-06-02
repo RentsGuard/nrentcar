@@ -1,6 +1,6 @@
 # Dependency Documentation - RentsCar
 
-Dokumen ini menjelaskan dependency proyek Sistem Informasi Rental Mobil **RentsCar** berbasis Laravel sebagai bagian dari tugas mata kuliah Konstruksi dan Evolusi Perangkat Lunak, Program Studi Teknologi Rekayasa Perangkat Lunak, Politeknik Negeri Padang.
+Dokumen ini menjelaskan dependency proyek Sistem Manajemen Rental Mobil **RentsCar** berbasis Laravel,berdasarkan kebutuhan sistem dan kondisi repository saat ini.
 
 ---
 
@@ -212,6 +212,7 @@ Pada proyek RentsCar, dependency dikelola menggunakan dua ekosistem utama, yaitu
 ## Install Dependency Composer (Backend)
 
 Composer digunakan untuk mengelola library PHP pada Laravel. Setiap package dapat ditambahkan menggunakan perintah berikut:
+
 ```bash 
 composer require nama-vendor/nama-package
 ```
@@ -225,8 +226,8 @@ composer require barryvdh/laravel-dompdf
 composer require spatie/laravel-activitylog
 ```
 
-* **laravel-dompdf digunakan untuk menghasilkan dokumen PDF seperti invoice rental mobil dan laporan transaksi.
-s* **patie/laravel-activitylog digunakan untuk mencatat seluruh aktivitas pengguna seperti create, update, dan delete data sebagai audit trail sistem.
+* **laravel-dompdf digunakan untuk menghasilkan dokumen PDF seperti invoice rental mobil dan laporan transaksi.**
+* **spatie/laravel-activitylog digunakan untuk mencatat seluruh aktivitas pengguna seperti create, update, dan delete data sebagai audit trail sistem.**
 
 ## Install Dependency Development
 

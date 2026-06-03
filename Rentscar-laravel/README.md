@@ -284,7 +284,7 @@ Rencana screenshot:
 
 ---
 
-## Tim Pengembang (Kelompok 3 - PBL TRIFATEAM)
+## Tim Pengembang (Kelompok4  - PBL nRentscar)
 
 | Nama | NIM | Peran Proyek |
 | :--- | :---: | :--- |

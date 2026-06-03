@@ -2,9 +2,9 @@
 
 ## Deskripsi Proyek
 
-RentsCar adalah Sistem Informasi Rental Mobil berbasis web yang dirancang untuk membantu pengelolaan operasional bisnis penyewaan kendaraan secara digital. Sistem ini memudahkan pemilik dan staf rental dalam mengelola data mobil, data pelanggan, proses verifikasi pelanggan, serta transaksi penyewaan kendaraan secara terpusat.
+RentsCar adalah Sistem Informasi Manajemen Rental Mobil berbasis web yang dirancang untuk membantu pengelolaan operasional bisnis penyewaan Mobil secara digital. Sistem ini memudahkan pemilik dan staf rental dalam mengelola data mobil, data pelanggan, proses verifikasi pelanggan, serta transaksi penyewaan kendaraan secara terpusat.
 
-Dokumentasi proyek disusun agar aplikasi mudah dipasang, dipelihara, dikembangkan, dan digunakan sebagai dasar kolaborasi tim selama proses pengembangan perangkat lunak.
+Dokumentasi proyek disusun agar Web mudah dipelihara, dikembangkan, dan digunakan sebagai dasar kolaborasi tim selama proses pengembangan perangkat lunak.
 
 ---
 

@@ -1,131 +1,304 @@
-# Identifikasi Dependency & Package Laravel - Proyek PBL (RentsCar)
+# RentsCar - Sistem Informasi Rental Mobil
 
-Dokumen analisis ini disusun untuk memenuhi tugas mata kuliah Konstruksi dan Evolusi Perangkat Lunak, Prodi Teknologi Rekayasa Perangkat Lunak, Politeknik Negeri Padang. Berdasarkan modul dan *Use Case Diagram* sistem RentsCar, berikut adalah identifikasi 8 package Laravel yang digunakan:
+## Deskripsi Proyek
 
----
+RentsCar adalah Sistem Informasi Manajemen Rental Mobil berbasis web yang dirancang untuk membantu pengelolaan operasional bisnis penyewaan Mobil secara digital. Sistem ini memudahkan pemilik dan staf rental dalam mengelola data mobil, data pelanggan, proses verifikasi pelanggan, serta transaksi penyewaan kendaraan secara terpusat.
 
-## 1. Laravel Breeze
-
-### Analisis 5W+1H
-| 5W+1H | Penjelasan |
-| :--- | :--- |
-| **What** | Laravel Breeze |
-| **Why** | Digunakan untuk membangun sistem autentikasi seperti login, logout, dan manajemen session admin/staff. |
-| **Who** | Admin dan staff sistem RentsCar. |
-| **When** | Digunakan saat admin atau staff masuk ke dashboard sistem. |
-| **Where** | Halaman login, autentikasi, dan dashboard admin/staff. |
-| **How** | Diinstal menggunakan Composer dan Artisan untuk menghasilkan fitur autentikasi Laravel seperti login, middleware auth, session, dan proteksi halaman dashboard. |
-
-* **Sumber Referensi:** [Laravel Breeze Documentation](https://laravel.com/docs/11.x/starter-kits#laravel-breeze)
+Dokumentasi proyek disusun agar Web mudah dipelihara, dikembangkan, dan digunakan sebagai dasar kolaborasi tim selama proses pengembangan perangkat lunak.
 
 ---
 
-## 2. Laravel Livewire
+# Tujuan Proyek
 
-### Analisis 5W+1H
-| 5W+1H | Penjelasan |
-| :--- | :--- |
-| **What** | Laravel Livewire |
-| **Why** | Digunakan untuk membuat halaman dashboard dan data rental menjadi realtime tanpa refresh manual. |
-| **Who** | Admin dan staff RentsCar. |
-| **When** | Digunakan saat monitoring data customer, status mobil, atau data penyewaan. |
-| **Where** | Dashboard admin, data penyewaan, dan status mobil. |
-| **How** | Diinstal melalui Composer lalu dibuat dalam bentuk komponen Livewire yang terhubung ke database Laravel sehingga perubahan data dapat tampil otomatis. |
-
-* **Sumber Referensi:** [Official Livewire Documentation](https://livewire.laravel.com/)
+- Mengembangkan sistem rental mobil berbasis web yang terintegrasi.
+- Mempermudah pengelolaan data kendaraan rental.
+- Mempermudah pencatatan data pelanggan.
+- Mengelola proses verifikasi pelanggan sebelum penyewaan.
+- Mengelola transaksi penyewaan kendaraan secara digital.
+- Menyediakan dashboard administrasi yang mudah digunakan.
+- Meningkatkan efisiensi operasional bisnis rental mobil.
 
 ---
 
-## 3. Laravel Excel
+# Masalah Yang Diselesaikan
 
-### Analisis 5W+1H
-| 5W+1H | Penjelasan |
-| :--- | :--- |
-| **What** | Laravel Excel (maatwebsite/excel) |
-| **Why** | Digunakan untuk export laporan penyewaan dan data customer ke format Excel. |
-| **Who** | Admin dan pemilik usaha rental mobil. |
-| **When** | Digunakan saat ingin mengunduh laporan harian atau bulanan. |
-| **Where** | Halaman laporan dan statistik sistem. |
-| **How** | Diinstal melalui Composer dan menggunakan fitur export class Laravel untuk menghasilkan file .xlsx dari data database. |
+Sebelum menggunakan sistem:
 
-* **Sumber Referensi:** [Official Laravel Excel Documentation](https://docs.laravel-excel.com/)
+- Data pelanggan masih dicatat secara manual.
+- Riwayat penyewaan sulit dilacak.
+- Informasi ketersediaan kendaraan tidak terpusat.
+- Verifikasi pelanggan tidak terdokumentasi dengan baik.
+- Penyusunan laporan transaksi membutuhkan waktu yang lama.
 
----
+Setelah menggunakan RentsCar:
 
-## 4. Laravel DOMPDF
-
-### Analisis 5W+1H
-| 5W+1H | Penjelasan |
-| :--- | :--- |
-| **What** | Laravel DOMPDF (barryvdh/laravel-dompdf) |
-| **Why** | Digunakan untuk mencetak laporan transaksi dan bukti penyewaan dalam format PDF. |
-| **Who** | Admin dan staff RentsCar. |
-| **When** | Digunakan saat mencetak laporan atau invoice transaksi. |
-| **Where** | Halaman laporan dan detail transaksi. |
-| **How** | Diinstal menggunakan Composer lalu menggunakan Blade template Laravel yang diproses menjadi PDF melalui fungsi `Pdf::loadView()`. |
-
-* **Sumber Referensi:** [Laravel DOMPDF GitHub Repository](https://github.com/barryvdh/laravel-dompdf)
+- Data pelanggan tersimpan dalam database.
+- Riwayat penyewaan terdokumentasi dengan baik.
+- Status kendaraan dapat dipantau secara real-time.
+- Proses verifikasi pelanggan lebih terstruktur.
+- Pengelolaan transaksi menjadi lebih efisien.
 
 ---
 
-## 5. Spatie Laravel Permission
+# Target Pengguna
 
-### Analisis 5W+1H
-| 5W+1H | Penjelasan |
-| :--- | :--- |
-| **What** | Spatie Laravel Permission |
-| **Why** | Digunakan untuk mengatur hak akses admin dan staff pada sistem. |
-| **Who** | Admin dan staff sistem RentsCar. |
-| **When** | Digunakan saat sistem menentukan akses fitur berdasarkan role pengguna. |
-| **Where** | Manajemen user, dashboard admin, dan middleware sistem. |
-| **How** | Diinstal menggunakan Composer lalu dikonfigurasi menggunakan role dan permission pada Laravel. |
+## Staff
 
-* **Sumber Referensi:** [Official Spatie Permission Documentation](https://spatie.be/docs/laravel-permission)
+Bertanggung jawab untuk:
 
----
+- Mengelola data pelanggan.
+- Melakukan verifikasi pelanggan.
+- Mengelola data kendaraan.
+- Mengelola transaksi penyewaan.
 
-## 6. Laravel Debugbar
+## Pemilik (Owner)
 
-### Analisis 5W+1H
-| 5W+1H | Penjelasan |
-| :--- | :--- |
-| **What** | Laravel Debugbar (barryvdh/laravel-debugbar) |
-| **Why** | Digunakan untuk membantu debugging dan monitoring error selama pengembangan sistem. |
-| **Who** | Developer sistem RentsCar. |
-| **When** | Digunakan selama tahap development dan testing aplikasi. |
-| **Where** | Backend Laravel dan proses pengembangan aplikasi. |
-| **How** | Diinstal melalui Composer dan dijalankan pada mode development untuk menampilkan query database, route, request, dan error Laravel. |
+Bertanggung jawab untuk:
 
-* **Sumber Referensi:** [Laravel Debugbar GitHub Repository](https://github.com/barryvdh/laravel-debugbar)
+- Memantau seluruh aktivitas penyewaan.
+- Melihat data pelanggan.
+- Melihat data kendaraan.
+- Melihat riwayat transaksi penyewaan.
+- Mengawasi operasional rental.
 
 ---
 
-## 7. Intervention Image
+# Fitur Utama
 
-### Analisis 5W+1H
-| 5W+1H | Penjelasan |
-| :--- | :--- |
-| **What** | Intervention Image |
-| **Why** | Digunakan untuk upload dan manipulasi gambar mobil pada sistem. |
-| **Who** | Admin sistem RentsCar. |
-| **When** | Digunakan saat menambah atau mengubah foto mobil. |
-| **Where** | Modul data mobil. |
-| **How** | Diinstal melalui Composer lalu digunakan untuk resize, compress, dan menyimpan gambar mobil ke storage Laravel. |
+## Manajemen User
 
-* **Sumber Referensi:** [Official Intervention Image Documentation](https://image.intervention.io/)
+- Login dan Logout.
+- Pengelolaan akun pengguna.
+- Role Pemilik dan Staff.
+
+## Manajemen Customer
+
+- Tambah customer.
+- Ubah data customer.
+- Hapus data customer.
+- Melihat daftar customer.
+
+## Verifikasi Customer
+
+- Verifikasi identitas customer.
+- Penyimpanan status verifikasi.
+- Riwayat verifikasi customer.
+
+## Manajemen Mobil
+
+- Tambah data mobil.
+- Edit data mobil.
+- Hapus data mobil.
+- Upload foto mobil.
+- Pengelolaan status kendaraan.
+- Pengelolaan harga sewa kendaraan.
+
+## Manajemen Penyewaan
+
+- Pencatatan transaksi penyewaan.
+- Penentuan tanggal sewa.
+- Penentuan tanggal pengembalian.
+- Perhitungan lama sewa.
+- Perhitungan total biaya sewa.
+- Monitoring status penyewaan.
 
 ---
 
-## 8. Laravel Sanctum
+# Struktur Database
 
-### Analisis 5W+1H
-| 5W+1H | Penjelasan |
-| :--- | :--- |
-| **What** | Laravel Sanctum |
-| **Why** | Digunakan untuk keamanan autentikasi API dan session pengguna. |
-| **Who** | Admin, staff, dan sistem frontend. |
-| **When** | Digunakan saat autentikasi API atau komunikasi frontend-backend. |
-| **Where** | Backend API Laravel. |
-| **How** | Diinstal melalui Composer dan digunakan untuk token authentication Laravel. |
+Sistem dibangun menggunakan beberapa entitas utama:
 
-* **Sumber Referensi:** [Laravel Sanctum Documentation](https://laravel.com/docs/11.x/sanctum)
+## User
+
+Menyimpan data pengguna sistem.
+
+- id_user
+- nama_user
+- email
+- password
+- role
+
+## Customer
+
+Menyimpan data pelanggan rental.
+
+- id_customer
+- nama_customer
+- email
+- no_hp
+- alamat_customer
+- nik
+
+## Mobil
+
+Menyimpan data kendaraan rental.
+
+- id_mobil
+- nama_mobil
+- plat_mobil
+- tahun_mobil
+- tipe_mobil
+- kapasitas_mobil
+- harga_mobil
+- foto_mobil
+- bahan_bakar
+- status_mobil
+
+## Penyewaan
+
+Menyimpan data transaksi rental.
+
+- id_penyewaan
+- tanggal_sewa
+- tanggal_kembali
+- lama_sewa
+- total_harga
+- status
+
+## Verifikasi
+
+Menyimpan data verifikasi customer.
+
+- id_customer
+- id_pemilik
+- tanggal_verifikasi
+- status_verifikasi
+- catatan_verifikasi
+
+---
+
+# Tech Stack
+
+## Backend
+
+- Laravel 13
+- PHP 8.3+
+
+## Database
+
+- MySQL / MariaDB
+
+## Frontend
+
+- Blade Template
+- Tailwind CSS
+- Alpine.js
+
+## Build Tool
+
+- Vite
+- Node.js
+- NPM
+
+---
+
+# Dependency / Packages
+
+## Backend
+
+- Laravel Breeze
+- Laravel Livewire
+- Laravel Sanctum
+- Barryvdh Laravel DomPDF
+- Maatwebsite Excel
+- Spatie Activity Log
+- Intervention Image
+- Blade Heroicons
+
+## Frontend
+
+- Tailwind CSS
+- Alpine.js
+- Chart.js
+- SweetAlert2
+- Fontsource Inter
+
+---
+
+# Instalasi Singkat
+
+```bash
+git clone https://github.com/RentsGuard/nrentcar.git
+
+cd nrentcar
+
+composer install
+
+npm install
+
+cp .env.example .env
+
+php artisan key:generate
+
+php artisan migrate
+
+npm run build
+
+php artisan serve
+```
+
+---
+
+# Struktur Dokumentasi
+
+```text
+README.md
+CHANGELOG.md
+
+docs/
+├── installation.md
+├── features.md
+├── dependency.md
+├── refactoring.md
+└── github-actions.md
+```
+
+---
+
+# Screenshot Proyek
+
+Screenshot aplikasi akan ditambahkan setelah seluruh modul selesai dikembangkan dan diuji.
+
+Rencana screenshot:
+
+- Halaman Login
+- Dashboard Admin
+- Manajemen Customer
+- Verifikasi Customer
+- Manajemen Mobil
+- Form Penyewaan
+- Riwayat Penyewaan
+
+---
+
+# Dokumentasi
+
+| Dokumen | Deskripsi |
+|----------|----------|
+| docs/installation.md | Panduan instalasi lokal |
+| docs/features.md | Dokumentasi fitur sistem |
+| docs/dependency.md | Dokumentasi dependency |
+| docs/refactoring.md | Catatan refactoring |
+| docs/github-actions.md | Dokumentasi CI/CD |
+| CHANGELOG.md | Riwayat perubahan proyek |
+
+---
+
+## Tim Pengembang (Kelompok4  - PBL nRentscar)
+
+| Nama | NIM | Peran Proyek |
+| :--- | :---: | :--- |
+| Muhammad sharif Al Aqsha | 2411081035 | Project Manager |
+| Zahra' cyurisma hanena| 2411082041 | System Analyst |
+| Nisrina Nur'aini yurizal | 2411082037 | Lead Programmer |
+| Haikal Pratama | 2411081042| AI Specialist |
+| Muhammad gibran pangestu | 2411083021 | Quality Assurance |
+
+
+# Repository
+
+Repository digunakan untuk pengelolaan source code, dokumentasi, kolaborasi tim, dan pencatatan evolusi perangkat lunak selama proses pengembangan proyek RentsCar.
+
+Repository:
+
+https://github.com/RentsGuard/nrentcar

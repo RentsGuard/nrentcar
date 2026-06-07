@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login RentGuards</title>
+    <title>Login RentSCar</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -51,7 +51,7 @@
 
 <div class="login-box">
 
-    <h2 class="text-center mb-4">RentGuards Login</h2>
+    <h2 class="text-center mb-4">RentSCar Login</h2>
 
     @if(session('error'))
         <div class="alert alert-danger">

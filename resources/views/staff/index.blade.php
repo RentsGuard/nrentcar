@@ -44,25 +44,15 @@
 
                         <td>{{ $index + 1 }}</td>
 
-                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->nama_user }}</td>
 
                         <td>{{ $user->email }}</td>
 
                         <td>
 
-                            @if($user->role == 'admin')
-
-                                <span class="badge bg-danger">
-                                    Admin
-                                </span>
-
-                            @else
-
-                                <span class="badge bg-primary">
-                                    Staff
-                                </span>
-
-                            @endif
+                            <span class="badge bg-primary">
+                                Staff
+                            </span>
 
                         </td>
 

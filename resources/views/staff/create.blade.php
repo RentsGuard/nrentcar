@@ -10,7 +10,7 @@
 
             <div class="mb-3">
                 <label>Nama Staff</label>
-                <input type="text" name="name" class="form-control" required>
+                <input type="text" name="nama_user" class="form-control" required>
             </div>
 
             <div class="mb-3">
@@ -22,15 +22,6 @@
                 <label>Password</label>
                 <input type="password" name="password" class="form-control" required>
             </div>
-            <div class="mb-3">
-                <label>Role</label>
-                <select name="role" class="form-control" required>
-                    <option value="">Pilih Role</option>
-                    <option value="staff">Staff</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </div>
-
             <button type="submit" class="btn btn-danger">
                 Simpan
             </button>

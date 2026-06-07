@@ -10,7 +10,8 @@ class StaffController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::where('role', 'staff')->latest()->get();
+
         return view('staff.index', compact('users'));
     }
 
@@ -21,11 +22,17 @@ class StaffController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'nama_user' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:6'],
+        ]);
+
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role
+            'nama_user' => $validated['nama_user'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'staff',
         ]);
 
         return redirect('/staff')
@@ -34,19 +41,23 @@ class StaffController extends Controller
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('role', 'staff')->findOrFail($id);
 
         return view('staff.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('role', 'staff')->findOrFail($id);
+
+        $validated = $request->validate([
+            'nama_user' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
+        ]);
 
         $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role
+            'nama_user' => $validated['nama_user'],
+            'email' => $validated['email'],
         ]);
 
         return redirect('/staff')
@@ -55,7 +66,7 @@ class StaffController extends Controller
 
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
+        User::where('role', 'staff')->findOrFail($id)->delete();
 
         return redirect('/staff')
                 ->with('success', 'Data staff berhasil dihapus');

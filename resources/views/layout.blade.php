@@ -69,7 +69,7 @@
 
 <div class="sidebar">
 
-    <h4 class="text-danger">RentGuards</h4>
+    <h4 class="text-danger">RentSCar</h4>
 
     <ul class="sidebar-menu">
 

@@ -3,68 +3,66 @@
 @section('title', 'Manajemen Staff - RentSCar')
 
 @section('content')
-<div style="display: flex; flex-direction: column; gap: 24px;">
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
+<div class="space-y-6">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-            <h1 style="font-size: 24px; font-weight: 700; color: white; letter-spacing: -0.02em; margin: 0;">Manajemen Staff</h1>
-            <p style="color: rgba(255,255,255,0.5); font-size: 14px; margin: 4px 0 0 0;">Kelola akun pengguna dan hak akses sistem.</p>
+            <h1 class="text-2xl font-bold text-white tracking-tight">Manajemen Staff</h1>
+            <p class="text-white/50 text-sm mt-1">Kelola akun pengguna dan hak akses sistem.</p>
         </div>
-        <a href="{{ route('staff.create') }}" style="text-decoration: none;">
-            <button style="height: 40px; padding: 0 16px; border-radius: 8px; background: #C1121F; color: white; border: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 0 24px -6px rgba(193,18,31,0.6);">
-                <i class="bi bi-plus-lg"></i> Tambah Staff
-            </button>
+        <a href="{{ route('staff.create') }}" class="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-[#C1121F] text-white font-semibold text-sm shadow-[0_0_24px_-6px_rgba(193,18,31,0.6)] hover:bg-[#a30f1a] transition-all no-underline">
+            <i class="bi bi-plus-lg"></i> Tambah Staff
         </a>
     </div>
 
-    <div class="glass-card" style="padding: 0;">
-        <div class="filter-bar">
-            <div style="position: relative; width: 288px;">
-                <i class="bi bi-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4); font-size: 14px;"></i>
-                <input type="text" id="searchInput" class="form-input-custom" style="padding-left: 36px;" placeholder="Cari nama atau email...">
+    <div class="glass-card overflow-hidden">
+        <div class="p-4 border-b border-white/[0.05] bg-white/[0.01]">
+            <div class="relative w-full sm:w-72">
+                <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
+                <input type="text" id="searchInput" class="w-full h-10 pl-9 pr-3 rounded-lg border border-white/[0.1] bg-black/20 text-white text-sm outline-none placeholder:text-white/40 transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]" placeholder="Cari nama atau email...">
             </div>
         </div>
 
-        <div style="overflow-x: auto;">
-            <table class="table-custom" id="staffTable">
-                <thead>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left" id="staffTable">
+                <thead class="text-xs text-white/50 uppercase bg-white/[0.02] border-b border-white/[0.05]">
                     <tr>
-                        <th>Nama Staff</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th style="text-align: right;">Aksi</th>
+                        <th class="px-6 py-4 font-medium">Nama Staff</th>
+                        <th class="px-6 py-4 font-medium">Email</th>
+                        <th class="px-6 py-4 font-medium">Role</th>
+                        <th class="px-6 py-4 font-medium text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-white/[0.05]">
                     @forelse($users as $user)
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <div class="avatar-circle">{{ strtoupper(substr($user->nama_user, 0, 1)) }}</div>
+                    <tr class="hover:bg-white/[0.02] transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-white/[0.05] flex items-center justify-center text-white font-medium text-xs shrink-0">{{ strtoupper(substr($user->nama_user, 0, 1)) }}</div>
                                 <div>
-                                    <div style="font-weight: 500; color: white;">{{ $user->nama_user }}</div>
-                                    <div style="font-size: 12px; color: rgba(255,255,255,0.5);">USR-{{ str_pad($user->id, 3, '0', STR_PAD_LEFT) }}</div>
+                                    <div class="font-medium text-white">{{ $user->nama_user }}</div>
+                                    <div class="text-xs text-white/50">USR-{{ str_pad($user->id, 3, '0', STR_PAD_LEFT) }}</div>
                                 </div>
                             </div>
                         </td>
-                        <td style="color: rgba(255,255,255,0.8);">{{ $user->email }}</td>
-                        <td>
+                        <td class="px-6 py-4 text-white/80">{{ $user->email }}</td>
+                        <td class="px-6 py-4">
                             @if($user->role === 'admin')
-                            <span class="badge-custom" style="background: rgba(193,18,31,0.2); color: #C1121F; border: 1px solid rgba(193,18,31,0.3);">Admin</span>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-[#C1121F]/20 text-[#ff6b73] border-[#C1121F]/30">Admin</span>
                             @else
-                            <span class="badge-custom outline">Staff</span>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-white/20 text-white/80">Staff</span>
                             @endif
                         </td>
-                        <td style="text-align: right;">
-                            <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                                <a href="/staff/{{ $user->id }}/edit" class="btn-ghost btn-icon-sm" title="Edit">
-                                    <i class="bi bi-pencil" style="color: rgba(255,255,255,0.7); font-size: 14px;"></i>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="/staff/{{ $user->id }}/edit" class="w-8 h-8 flex items-center justify-center rounded-lg text-white/70 hover:bg-white/[0.08] transition-colors" title="Edit">
+                                    <i class="bi bi-pencil"></i>
                                 </a>
                                 @if($user->role !== 'admin')
-                                <form action="/staff/{{ $user->id }}" method="POST" style="display: inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun staff ini? Tindakan ini tidak dapat dibatalkan.')">
+                                <form action="/staff/{{ $user->id }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun staff ini? Tindakan ini tidak dapat dibatalkan.')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-ghost btn-icon-sm" title="Hapus" style="color: #f87171;">
-                                        <i class="bi bi-trash" style="font-size: 14px;"></i>
+                                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-500/10 transition-colors" title="Hapus">
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
                                 @endif
@@ -73,14 +71,14 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" style="text-align: center; padding: 32px; color: rgba(255,255,255,0.5);">Tidak ada data staff yang ditemukan.</td>
+                        <td colspan="4" class="px-6 py-8 text-center text-white/50">Tidak ada data staff yang ditemukan.</td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
 
-        <div class="table-footer">
+        <div class="p-4 border-t border-white/[0.05] flex items-center justify-between text-sm text-white/50 bg-white/[0.01]">
             <div>Menampilkan {{ count($users) }} data</div>
         </div>
     </div>
@@ -90,10 +88,9 @@
 @push('scripts')
 <script>
 document.getElementById('searchInput').addEventListener('keyup', function() {
-    const search = this.value.toLowerCase();
-    document.querySelectorAll('#staffTable tbody tr').forEach(function(row) {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(search) ? '' : 'none';
+    var q = this.value.toLowerCase();
+    document.querySelectorAll('#staffTable tbody tr').forEach(function(r) {
+        r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
     });
 });
 </script>

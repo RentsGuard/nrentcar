@@ -3,56 +3,56 @@
 @section('title', 'Tambah Staff - RentSCar')
 
 @section('content')
-<div style="max-width: 672px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
-    <div style="display: flex; align-items: center; gap: 16px;">
-        <a href="{{ route('staff.index') }}" class="btn-ghost btn-icon" style="border-radius: 50%; background: rgba(255,255,255,0.03);">
-            <i class="bi bi-arrow-left" style="font-size: 18px;"></i>
+<div class="max-w-2xl mx-auto space-y-6">
+    <div class="flex items-center gap-4">
+        <a href="{{ route('staff.index') }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/[0.03] text-white/70 hover:bg-white/[0.08] hover:text-white transition-colors no-underline">
+            <i class="bi bi-arrow-left text-lg"></i>
         </a>
         <div>
-            <h1 style="font-size: 24px; font-weight: 700; color: white; letter-spacing: -0.02em; margin: 0;">Tambah Staff</h1>
-            <p style="color: rgba(255,255,255,0.5); font-size: 14px; margin: 4px 0 0 0;">Buat akun baru untuk pengguna sistem.</p>
+            <h1 class="text-2xl font-bold text-white tracking-tight">Tambah Staff</h1>
+            <p class="text-white/50 text-sm mt-1">Buat akun baru untuk pengguna sistem.</p>
         </div>
     </div>
 
     <form action="{{ route('staff.store') }}" method="POST">
         @csrf
-        <div class="glass-card" style="padding: 24px;">
-            <div style="display: flex; flex-direction: column; gap: 24px;">
-                <div>
-                    <label class="form-label">Nama Lengkap</label>
-                    <input type="text" name="nama_user" class="form-input-custom @error('nama_user') error @enderror" placeholder="Masukkan nama lengkap" value="{{ old('nama_user') }}" required>
-                    @error('nama_user') <div class="form-error">{{ $message }}</div> @enderror
+        <div class="glass-card">
+            <div class="p-6 space-y-6">
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-white/80">Nama Lengkap</label>
+                    <input type="text" name="nama_user" value="{{ old('nama_user') }}" required placeholder="Masukkan nama lengkap" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('nama_user') border-red-500 @enderror">
+                    @error('nama_user') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                 </div>
 
-                <div>
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-input-custom @error('email') error @enderror" placeholder="nama@rentscar.id" value="{{ old('email') }}" required>
-                    @error('email') <div class="form-error">{{ $message }}</div> @enderror
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-white/80">Email</label>
+                    <input type="email" name="email" value="{{ old('email') }}" required placeholder="nama@rentscar.id" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('email') border-red-500 @enderror">
+                    @error('email') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                 </div>
 
-                <div>
-                    <label class="form-label">Password</label>
-                    <div style="position: relative;">
-                        <input type="password" name="password" id="passwordField" class="form-input-custom @error('password') error @enderror" placeholder="Masukkan password" required>
-                        <button type="button" onclick="togglePassword()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255,255,255,0.4); cursor: pointer; padding: 0;">
-                            <i class="bi bi-eye" id="passwordIcon" style="font-size: 16px;"></i>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-white/80">Password</label>
+                    <div class="relative">
+                        <input type="password" name="password" id="pwCreate" required placeholder="Masukkan password" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 pr-10 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('password') border-red-500 @enderror">
+                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 transition-colors" onclick="togglePw('pwCreate','pwCreateIcon')">
+                            <i class="bi bi-eye" id="pwCreateIcon"></i>
                         </button>
                     </div>
-                    @error('password') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('password') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                 </div>
 
-                <div>
-                    <label class="form-label">Role</label>
-                    <select name="role" class="form-select-custom">
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-white/80">Role</label>
+                    <select name="role" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                         <option value="staff" selected>Staff</option>
                         <option value="admin">Admin</option>
                     </select>
                 </div>
 
-                <div style="padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: flex-end; gap: 12px;">
-                    <a href="{{ route('staff.index') }}" class="btn-ghost" style="padding: 10px 16px;">Batal</a>
-                    <button type="submit" class="btn-glass" style="background: #C1121F; color: white; border: none; box-shadow: 0 0 24px -6px rgba(193,18,31,0.6); padding: 10px 16px;">
-                        <i class="bi bi-check-lg" style="margin-right: 8px;"></i> Simpan Data
+                <div class="pt-6 border-t border-white/[0.05] flex justify-end gap-3">
+                    <a href="{{ route('staff.index') }}" class="inline-flex items-center h-10 px-4 rounded-lg text-white/70 hover:bg-white/[0.08] transition-colors text-sm font-medium no-underline">Batal</a>
+                    <button type="submit" class="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-[#C1121F] text-white font-semibold text-sm shadow-[0_0_24px_-6px_rgba(193,18,31,0.6)] hover:bg-[#a30f1a] transition-all">
+                        <i class="bi bi-check-lg"></i> Simpan Data
                     </button>
                 </div>
             </div>
@@ -60,19 +60,3 @@
     </form>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-function togglePassword() {
-    const field = document.getElementById('passwordField');
-    const icon = document.getElementById('passwordIcon');
-    if (field.type === 'password') {
-        field.type = 'text';
-        icon.className = 'bi bi-eye-slash';
-    } else {
-        field.type = 'password';
-        icon.className = 'bi bi-eye';
-    }
-}
-</script>
-@endpush

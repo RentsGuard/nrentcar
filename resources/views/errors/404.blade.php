@@ -4,85 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Halaman Tidak Ditemukan | RentSCar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <style>
-        body {
-            background: var(--bg-primary);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            padding: 24px;
-            font-family: 'Inter', sans-serif;
-        }
-        .error-card {
-            text-align: center;
-            padding: 48px;
-            background: rgba(20,20,20,0.6);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border-default);
-            border-radius: 16px;
-            max-width: 420px;
-            width: 100%;
-        }
-        .error-code {
-            font-size: 72px;
-            font-weight: 800;
-            color: var(--accent-red);
-            line-height: 1;
-            margin-bottom: 16px;
-            text-shadow: 0 0 40px var(--accent-glow);
-        }
-        .error-icon {
-            font-size: 48px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-        .error-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-        }
-        .error-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-            line-height: 1.6;
-        }
-        .error-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: 8px;
-            background: var(--accent-red);
-            color: white;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px var(--accent-glow);
-        }
-        .error-btn:hover {
-            background: var(--accent-hover);
-            color: white;
-        }
-    </style>
+    @vite('resources/css/app.css')
 </head>
-<body>
-    <div class="error-card">
-        <div class="error-icon"><i class="bi bi-search"></i></div>
-        <div class="error-code">404</div>
-        <div class="error-title">Halaman Tidak Ditemukan</div>
-        <div class="error-desc">
-            Maaf, halaman yang Anda cari tidak ada atau telah dipindahkan. Periksa kembali URL atau kembali ke beranda.
-        </div>
-        <a href="{{ url('/') }}" class="error-btn">
+<body class="min-h-screen flex items-center justify-center p-6 bg-[#080808] font-[Inter] antialiased">
+    <div class="text-center max-w-sm">
+        <div class="text-7xl font-extrabold text-[#C1121F] leading-none mb-4" style="text-shadow:0 0 40px rgba(193,18,31,0.3)">404</div>
+        <div class="text-4xl text-white/40 mb-6"><i class="bi bi-search"></i></div>
+        <h1 class="text-xl font-bold text-white mb-2">Halaman Tidak Ditemukan</h1>
+        <p class="text-sm text-white/50 mb-8 leading-relaxed">Maaf, halaman yang Anda cari tidak ada atau telah dipindahkan. Periksa kembali URL atau kembali ke beranda.</p>
+        <a href="{{ url('/') }}" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#C1121F] text-white font-semibold text-sm shadow-[0_4px_15px_rgba(193,18,31,0.4)] hover:bg-[#a30f1a] transition-all no-underline">
             <i class="bi bi-house"></i> Kembali ke Beranda
         </a>
     </div>

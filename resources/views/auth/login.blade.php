@@ -4,273 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - RentSCar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <style>
-        body {
-            background: #080808;
-            min-height: 100vh;
-            display: flex;
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .login-branding {
-            display: none;
-            flex: 1;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 48px;
-            position: relative;
-            overflow: hidden;
-            border-right: 1px solid rgba(255,255,255,0.05);
-        }
-
-        @media (min-width: 992px) {
-            .login-branding { display: flex; }
-        }
-
-        .login-glow-1 {
-            position: absolute;
-            top: -10%;
-            left: -10%;
-            width: 50%;
-            height: 50%;
-            background: #C1121F;
-            border-radius: 50%;
-            filter: blur(150px);
-            opacity: 0.2;
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        .login-glow-2 {
-            position: absolute;
-            bottom: -10%;
-            right: -10%;
-            width: 50%;
-            height: 50%;
-            background: #7f1d1d;
-            border-radius: 50%;
-            filter: blur(150px);
-            opacity: 0.2;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.3; }
-        }
-
-        .login-form-wrapper {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            position: relative;
-        }
-
-        .login-mobile-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            background: #C1121F;
-            border-radius: 50%;
-            filter: blur(150px);
-            opacity: 0.1;
-        }
-
-        @media (min-width: 992px) {
-            .login-mobile-glow { display: none; }
-        }
-
-        .login-card {
-            width: 100%;
-            max-width: 440px;
-            background: rgba(20,20,20,0.8);
-            backdrop-filter: blur(40px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-        }
-
-        .brand-mobile {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 40px;
-        }
-
-        @media (min-width: 992px) {
-            .brand-mobile { display: none; }
-        }
-
-        .brand-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: #C1121F;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: white;
-            font-size: 18px;
-            box-shadow: 0 0 20px rgba(193,18,31,0.6);
-        }
-
-        .brand-text {
-            font-weight: 700;
-            font-size: 24px;
-            color: white;
-            letter-spacing: -0.02em;
-        }
-
-        .brand-text-light {
-            color: rgba(255,255,255,0.5);
-            font-weight: 400;
-        }
-
-        .gradient-text {
-            background: linear-gradient(to right, #C1121F, #ef4444);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .form-input {
-            height: 40px;
-            width: 100%;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: #0D0D0D;
-            color: white;
-            padding: 8px 12px;
-            font-size: 14px;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .form-input:focus {
-            border-color: rgba(193,18,31,0.5);
-            box-shadow: 0 0 0 2px rgba(193,18,31,0.3);
-        }
-
-        .form-input::placeholder {
-            color: rgba(255,255,255,0.4);
-        }
-
-        .btn-login {
-            height: 48px;
-            width: 100%;
-            border-radius: 8px;
-            background: #C1121F;
-            color: white;
-            border: none;
-            font-size: 16px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 0 24px -6px rgba(193,18,31,0.6);
-        }
-
-        .btn-login:hover {
-            background: #a30f1a;
-        }
-
-        .login-note {
-            margin-top: 24px;
-            padding: 16px;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-            text-align: center;
-        }
-    </style>
+    @vite('resources/css/app.css')
 </head>
-<body>
-    <div class="login-branding">
-        <div class="login-glow-1"></div>
-        <div class="login-glow-2"></div>
+<body class="min-h-screen flex bg-[#080808] font-[Inter] antialiased">
+    <!-- Left Branding -->
+    <div class="hidden lg:flex flex-1 relative flex-col justify-between p-12 overflow-hidden border-r border-white/[0.05]">
+        <div class="absolute top-[-10%] left-[-10%] w-1/2 h-1/2 bg-[#C1121F] rounded-full mix-blend-screen filter blur-[150px] opacity-20 animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-1/2 h-1/2 bg-red-900 rounded-full mix-blend-screen filter blur-[150px] opacity-20"></div>
 
-        <div style="position: relative; z-index: 1;">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
-                <div class="brand-icon"><i class="bi bi-car-front" style="font-size: 20px;"></i></div>
-                <span class="brand-text">RentSCar<span class="brand-text-light">.id</span></span>
+        <div class="relative z-10">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(193,18,31,0.6)]">
+                    <i class="bi bi-car-front text-xl"></i>
+                </div>
+                <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
             </div>
         </div>
 
-        <div style="position: relative; z-index: 1; max-width: 500px;">
-            <h1 style="font-size: 48px; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 24px;">
+        <div class="relative z-10 max-w-xl">
+            <h1 class="text-5xl font-bold text-white leading-tight mb-6">
                 Premium Car Rental <br>
-                <span class="gradient-text">Management System</span>
+                <span class="bg-gradient-to-r from-[#C1121F] to-red-500 bg-clip-text text-transparent">Management System</span>
             </h1>
-            <p style="font-size: 18px; color: rgba(255,255,255,0.6);">
-                Kelola armada, customer, dan penyewaan mobil Anda dalam satu dashboard modern dan profesional.
-            </p>
+            <p class="text-lg text-white/60">Kelola armada, customer, dan penyewaan mobil Anda dalam satu dashboard modern dan profesional.</p>
         </div>
 
-        <div style="position: relative; z-index: 1; color: rgba(255,255,255,0.4); font-size: 14px;">
-            &copy; 2026 RentSCar Indonesia. All rights reserved.
-        </div>
+        <div class="relative z-10 text-white/40 text-sm">&copy; 2026 RentSCar Indonesia. All rights reserved.</div>
     </div>
 
-    <div class="login-form-wrapper">
-        <div class="login-mobile-glow"></div>
+    <!-- Right Form -->
+    <div class="flex-1 flex items-center justify-center p-6 relative">
+        <div class="lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#C1121F] rounded-full mix-blend-screen filter blur-[150px] opacity-10"></div>
 
-        <div class="login-card">
-            <div class="brand-mobile">
-                <div class="brand-icon">R</div>
-                <span class="brand-text">RentSCar<span class="brand-text-light">.id</span></span>
+        <div class="w-full max-w-md">
+            <div class="lg:hidden flex items-center justify-center gap-3 mb-10">
+                <div class="w-10 h-10 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(193,18,31,0.6)]">R</div>
+                <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
             </div>
 
-            <div style="margin-bottom: 32px;">
-                <h2 style="font-size: 24px; font-weight: 700; color: white; margin-bottom: 8px;">Selamat Datang</h2>
-                <p style="color: rgba(255,255,255,0.5); font-size: 14px; margin: 0;">Silakan masuk ke akun Anda untuk melanjutkan.</p>
-            </div>
-
-            @if(session('error'))
-            <div class="alert alert-danger" role="alert" style="font-size: 14px; padding: 12px; border-radius: 8px;">
-                {{ session('error') }}
-            </div>
-            @endif
-
-            <form method="POST" action="/login">
-                @csrf
-                <div style="margin-bottom: 20px;">
-                    <label style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); display: block; margin-bottom: 6px;">Email</label>
-                    <input type="email" name="email" class="form-input" placeholder="admin@rentscar.id" value="{{ old('email') }}" required>
+            <div class="p-8 rounded-xl border border-white/[0.08] bg-[#141414]/80 shadow-2xl backdrop-blur-2xl">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-white mb-2">Selamat Datang</h2>
+                    <p class="text-white/50 text-sm">Silakan masuk ke akun Anda untuk melanjutkan.</p>
                 </div>
 
-                <div style="margin-bottom: 24px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <label style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); display: block; margin-bottom: 0;">Password</label>
-                        <span style="font-size: 12px; color: rgba(255,255,255,0.3); cursor: default;" title="Hubungi admin untuk reset password">Lupa Password?</span>
+                @if(session('error'))
+                <div class="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">{{ session('error') }}</div>
+                @endif
+
+                <form method="POST" action="/login">
+                    @csrf
+                    <div class="space-y-5">
+                        <div class="space-y-1.5">
+                            <label class="text-sm font-medium text-white/80">Email</label>
+                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="admin@rentscar.id" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <div class="flex items-center justify-between">
+                                <label class="text-sm font-medium text-white/80">Password</label>
+                                <span class="text-xs text-white/30 cursor-default" title="Hubungi admin untuk reset password">Lupa Password?</span>
+                            </div>
+                            <input type="password" name="password" required placeholder="••••••••" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        </div>
+
+                        <button type="submit" class="w-full h-12 rounded-lg bg-[#C1121F] text-white font-medium text-base flex items-center justify-center gap-2 transition-all hover:bg-[#a30f1a] shadow-[0_0_24px_-6px_rgba(193,18,31,0.6)]">
+                            Masuk <i class="bi bi-arrow-right"></i>
+                        </button>
                     </div>
-                    <input type="password" name="password" class="form-input" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" required>
+                </form>
+
+                <div class="mt-6 p-4 rounded-lg bg-white/[0.03] border border-white/[0.05] text-xs text-white/50 text-center">
+                    Gunakan kredensial default untuk masuk ke prototype.
                 </div>
-
-                <button type="submit" class="btn-login">
-                    Masuk <i class="bi bi-arrow-right"></i>
-                </button>
-            </form>
-
-            <div class="login-note">
-                Gunakan kredensial default untuk masuk ke prototype.
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

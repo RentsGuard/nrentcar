@@ -255,7 +255,7 @@
                 <div style="margin-bottom: 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                         <label style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); display: block; margin-bottom: 0;">Password</label>
-                        <a href="#" style="font-size: 12px; color: #C1121F; text-decoration: none;" onclick="return false;">Lupa Password?</a>
+                        <span style="font-size: 12px; color: rgba(255,255,255,0.3); cursor: default;" title="Hubungi admin untuk reset password">Lupa Password?</span>
                     </div>
                     <input type="password" name="password" class="form-input" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" required>
                 </div>

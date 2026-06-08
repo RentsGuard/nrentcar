@@ -149,16 +149,15 @@
                             <td>
                                 @php
                                 $badgeClass = match($sewa->status) {
-                                    'berlangsung' => 'success',
+                                    'aktif' => 'success',
                                     'selesai' => 'default',
                                     'dibatalkan' => 'danger',
-                                    'menunggu' => 'warning',
                                     default => 'default'
                                 };
                                 @endphp
                                 <span class="badge-custom {{ $badgeClass }}">{{ ucfirst($sewa->status) }}</span>
                             </td>
-                            <td style="text-align: right; font-weight: 500; color: white;">Rp {{ number_format($sewa->total_biaya, 0, ',', '.') }}</td>
+                            <td style="text-align: right; font-weight: 500; color: white;">Rp {{ number_format($sewa->total_harga, 0, ',', '.') }}</td>
                         </tr>
                         @empty
                         <tr><td colspan="4" style="text-align: center; padding: 32px; color: rgba(255,255,255,0.5);">Belum ada penyewaan aktif.</td></tr>

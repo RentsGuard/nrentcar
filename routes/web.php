@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StaffController;
+use App\Models\Mobil;
+use App\Models\Customer;
+use App\Models\Penyewaan;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,11 +18,37 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth')->group(function () {
 
     Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
+        $totalMobil = Mobil::count();
+        $mobilTersedia = Mobil::where('status', 'tersedia')->count();
+        $totalCustomer = Customer::count();
+        $customerTerverifikasi = Customer::where('status_verifikasi', 'disetujui')->count();
+        $totalPenyewaan = Penyewaan::count();
+        $totalPendapatan = Penyewaan::whereIn('status', ['berlangsung', 'selesai'])->sum('total_biaya');
+        $penyewaanAktif = Penyewaan::where('status', 'berlangsung')->with('customer', 'mobil')->latest()->take(5)->get();
+        $pelangganBaru = Customer::latest()->take(6)->get();
+
+        return view('admin.dashboard', compact(
+            'totalMobil', 'mobilTersedia', 'totalCustomer',
+            'customerTerverifikasi', 'totalPenyewaan', 'totalPendapatan',
+            'penyewaanAktif', 'pelangganBaru'
+        ));
     })->middleware('role:admin');
 
     Route::get('/staff/dashboard', function () {
-        return view('staff.dashboard');
+        $totalMobil = Mobil::count();
+        $mobilTersedia = Mobil::where('status', 'tersedia')->count();
+        $totalCustomer = Customer::count();
+        $customerTerverifikasi = Customer::where('status_verifikasi', 'disetujui')->count();
+        $totalPenyewaan = Penyewaan::count();
+        $totalPendapatan = Penyewaan::whereIn('status', ['berlangsung', 'selesai'])->sum('total_biaya');
+        $penyewaanAktif = Penyewaan::where('status', 'berlangsung')->with('customer', 'mobil')->latest()->take(5)->get();
+        $pelangganBaru = Customer::latest()->take(6)->get();
+
+        return view('staff.dashboard', compact(
+            'totalMobil', 'mobilTersedia', 'totalCustomer',
+            'customerTerverifikasi', 'totalPenyewaan', 'totalPendapatan',
+            'penyewaanAktif', 'pelangganBaru'
+        ));
     })->middleware('role:staff');
 
     Route::middleware('role:admin')->group(function () {

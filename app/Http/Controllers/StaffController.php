@@ -26,13 +26,14 @@ class StaffController extends Controller
             'nama_user' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6'],
+            'role' => ['required', 'in:admin,staff'],
         ]);
 
         User::create([
             'nama_user' => $validated['nama_user'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'staff',
+            'role' => $validated['role'],
         ]);
 
         return redirect('/staff')
@@ -53,12 +54,21 @@ class StaffController extends Controller
         $validated = $request->validate([
             'nama_user' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
+            'password' => ['nullable', 'string', 'min:6'],
+            'role' => ['required', 'in:admin,staff'],
         ]);
 
-        $user->update([
+        $data = [
             'nama_user' => $validated['nama_user'],
             'email' => $validated['email'],
-        ]);
+            'role' => $validated['role'],
+        ];
+
+        if ($validated['password']) {
+            $data['password'] = Hash::make($validated['password']);
+        }
+
+        $user->update($data);
 
         return redirect('/staff')
                 ->with('success', 'Data staff berhasil diupdate');

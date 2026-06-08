@@ -1,130 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>RentGuards</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'RentSCar') - Sistem Rental Mobil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <style>
-
-    body{
-        margin:0;
-        background:#050505;
-        color:white;
-        font-family:Arial, Helvetica, sans-serif;
-    }
-
-    .sidebar{
-        width:250px;
-        height:100vh;
-        position:fixed;
-        left:0;
-        top:0;
-        background:#1a0000;
-        padding:20px;
-        overflow-y:auto;
-    }
-
-    .main-content{
-        margin-left:250px;
-        padding:20px;
-    }
-
-    .sidebar-menu{
-        list-style:none;
-        padding:0;
-    }
-
-    .sidebar-menu li{
-        margin-bottom:10px;
-    }
-
-    .sidebar-menu a{
-        display:flex;
-        align-items:center;
-        gap:10px;
-        text-decoration:none;
-        color:white;
-        padding:12px;
-        border-radius:10px;
-    }
-
-    .sidebar-menu a:hover{
-        background:#660000;
-    }
-
-    .sidebar-menu a.active{
-        background:red;
-    }
-
-    </style>
-
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @stack('styles')
 </head>
 <body>
 
-@if(auth()->check())
+@auth
+<div class="main-wrapper">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-icon">R</div>
+            <span class="sidebar-brand-text">RentSCar<span class="light">.id</span></span>
+        </div>
 
-<div class="sidebar">
-
-    <h4 class="text-danger">RentSCar</h4>
-
-    <ul class="sidebar-menu">
-
-        <li>
-            <a href="/admin/dashboard">
-                <i class="bi bi-speedometer2"></i>
-                Dashboard
+        <nav class="sidebar-nav">
+            @if(auth()->user()->role === 'admin')
+            <a href="{{ url('/admin/dashboard') }}" class="sidebar-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                <i class="bi bi-speedometer2 icon"></i>
+                <span>Dashboard</span>
             </a>
-        </li>
-
-        <li>
-            <a href="/mobil">
-                <i class="bi bi-car-front"></i>
-                Mobil
+            @else
+            <a href="{{ url('/staff/dashboard') }}" class="sidebar-link {{ request()->is('staff/dashboard') ? 'active' : '' }}">
+                <i class="bi bi-speedometer2 icon"></i>
+                <span>Dashboard</span>
             </a>
-        </li>
+            @endif
 
-        <li>
-            <a href="/customer">
-                <i class="bi bi-people"></i>
-                Customer
+            <a href="{{ url('/mobil') }}" class="sidebar-link {{ request()->is('mobil*') ? 'active' : '' }}">
+                <i class="bi bi-car-front icon"></i>
+                <span>Mobil</span>
             </a>
-        </li>
 
-        @if(auth()->user()->role == 'admin')
-
-        <li>
-            <a href="/staff">
-                <i class="bi bi-person"></i>
-                Kelola Staff
+            <a href="{{ url('/customer') }}" class="sidebar-link {{ request()->is('customer*') ? 'active' : '' }}">
+                <i class="bi bi-people icon"></i>
+                <span>Customer</span>
             </a>
-        </li>
 
-        @endif
+            <a href="{{ url('/verifikasi') }}" class="sidebar-link {{ request()->is('verifikasi*') ? 'active' : '' }}">
+                <i class="bi bi-shield-check icon"></i>
+                <span>Verifikasi</span>
+            </a>
 
-    </ul>
+            <a href="{{ url('/penyewaan') }}" class="sidebar-link {{ request()->is('penyewaan*') ? 'active' : '' }}">
+                <i class="bi bi-journal-text icon"></i>
+                <span>Penyewaan</span>
+            </a>
 
-    <form method="POST" action="/logout">
-        @csrf
-        <button class="btn btn-danger w-100">
-            Logout
-        </button>
-    </form>
+            @if(auth()->user()->role === 'admin')
+            <a href="{{ url('/staff') }}" class="sidebar-link {{ request()->is('staff*') ? 'active' : '' }}">
+                <i class="bi bi-person-gear icon"></i>
+                <span>Staff</span>
+            </a>
+            @endif
 
+            <a href="{{ url('/laporan') }}" class="sidebar-link {{ request()->is('laporan*') ? 'active' : '' }}">
+                <i class="bi bi-bar-chart icon"></i>
+                <span>Laporan</span>
+            </a>
+
+            <a href="{{ url('/pengaturan') }}" class="sidebar-link {{ request()->is('pengaturan*') ? 'active' : '' }}">
+                <i class="bi bi-gear icon"></i>
+                <span>Pengaturan</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <form method="POST" action="/logout">
+                @csrf
+                <button type="submit" class="sidebar-logout">
+                    <i class="bi bi-box-arrow-left icon"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="navbar-custom">
+            <div class="d-flex align-items-center gap-4">
+                <div class="navbar-search">
+                    <i class="bi bi-search" style="color: rgba(255,255,255,0.4); font-size: 14px;"></i>
+                    <input type="text" placeholder="Cari sesuatu...">
+                </div>
+            </div>
+
+            <div class="navbar-actions">
+                <button class="navbar-bell" title="Notifikasi">
+                    <i class="bi bi-bell" style="font-size: 18px;"></i>
+                    <span class="dot"></span>
+                </button>
+                <div class="navbar-divider"></div>
+                <div class="navbar-user">
+                    <div class="navbar-user-info">
+                        <div class="navbar-user-name">{{ auth()->user()->nama_user }}</div>
+                        <div class="navbar-user-role">{{ ucfirst(auth()->user()->role) }}</div>
+                    </div>
+                    <div class="navbar-user-avatar">
+                        {{ strtoupper(substr(auth()->user()->nama_user, 0, 1)) }}
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-container">
+                @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                @endif
+
+                @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                @endif
+
+                @yield('content')
+            </div>
+        </div>
+    </main>
 </div>
-
-<div class="main-content">
-    @yield('content')
-</div>
-
 @else
+    @yield('content')
+@endauth
 
-@yield('content')
-
-@endif
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@stack('scripts')
 </body>
 </html>

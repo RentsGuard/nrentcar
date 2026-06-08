@@ -1,0 +1,47 @@
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+    background-color: #080808;
+    color: #FFFFFF;
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-[#080808] text-white antialiased selection:bg-[#C1121F] selection:text-white;
+  }
+}
+@layer utilities {
+  .glass-card {
+    @apply bg-[#141414]/80 backdrop-blur-xl border border-white/[0.06] shadow-xl;
+  }
+  .glass-panel {
+    @apply bg-white/[0.02] backdrop-blur-md border border-white/[0.04];
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+/* Custom Scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}

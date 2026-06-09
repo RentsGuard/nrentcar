@@ -171,7 +171,7 @@ Menyimpan data verifikasi customer.
 
 ## Backend
 
-- Laravel 13
+- Laravel 12
 - PHP 8.3+
 
 ## Database

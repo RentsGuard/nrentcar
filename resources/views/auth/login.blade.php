@@ -1,93 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Login RentGuards</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        body{
-            background:#1a0000;
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-        }
-
-        .login-box{
-            background:#2b0000;
-            padding:40px;
-            border-radius:15px;
-            width:400px;
-            color:white;
-            box-shadow:0 0 20px rgba(255,0,0,0.3);
-        }
-
-        .btn-login{
-            background:#b30000;
-            border:none;
-        }
-
-        .btn-login:hover{
-            background:#ff0000;
-        }
-
-        .form-control{
-            background:#222;
-            border:1px solid #800000;
-            color:white;
-        }
-
-        .form-control:focus{
-            background:#222;
-            color:white;
-            border-color:red;
-            box-shadow:none;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - RentSCar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    @vite('resources/css/app.css')
 </head>
+<body class="min-h-screen flex bg-[#080808] font-[Inter] antialiased">
+    <!-- Left Branding -->
+    <div class="hidden lg:flex flex-1 relative flex-col justify-between p-12 overflow-hidden border-r border-white/[0.05]">
+        <div class="absolute top-[-10%] left-[-10%] w-1/2 h-1/2 bg-[#C1121F] rounded-full mix-blend-screen filter blur-[150px] opacity-20 animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-1/2 h-1/2 bg-red-900 rounded-full mix-blend-screen filter blur-[150px] opacity-20"></div>
 
-<body>
-
-<div class="login-box">
-
-    <h2 class="text-center mb-4">RentGuards Login</h2>
-
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <form method="POST" action="/login">
-        @csrf
-        <div class="mb-3">
-            <label>Email</label>
-
-            <input
-                type="email"
-                name="email"
-                class="form-control"
-                required>
+        <div class="relative z-10">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(193,18,31,0.6)]">
+                    <i class="bi bi-car-front text-xl"></i>
+                </div>
+                <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label>Password</label>
-
-            <input
-                type="password"
-                name="password"
-                class="form-control"
-                required>
+        <div class="relative z-10 max-w-xl">
+            <h1 class="text-5xl font-bold text-white leading-tight mb-6">
+                Premium Car Rental <br>
+                <span class="bg-gradient-to-r from-[#C1121F] to-red-500 bg-clip-text text-transparent">Management System</span>
+            </h1>
+            <p class="text-lg text-white/60">Kelola armada, customer, dan penyewaan mobil Anda dalam satu dashboard modern dan profesional.</p>
         </div>
 
-        <button class="btn btn-login text-white w-100">
-            Login
-        </button>
+        <div class="relative z-10 text-white/40 text-sm">&copy; 2026 RentSCar Indonesia. All rights reserved.</div>
+    </div>
 
-    </form>
+    <!-- Right Form -->
+    <div class="flex-1 flex items-center justify-center p-6 relative">
+        <div class="lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#C1121F] rounded-full mix-blend-screen filter blur-[150px] opacity-10"></div>
 
-</div>
+        <div class="w-full max-w-md">
+            <div class="lg:hidden flex items-center justify-center gap-3 mb-10">
+                <div class="w-10 h-10 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(193,18,31,0.6)]">R</div>
+                <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
+            </div>
 
+            <div class="p-8 rounded-xl border border-white/[0.08] bg-[#141414]/80 shadow-2xl backdrop-blur-2xl">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-white mb-2">Selamat Datang</h2>
+                    <p class="text-white/50 text-sm">Silakan masuk ke akun Anda untuk melanjutkan.</p>
+                </div>
+
+                @if(session('error'))
+                <div class="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">{{ session('error') }}</div>
+                @endif
+
+                <form method="POST" action="/login">
+                    @csrf
+                    <div class="space-y-5">
+                        <div class="space-y-1.5">
+                            <label class="text-sm font-medium text-white/80">Email</label>
+                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="admin@rentscar.id" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <div class="flex items-center justify-between">
+                                <label class="text-sm font-medium text-white/80">Password</label>
+                                <span class="text-xs text-white/30 cursor-default" title="Hubungi admin untuk reset password">Lupa Password?</span>
+                            </div>
+                            <input type="password" name="password" required placeholder="••••••••" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        </div>
+
+                        <button type="submit" class="w-full h-12 rounded-lg bg-[#C1121F] text-white font-medium text-base flex items-center justify-center gap-2 transition-all hover:bg-[#a30f1a] shadow-[0_0_24px_-6px_rgba(193,18,31,0.6)]">
+                            Masuk <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-6 p-4 rounded-lg bg-white/[0.03] border border-white/[0.05] text-xs text-white/50 text-center">
+                    Gunakan kredensial default untuk masuk ke prototype.
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

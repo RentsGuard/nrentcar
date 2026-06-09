@@ -37,7 +37,11 @@
                     <tr class="hover:bg-white/[0.02] transition-colors">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
+                                @if($user->foto_profil)
+                                <img src="{{ asset('storage/'.$user->foto_profil) }}" alt="{{ $user->nama_user }}" class="w-8 h-8 rounded-full object-cover border border-white/10 shrink-0">
+                                @else
                                 <div class="w-8 h-8 rounded-full bg-white/[0.05] flex items-center justify-center text-white font-medium text-xs shrink-0">{{ strtoupper(substr($user->nama_user, 0, 1)) }}</div>
+                                @endif
                                 <div>
                                     <div class="font-medium text-white">{{ $user->nama_user }}</div>
                                     <div class="text-xs text-white/50">USR-{{ str_pad($user->id, 3, '0', STR_PAD_LEFT) }}</div>

@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class StaffController extends Controller
 {
     public function index()
     {
         $users = User::where('role', 'staff')->latest()->get();
-
         return view('staff.index', compact('users'));
     }
 
@@ -27,14 +27,21 @@ class StaffController extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6'],
             'role' => ['required', 'in:admin,staff'],
+            'foto_profil' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ]);
 
-        $user = User::create([
+        $data = [
             'nama_user' => $validated['nama_user'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
-        ]);
+        ];
+
+        if ($request->hasFile('foto_profil')) {
+            $data['foto_profil'] = $request->file('foto_profil')->store('foto_profil', 'public');
+        }
+
+        $user = User::create($data);
 
         activity()->performedOn($user)->log("Staff {$user->nama_user} created");
 
@@ -45,7 +52,6 @@ class StaffController extends Controller
     public function edit($id)
     {
         $user = User::where('role', 'staff')->findOrFail($id);
-
         return view('staff.edit', compact('user'));
     }
 
@@ -58,6 +64,7 @@ class StaffController extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'password' => ['nullable', 'string', 'min:6'],
             'role' => ['required', 'in:admin,staff'],
+            'foto_profil' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ]);
 
         $data = [
@@ -68,6 +75,13 @@ class StaffController extends Controller
 
         if ($validated['password']) {
             $data['password'] = Hash::make($validated['password']);
+        }
+
+        if ($request->hasFile('foto_profil')) {
+            if ($user->foto_profil) {
+                Storage::disk('public')->delete($user->foto_profil);
+            }
+            $data['foto_profil'] = $request->file('foto_profil')->store('foto_profil', 'public');
         }
 
         $user->update($data);
@@ -81,6 +95,11 @@ class StaffController extends Controller
     public function destroy($id)
     {
         $user = User::where('role', 'staff')->findOrFail($id);
+
+        if ($user->foto_profil) {
+            Storage::disk('public')->delete($user->foto_profil);
+        }
+
         $name = $user->nama_user;
         $user->delete();
 
@@ -88,5 +107,23 @@ class StaffController extends Controller
 
         return redirect('/staff')
                 ->with('success', 'Data staff berhasil dihapus');
+    }
+
+    public function resetPassword(Request $request, $id)
+    {
+        $user = User::where('role', 'staff')->findOrFail($id);
+
+        $validated = $request->validate([
+            'new_password' => ['required', 'string', 'min:6'],
+        ]);
+
+        $user->update([
+            'password' => Hash::make($validated['new_password']),
+        ]);
+
+        activity()->performedOn($user)->log("Staff {$user->nama_user} password reset by admin");
+
+        return redirect('/staff')
+                ->with('success', "Password staff {$user->nama_user} berhasil direset");
     }
 }

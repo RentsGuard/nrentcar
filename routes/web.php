@@ -8,6 +8,8 @@ use App\Models\Mobil;
 use App\Models\Customer;
 use App\Models\Penyewaan;
 use App\Models\Verifikasi;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProfileController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -34,6 +36,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware('role:admin');
     Route::get('/staff/dashboard', [DashboardController::class, 'index'])->middleware('role:staff');
 
+    Route::get('/profile', [ProfileController::class, 'edit']);
+    Route::put('/profile', [ProfileController::class, 'update']);
+
+    Route::get('/customer', [CustomerController::class, 'index']);
+    Route::get('/customer/create', [CustomerController::class, 'create']);
+    Route::post('/customer', [CustomerController::class, 'store']);
+    Route::get('/customer/{id}', [CustomerController::class, 'show']);
+    Route::get('/customer/{id}/edit', [CustomerController::class, 'edit']);
+    Route::put('/customer/{id}', [CustomerController::class, 'update']);
+    Route::delete('/customer/{id}', [CustomerController::class, 'destroy']);
+
     Route::middleware('role:admin')->group(function () {
         Route::get('/staff', [StaffController::class,'index'])->name('staff.index');
         Route::get('/staff/create', [StaffController::class,'create'])->name('staff.create');
@@ -42,7 +55,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/staff/{id}', [StaffController::class,'update'])->name('staff.update');
         Route::delete('/staff/{id}', [StaffController::class,'destroy'])->name('staff.destroy');
 
-        // DOMPDF demo
+        Route::post('/staff/{id}/reset-password', [StaffController::class, 'resetPassword'])->name('staff.reset-password');
         Route::get('/demo/pdf', function () {
             $pdf = Pdf::loadHTML('<h1>RentSCar Invoice</h1><p>Demo PDF generated with DOMPDF.</p>');
             $pdf->setPaper('A4', 'portrait');

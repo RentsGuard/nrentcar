@@ -26,13 +26,13 @@
             @if(auth()->user()->role === 'admin')
             <a href="{{ url('/admin/dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative {{ request()->is('admin/dashboard') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('admin/dashboard'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
-                @heroicon('squares-2x2', 'solid', ['class' => 'w-5 h-5 ' . (request()->is('admin/dashboard') ? 'text-[#C1121F]' : 'group-hover:text-white/80')])
+                @svg('heroicon-s-squares-2x2', 'w-5 h-5 ' . (request()->is('admin/dashboard') ? 'text-[#C1121F]' : 'group-hover:text-white/80'))
                 <span class="font-medium text-sm">Dashboard</span>
             </a>
             @else
             <a href="{{ url('/staff/dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative {{ request()->is('staff/dashboard') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('staff/dashboard'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
-                @heroicon('squares-2x2', 'solid', ['class' => 'w-5 h-5 ' . (request()->is('staff/dashboard') ? 'text-[#C1121F]' : 'group-hover:text-white/80')])
+                @svg('heroicon-s-squares-2x2', 'w-5 h-5 ' . (request()->is('staff/dashboard') ? 'text-[#C1121F]' : 'group-hover:text-white/80'))
                 <span class="font-medium text-sm">Dashboard</span>
             </a>
             @endif
@@ -82,11 +82,11 @@
             </a>
         </nav>
 
-        <div @click="sidebarOpen = false" class="p-4 mt-auto">
+        <div @click="sidebarOpen = false" class="p-4 border-t border-white/[0.06]">
             <form method="POST" action="/logout">
                 @csrf
-                <button type="submit" class="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-white/60 hover:bg-red-500/10 hover:text-red-400 transition-colors group">
-                    <i class="bi bi-box-arrow-left text-lg group-hover:text-red-400"></i>
+                <button type="submit" class="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-red-400/80 hover:bg-red-500/10 hover:text-red-400 transition-colors">
+                    <i class="bi bi-box-arrow-left text-lg"></i>
                     <span class="font-medium text-sm">Logout</span>
                 </button>
             </form>
@@ -94,31 +94,25 @@
     </aside>
 
     <main class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden md:ml-64">
-        <header class="h-16 border-b border-white/[0.06] bg-[#141414]/40 backdrop-blur-md flex items-center justify-between px-4 lg:px-8 z-10 shrink-0">
+        <header class="h-16 border-b border-white/[0.06] bg-[#141414]/40 backdrop-blur-md flex items-center justify-between px-4 lg:px-8 z-10 shrink-0 relative">
             <div class="flex items-center gap-4">
                 <button @click="sidebarOpen = !sidebarOpen" class="md:hidden w-10 h-10 flex items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03] text-white/70 hover:text-white hover:bg-white/[0.06] transition-colors" aria-label="Buka menu">
                     <i class="bi bi-list text-xl"></i>
                 </button>
-                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-white/[0.06] rounded-lg focus-within:border-[#C1121F]/50 focus-within:bg-white/[0.05] transition-colors w-64">
-                    <i class="bi bi-search text-white/40 text-sm"></i>
-                    <input type="text" placeholder="Cari sesuatu..." class="bg-transparent border-none outline-none text-sm text-white placeholder:text-white/40 w-full">
-                </div>
+                <h2 class="text-sm font-medium text-white/80">@yield('page-title', 'Dashboard')</h2>
             </div>
 
-            <div class="flex items-center gap-4">
-                <button class="relative p-2 text-white/70 hover:text-white transition-colors rounded-full hover:bg-white/5" title="Notifikasi">
-                    <i class="bi bi-bell text-lg"></i>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#C1121F] rounded-full shadow-[0_0_8px_#C1121F]"></span>
-                </button>
-                <div class="h-8 w-px bg-white/[0.1]"></div>
-                <div class="flex items-center gap-3 cursor-pointer group">
-                    <div class="hidden sm:flex flex-col items-end">
-                        <span class="text-sm font-medium text-white group-hover:text-[#C1121F] transition-colors">{{ auth()->user()->nama_user }}</span>
-                        <span class="text-xs text-white/50">{{ ucfirst(auth()->user()->role) }}</span>
-                    </div>
-                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#C1121F] to-red-500 flex items-center justify-center text-white font-bold text-sm shadow-lg">{{ strtoupper(substr(auth()->user()->nama_user, 0, 1)) }}</div>
+            <a href="/profile" class="flex items-center gap-3 no-underline group">
+                <div class="hidden sm:flex flex-col items-end">
+                    <span class="text-sm font-medium text-white group-hover:text-[#C1121F] transition-colors">{{ auth()->user()->nama_user }}</span>
+                    <span class="text-xs text-white/50">{{ ucfirst(auth()->user()->role) }}</span>
                 </div>
-            </div>
+                @if(auth()->user()->foto_profil)
+                <img src="{{ asset('storage/'.auth()->user()->foto_profil) }}" alt="{{ auth()->user()->nama_user }}" class="w-9 h-9 rounded-full object-cover border-2 border-white/10">
+                @else
+                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#C1121F] to-red-500 flex items-center justify-center text-white font-bold text-sm shadow-lg">{{ strtoupper(substr(auth()->user()->nama_user, 0, 1)) }}</div>
+                @endif
+            </a>
         </header>
 
         <div class="flex-1 overflow-y-auto p-4 lg:p-8">

@@ -16,7 +16,29 @@ class Customer extends Model
         'no_hp',
         'alamat_customer',
         'nik',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'golongan_darah',
+        'rt_rw',
+        'kelurahan',
+        'kecamatan',
+        'kota_kabupaten',
+        'provinsi',
+        'agama',
+        'status_perkawinan',
+        'pekerjaan',
+        'kewarganegaraan',
+        'berlaku_hingga',
+        'foto_ktp',
     ];
+
+    public function getFotoKtpUrlAttribute()
+    {
+        return $this->foto_ktp
+            ? asset('storage/' . $this->foto_ktp)
+            : null;
+    }
 
     public function penyewaan(): HasMany
     {

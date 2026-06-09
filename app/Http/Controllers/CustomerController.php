@@ -1,0 +1,129 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Customer;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class CustomerController extends Controller
+{
+    public function index()
+    {
+        $customers = Customer::latest()->get();
+        return view('customer.index', compact('customers'));
+    }
+
+    public function create()
+    {
+        return view('customer.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_customer' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255|unique:customers,email',
+            'no_hp' => 'required|string|max:20|unique:customers,no_hp',
+            'alamat_customer' => 'required|string',
+            'nik' => 'required|string|max:16|unique:customers,nik',
+            'tempat_lahir' => 'nullable|string|max:255',
+            'tanggal_lahir' => 'nullable|date',
+            'jenis_kelamin' => 'nullable|in:L,P',
+            'golongan_darah' => 'nullable|string|max:3',
+            'rt_rw' => 'nullable|string|max:10',
+            'kelurahan' => 'nullable|string|max:255',
+            'kecamatan' => 'nullable|string|max:255',
+            'kota_kabupaten' => 'nullable|string|max:255',
+            'provinsi' => 'nullable|string|max:255',
+            'agama' => 'nullable|in:Islam,Kristen,Katolik,Hindu,Buddha,Konghucu',
+            'status_perkawinan' => 'nullable|in:Kawin,Belum Kawin,Cerai',
+            'pekerjaan' => 'nullable|string|max:255',
+            'kewarganegaraan' => 'nullable|string|max:10',
+            'berlaku_hingga' => 'nullable|date',
+            'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($request->hasFile('foto_ktp')) {
+            $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp', 'public');
+        }
+
+        $customer = Customer::create($validated);
+
+        activity()->performedOn($customer)->log("Customer {$customer->nama_customer} created");
+
+        return redirect('/customer')
+            ->with('success', 'Customer berhasil ditambahkan');
+    }
+
+    public function show($id)
+    {
+        $customer = Customer::findOrFail($id);
+        return view('customer.show', compact('customer'));
+    }
+
+    public function edit($id)
+    {
+        $customer = Customer::findOrFail($id);
+        return view('customer.edit', compact('customer'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $customer = Customer::findOrFail($id);
+
+        $validated = $request->validate([
+            'nama_customer' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255|unique:customers,email,' . $customer->id,
+            'no_hp' => 'required|string|max:20|unique:customers,no_hp,' . $customer->id,
+            'alamat_customer' => 'required|string',
+            'nik' => 'required|string|max:16|unique:customers,nik,' . $customer->id,
+            'tempat_lahir' => 'nullable|string|max:255',
+            'tanggal_lahir' => 'nullable|date',
+            'jenis_kelamin' => 'nullable|in:L,P',
+            'golongan_darah' => 'nullable|string|max:3',
+            'rt_rw' => 'nullable|string|max:10',
+            'kelurahan' => 'nullable|string|max:255',
+            'kecamatan' => 'nullable|string|max:255',
+            'kota_kabupaten' => 'nullable|string|max:255',
+            'provinsi' => 'nullable|string|max:255',
+            'agama' => 'nullable|in:Islam,Kristen,Katolik,Hindu,Buddha,Konghucu',
+            'status_perkawinan' => 'nullable|in:Kawin,Belum Kawin,Cerai',
+            'pekerjaan' => 'nullable|string|max:255',
+            'kewarganegaraan' => 'nullable|string|max:10',
+            'berlaku_hingga' => 'nullable|date',
+            'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($request->hasFile('foto_ktp')) {
+            if ($customer->foto_ktp) {
+                Storage::disk('public')->delete($customer->foto_ktp);
+            }
+            $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp', 'public');
+        }
+
+        $customer->update($validated);
+
+        activity()->performedOn($customer)->log("Customer {$customer->nama_customer} updated");
+
+        return redirect('/customer')
+            ->with('success', 'Data customer berhasil diupdate');
+    }
+
+    public function destroy($id)
+    {
+        $customer = Customer::findOrFail($id);
+
+        if ($customer->foto_ktp) {
+            Storage::disk('public')->delete($customer->foto_ktp);
+        }
+
+        $name = $customer->nama_customer;
+        $customer->delete();
+
+        activity()->log("Customer {$name} deleted");
+
+        return redirect('/customer')
+            ->with('success', 'Data customer berhasil dihapus');
+    }
+}

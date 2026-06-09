@@ -58,10 +58,10 @@
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 @if($user->role !== 'admin')
-                                <form action="/staff/{{ $user->id }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun staff ini? Tindakan ini tidak dapat dibatalkan.')">
+                                <form action="/staff/{{ $user->id }}" method="POST" style="display:inline;" class="delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-500/10 transition-colors" title="Hapus">
+                                    <button type="button" class="btn-delete w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-500/10 transition-colors" title="Hapus" data-name="{{ $user->nama_user }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
@@ -91,6 +91,24 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
     var q = this.value.toLowerCase();
     document.querySelectorAll('#staffTable tbody tr').forEach(function(r) {
         r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+});
+document.querySelectorAll('.btn-delete').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var form = this.closest('form');
+        var name = this.dataset.name;
+        Swal.fire({
+            title: 'Hapus ' + name + '?',
+            text: 'Tindakan ini tidak dapat dibatalkan.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#C1121F',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Ya, hapus',
+            cancelButtonText: 'Batal',
+            background: '#141414',
+            color: '#fff',
+        }).then(function(r) { if (r.isConfirmed) form.submit(); });
     });
 });
 </script>

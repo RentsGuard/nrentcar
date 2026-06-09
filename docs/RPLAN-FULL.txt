@@ -1,0 +1,123 @@
+================================================================================
+  RPLAN — RentsCar: Sistem Manajemen Rental Mobil
+  Laravel 12 + Tailwind CSS v4
+================================================================================
+
+TIM:
+  - Aqsha  : Auth, Layout, Dashboard, Staff CRUD, Landing, Error Pages, Deps
+  - Nisrina: Customer, Rental/Return, Verification CRUD
+  - Haikal : Public pages
+  - Gibran : Reports, Settings, Export
+  - Zahra  : Schema documentation, Seeders, Testing
+
+================================================================================
+FASE 1 — FUNDAMENTAL (Aqsha)
+================================================================================
+[✓] Laravel project init + Vite + Tailwind v4
+[✓] Auth (Login/Logout) with role redirect
+[✓] Layout: sidebar + navbar (Alpine.js toggle)
+[✓] Admin Dashboard: 6 stats, Chart.js, tables
+[✓] Staff Dashboard: same + greeting
+[✓] Staff CRUD: index, create, edit, delete (SweetAlert2)
+[✓] Landing page: hero, car grid from DB
+[✓] 403/404 error pages
+[✓] Dependency integration (Alpine, Swal, Heroicons, Activitylog,
+    DOMPDF, Intervention, OpenSpout, Livewire)
+[✓] RoleMiddleware (admin/staff gate)
+[✓] Activitylog on StaffController (create/update/delete)
+
+================================================================================
+FASE 2 — CORE BUSINESS (Nisrina)
+================================================================================
+[ ] Mobil CRUD controller + views
+[ ] Customer CRUD controller + views
+[ ] Rental (Penyewaan) CRUD controller + views
+[ ] Return process
+[ ] Verification (Verifikasi) CRUD
+
+================================================================================
+FASE 3 — PUBLIC & REPORT (Haikal + Gibran)
+================================================================================
+[ ] Public car listing
+[ ] Car detail page
+[ ] Reports (Laporan) controller + views
+[ ] Settings (Pengaturan) controller + views
+[ ] Export functionality (OpenSpout)
+
+================================================================================
+FASE 4 — DOCS & TESTING (Zahra)
+================================================================================
+[ ] Schema documentation
+[ ] Seeders for all tables
+[ ] PHPUnit tests
+[ ] Manual testing
+
+================================================================================
+DATABASE SCHEMA
+================================================================================
+Tables: users (singular naming)
+  - id, nama_user, email, password, role (enum: admin/staff), remember_token, timestamps
+
+Tables (to be created by team):
+  - mobil, customer, penyewaan, verifikasi, activity_log, etc.
+
+================================================================================
+TECH STACK
+================================================================================
+  Backend : PHP 8.5.5, Laravel 12.x, MySQL
+  Frontend: Tailwind CSS v4, Alpine.js 3.x, Chart.js 4.x, SweetAlert2
+  Build   : Vite 7.x, @tailwindcss/vite
+  Font    : Inter (Google Fonts CDN + @fontsource/inter fallback)
+  Icons   : Bootstrap Icons CDN + Blade Heroicons
+
+================================================================================
+DEPENDENCIES STATUS
+================================================================================
+  Composer:
+    ✓ laravel/framework ^12
+    ✓ laravel/breeze ^2 (scaffold only)
+    ✓ laravel/livewire ^4 (demo route)
+    ✓ laravel/sanctum ^4
+    ✓ barryvdh/laravel-dompdf ^3.1 (demo route)
+    ✓ spatie/laravel-activitylog ^5 (StaffController)
+    ✓ intervention/image ^4 (demo route)
+    ✓ blade-ui-kit/blade-heroicons ^2 (sidebar icon)
+    ✓ openspout/openspout ^5.7 (demo route)
+    ✗ maatwebsite/excel — BLOCKED (PHP 8.5.5 incompatible)
+
+  NPM:
+    ✓ vite ^7
+    ✓ tailwindcss ^4 (vite plugin)
+    ✓ alpinejs ^3 (sidebar toggle)
+    ✓ chart.js ^4 (dashboard)
+    ✓ sweetalert2 ^11 (delete confirm)
+    ✓ @fontsource/inter ^5 (bundled)
+    ✓ axios ^1 (breeze default)
+
+================================================================================
+PAGES MAPPING
+================================================================================
+  /                    → welcome.blade.php         (landing)
+  /login               → auth/login.blade.php      (split layout)
+  /admin/dashboard     → admin/dashboard.blade.php (admin role)
+  /staff/dashboard     → staff/dashboard.blade.php (staff role)
+  /staff               → staff/index.blade.php     (admin role)
+  /staff/create        → staff/create.blade.php    (admin role)
+  /staff/{id}/edit     → staff/edit.blade.php      (admin role)
+  /demo/pdf            → inline (DOMPDF)
+  /demo/image          → inline (Intervention)
+  /demo/excel          → inline (OpenSpout)
+  /demo/livewire       → livewire/health-check     (Livewire)
+
+  403                   → errors/403.blade.php
+  404                   → errors/404.blade.php
+
+================================================================================
+CREDENTIALS
+================================================================================
+  Admin: admin@gmail.com / 123456
+  Staff: staff@gmail.com / 123456
+
+================================================================================
+END OF RPLAN
+================================================================================

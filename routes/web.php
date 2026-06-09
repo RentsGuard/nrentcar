@@ -3,10 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Mobil;
 use App\Models\Customer;
 use App\Models\Penyewaan;
 use App\Models\Verifikasi;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use OpenSpout\Writer\XLSX\Writer;
+use OpenSpout\Common\Entity\Row;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -25,39 +31,8 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/admin/dashboard', function () {
-        $totalMobil = Mobil::count();
-        $mobilTersedia = Mobil::where('status_mobil', 'tersedia')->count();
-        $totalCustomer = Customer::count();
-        $customerTerverifikasi = Verifikasi::where('status_verifikasi', 'approve')->distinct('customer_id')->count('customer_id');
-        $totalPenyewaan = Penyewaan::count();
-        $totalPendapatan = Penyewaan::whereIn('status', ['aktif', 'selesai'])->sum('total_harga');
-        $penyewaanAktif = Penyewaan::where('status', 'aktif')->with('customer', 'mobil')->latest()->take(5)->get();
-        $pelangganBaru = Customer::latest()->take(6)->get();
-
-        return view('admin.dashboard', compact(
-            'totalMobil', 'mobilTersedia', 'totalCustomer',
-            'customerTerverifikasi', 'totalPenyewaan', 'totalPendapatan',
-            'penyewaanAktif', 'pelangganBaru'
-        ));
-    })->middleware('role:admin');
-
-    Route::get('/staff/dashboard', function () {
-        $totalMobil = Mobil::count();
-        $mobilTersedia = Mobil::where('status_mobil', 'tersedia')->count();
-        $totalCustomer = Customer::count();
-        $customerTerverifikasi = Verifikasi::where('status_verifikasi', 'approve')->distinct('customer_id')->count('customer_id');
-        $totalPenyewaan = Penyewaan::count();
-        $totalPendapatan = Penyewaan::whereIn('status', ['aktif', 'selesai'])->sum('total_harga');
-        $penyewaanAktif = Penyewaan::where('status', 'aktif')->with('customer', 'mobil')->latest()->take(5)->get();
-        $pelangganBaru = Customer::latest()->take(6)->get();
-
-        return view('staff.dashboard', compact(
-            'totalMobil', 'mobilTersedia', 'totalCustomer',
-            'customerTerverifikasi', 'totalPenyewaan', 'totalPendapatan',
-            'penyewaanAktif', 'pelangganBaru'
-        ));
-    })->middleware('role:staff');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware('role:admin');
+    Route::get('/staff/dashboard', [DashboardController::class, 'index'])->middleware('role:staff');
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/staff', [StaffController::class,'index'])->name('staff.index');
@@ -66,5 +41,36 @@ Route::middleware('auth')->group(function () {
         Route::get('/staff/{id}/edit', [StaffController::class,'edit'])->name('staff.edit');
         Route::put('/staff/{id}', [StaffController::class,'update'])->name('staff.update');
         Route::delete('/staff/{id}', [StaffController::class,'destroy'])->name('staff.destroy');
+
+        // DOMPDF demo
+        Route::get('/demo/pdf', function () {
+            $pdf = Pdf::loadHTML('<h1>RentSCar Invoice</h1><p>Demo PDF generated with DOMPDF.</p>');
+            $pdf->setPaper('A4', 'portrait');
+            return $pdf->download('demo-invoice.pdf');
+        });
+
+        // Intervention Image demo
+        Route::get('/demo/image', function () {
+            $manager = new \Intervention\Image\ImageManager(\Intervention\Image\Drivers\Gd\Driver::class);
+            $img = $manager->createImage(200, 200);
+            $img->fill('#C1121F');
+            $encoded = $img->encodeUsingMediaType('image/png');
+            return response($encoded->toString(), 200, ['Content-Type' => 'image/png']);
+        });
+
+        // OpenSpout demo
+        Route::get('/demo/excel', function () {
+            $writer = new Writer();
+            $writer->openToBrowser('demo-export.xlsx');
+            $writer->addRow(Row::fromValues(['Nama', 'Email', 'Role']));
+            $writer->addRow(Row::fromValues(['Admin', 'admin@rentscar.id', 'admin']));
+            $writer->addRow(Row::fromValues(['Staff', 'staff@rentscar.id', 'staff']));
+            $writer->close();
+        });
+
+        // Livewire demo
+        Route::get('/demo/livewire', function () {
+            return view('livewire.health-check');
+        });
     });
 });

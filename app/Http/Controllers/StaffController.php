@@ -29,12 +29,14 @@ class StaffController extends Controller
             'role' => ['required', 'in:admin,staff'],
         ]);
 
-        User::create([
+        $user = User::create([
             'nama_user' => $validated['nama_user'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
         ]);
+
+        activity()->performedOn($user)->log("Staff {$user->nama_user} created");
 
         return redirect('/staff')
                 ->with('success', 'Staff berhasil ditambahkan');
@@ -70,13 +72,19 @@ class StaffController extends Controller
 
         $user->update($data);
 
+        activity()->performedOn($user)->log("Staff {$user->nama_user} updated");
+
         return redirect('/staff')
                 ->with('success', 'Data staff berhasil diupdate');
     }
 
     public function destroy($id)
     {
-        User::where('role', 'staff')->findOrFail($id)->delete();
+        $user = User::where('role', 'staff')->findOrFail($id);
+        $name = $user->nama_user;
+        $user->delete();
+
+        activity()->log("Staff {$name} deleted");
 
         return redirect('/staff')
                 ->with('success', 'Data staff berhasil dihapus');

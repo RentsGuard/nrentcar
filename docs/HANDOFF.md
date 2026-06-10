@@ -18,6 +18,8 @@
 | **Verifikasi UI** | ✅ Views Only | Index (table), Create, Edit, Show — no CRUD logic yet |
 | **Laporan UI** | ✅ Views Only | Index (stat cards + charts + export buttons) — no logic yet |
 | **Pengaturan UI** | ✅ Views Only | Index (role/display/notification settings + system info) |
+| **Pengembalian CRUD + Denda** | ⏳ Planned (branch: `feature/tambah-data-denda`) | Store/update/destroy + auto-kalkulasi denda |
+| **Migrasi denda_per_jam + pengembalian_table** | ✅ Complete | 2 migrasi siap jalan |
 | Dependency Integration | ✅ Complete | All packages used at least once |
 
 ## All Aqsha Views
@@ -54,6 +56,10 @@ See `UIreference/` for React/Tailwind design reference (Magic Patterns export).
 | `/verifikasi/{id}/edit` | GET | auth | Edit verifikasi form |
 | `/laporan` | GET | auth | Laporan index (stats + charts) |
 | `/pengaturan` | GET | auth | Pengaturan index |
+| `/pengembalian` | GET/POST | auth | Pengembalian index / store |
+| `/pengembalian/create` | GET | auth | Create pengembalian form |
+| `/pengembalian/{id}` | GET/PUT/DELETE | auth | Pengembalian show / update / destroy |
+| `/pengembalian/{id}/edit` | GET | auth | Edit pengembalian form |
 | `/staff` | GET/POST | auth, role:admin | Staff index / store |
 | `/staff/create` | GET | auth, role:admin | Create staff form |
 | `/staff/{id}/edit` | GET | auth, role:admin | Edit staff form |
@@ -112,6 +118,7 @@ See `UIreference/` for React/Tailwind design reference (Magic Patterns export).
 ## What's Left
 
 - `store`, `update`, `destroy` methods in MobilController, PenyewaanController, VerifikasiController — currently only return views
+- **Pengembalian CRUD + denda logic** — planned on branch `feature/tambah-data-denda`
 - Laporan export logic (PDF/Excel) — buttons are UI only
 - Pengaturan functionality — settings page is static UI
 - Haikal's public pages assignment

@@ -14,7 +14,7 @@
 <body class="bg-[#080808] text-white font-[Inter] antialiased">
 
 @auth
-<div x-data="{ sidebarOpen: false }" class="flex min-h-screen overflow-hidden">
+<div x-data="{ sidebarOpen: window.innerWidth >= 768 }" class="flex min-h-screen overflow-hidden">
     <div x-show="sidebarOpen" x-cloak class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden" @click="sidebarOpen = false"></div>
     <aside x-cloak :class="sidebarOpen ? 'flex' : 'hidden'" class="md:flex md:flex-col w-64 min-w-64 h-screen fixed left-0 top-0 border-r border-white/[0.06] z-50 bg-gradient-to-b from-[#141414]/80 to-[#0c0c0c]/90 overflow-y-auto">
         <div class="p-6 flex items-center gap-3">
@@ -37,45 +37,45 @@
             </a>
             @endif
 
-            <a href="{{ url('/mobil') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('mobil*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
+            <a href="{{ url('/mobil') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('mobil*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('mobil*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
                 <i class="bi bi-car-front text-lg {{ request()->is('mobil*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Mobil</span>
             </a>
 
-            <a href="{{ url('/customer') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('customer*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
+            <a href="{{ url('/customer') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('customer*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('customer*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
                 <i class="bi bi-people text-lg {{ request()->is('customer*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Customer</span>
             </a>
 
-            <a href="{{ url('/verifikasi') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('verifikasi*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
+            <a href="{{ url('/verifikasi') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('verifikasi*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('verifikasi*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
                 <i class="bi bi-shield-check text-lg {{ request()->is('verifikasi*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Verifikasi</span>
             </a>
 
-            <a href="{{ url('/penyewaan') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('penyewaan*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
+            <a href="{{ url('/penyewaan') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('penyewaan*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('penyewaan*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
                 <i class="bi bi-journal-text text-lg {{ request()->is('penyewaan*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Penyewaan</span>
             </a>
 
             @if(auth()->user()->role === 'admin')
-            <a href="{{ url('/staff') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('staff*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
+            <a href="{{ url('/staff') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('staff*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('staff*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
                 <i class="bi bi-person-gear text-lg {{ request()->is('staff*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Staff</span>
             </a>
             @endif
 
-            <a href="{{ url('/laporan') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('laporan*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
+            <a href="{{ url('/laporan') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('laporan*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('laporan*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
                 <i class="bi bi-bar-chart text-lg {{ request()->is('laporan*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Laporan</span>
             </a>
 
-            <a href="{{ url('/pengaturan') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('pengaturan*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
+            <a href="{{ url('/pengaturan') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('pengaturan*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('pengaturan*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
                 <i class="bi bi-gear text-lg {{ request()->is('pengaturan*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Pengaturan</span>
@@ -141,6 +141,7 @@
 @endauth
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@vite('resources/js/app.js')
 
 <script>
 function togglePw(fieldId, iconId) {

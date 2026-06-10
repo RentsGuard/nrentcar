@@ -9,7 +9,12 @@ use App\Models\Customer;
 use App\Models\Penyewaan;
 use App\Models\Verifikasi;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MobilController;
+use App\Http\Controllers\PenyewaanController;
+use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PengaturanController;
+use App\Http\Controllerws\ProfileController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -46,6 +51,33 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/{id}/edit', [CustomerController::class, 'edit']);
     Route::put('/customer/{id}', [CustomerController::class, 'update']);
     Route::delete('/customer/{id}', [CustomerController::class, 'destroy']);
+
+    Route::get('/mobil', [MobilController::class, 'index']);
+    Route::get('/mobil/create', [MobilController::class, 'create']);
+    Route::post('/mobil', [MobilController::class, 'store']);
+    Route::get('/mobil/{id}', [MobilController::class, 'show']);
+    Route::get('/mobil/{id}/edit', [MobilController::class, 'edit']);
+    Route::put('/mobil/{id}', [MobilController::class, 'update']);
+    Route::delete('/mobil/{id}', [MobilController::class, 'destroy']);
+
+    Route::get('/penyewaan', [PenyewaanController::class, 'index']);
+    Route::get('/penyewaan/create', [PenyewaanController::class, 'create']);
+    Route::post('/penyewaan', [PenyewaanController::class, 'store']);
+    Route::get('/penyewaan/{id}', [PenyewaanController::class, 'show']);
+    Route::get('/penyewaan/{id}/edit', [PenyewaanController::class, 'edit']);
+    Route::put('/penyewaan/{id}', [PenyewaanController::class, 'update']);
+    Route::delete('/penyewaan/{id}', [PenyewaanController::class, 'destroy']);
+
+    Route::get('/verifikasi', [VerifikasiController::class, 'index']);
+    Route::get('/verifikasi/create', [VerifikasiController::class, 'create']);
+    Route::post('/verifikasi', [VerifikasiController::class, 'store']);
+    Route::get('/verifikasi/{id}', [VerifikasiController::class, 'show']);
+    Route::get('/verifikasi/{id}/edit', [VerifikasiController::class, 'edit']);
+    Route::put('/verifikasi/{id}', [VerifikasiController::class, 'update']);
+    Route::delete('/verifikasi/{id}', [VerifikasiController::class, 'destroy']);
+
+    Route::get('/laporan', [LaporanController::class, 'index']);
+    Route::get('/pengaturan', [PengaturanController::class, 'index']);
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/staff', [StaffController::class,'index'])->name('staff.index');

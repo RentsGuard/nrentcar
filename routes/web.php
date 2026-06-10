@@ -14,7 +14,8 @@ use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PengaturanController;
-use App\Http\Controllerws\ProfileController;
+use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\ProfileController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -78,6 +79,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/laporan', [LaporanController::class, 'index']);
     Route::get('/pengaturan', [PengaturanController::class, 'index']);
+
+    Route::get('/pengembalian', [PengembalianController::class, 'index']);
+    Route::get('/pengembalian/create', [PengembalianController::class, 'create']);
+    Route::post('/pengembalian', [PengembalianController::class, 'store']);
+    Route::get('/pengembalian/{id}', [PengembalianController::class, 'show']);
+    Route::get('/pengembalian/{id}/edit', [PengembalianController::class, 'edit']);
+    Route::put('/pengembalian/{id}', [PengembalianController::class, 'update']);
+    Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy']);
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/staff', [StaffController::class,'index'])->name('staff.index');

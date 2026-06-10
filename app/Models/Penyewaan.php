@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Penyewaan extends Model
 {
@@ -20,6 +21,7 @@ class Penyewaan extends Model
         'tanggal_kembali',
         'lama_sewa',
         'total_harga',
+        'denda_per_jam',
         'status',
         'catatan',
     ];
@@ -31,6 +33,7 @@ class Penyewaan extends Model
             'tanggal_kembali' => 'date',
             'lama_sewa' => 'integer',
             'total_harga' => 'decimal:2',
+            'denda_per_jam' => 'decimal:2',
         ];
     }
 
@@ -47,5 +50,10 @@ class Penyewaan extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function pengembalian(): HasOne
+    {
+        return $this->hasOne(Pengembalian::class);
     }
 }

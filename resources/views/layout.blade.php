@@ -61,6 +61,12 @@
                 <span class="font-medium text-sm">Penyewaan</span>
             </a>
 
+            <a href="{{ url('/pengembalian') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('pengembalian*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
+                @if(request()->is('pengembalian*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
+                <i class="bi bi-arrow-return-left text-lg {{ request()->is('pengembalian*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
+                <span class="font-medium text-sm">Pengembalian</span>
+            </a>
+
             @if(auth()->user()->role === 'admin')
             <a href="{{ url('/staff') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('staff*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('staff*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif

@@ -4,8 +4,6 @@
 
 **Labels:** `enhancement`, `change-request`
 
-**Assignee:** (isi sesuai anggota)
-
 ---
 
 ## Deskripsi Perubahan

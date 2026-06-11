@@ -7,7 +7,7 @@ Dokumen ini menjelaskan dependency proyek Sistem Manajemen Rental Mobil **RentsC
 ## Identitas
 
 - **Nama proyek:** RentsCar - Sistem Manajemen Rental Mobil
-- **Framework utama:** Laravel 13
+- **Framework utama:** Laravel 12
 - **Tujuan:** Mengidentifikasi dependency/package Laravel yang digunakan maupun yang direncanakan untuk mendukung pengembangan sistem, menjelaskan kegunaannya menggunakan pendekatan 5W+1H, serta menganalisis dampaknya terhadap evolusi perangkat lunak.
 
 ---
@@ -32,14 +32,14 @@ Dependency dikelompokkan menjadi:
 
 | Package | Fungsi | Alasan | Versi | Risiko |
 |----------|--------|--------|--------|--------|
-| `laravel/framework` | Framework utama Laravel | Menyediakan MVC, routing, ORM, middleware | `^13.x` | Breaking change saat upgrade major |
-| `laravel/breeze` | Autentikasi sistem | Login, register, session management | `^1.x` | Fitur terbatas untuk sistem kompleks |
-| `laravel/livewire` | Komponen realtime UI | Dashboard realtime tanpa refresh | `^3.x` | Kompleksitas state management |
-| `laravel/sanctum` | API authentication | Keamanan API token | `^3.x` | Risiko konfigurasi keamanan |
+| `laravel/framework` | Framework utama Laravel | Menyediakan MVC, routing, ORM, middleware | `^12.x` | Breaking change saat upgrade major |
+| `laravel/breeze` | Autentikasi sistem | Login, register, session management | `^2.x` | Fitur terbatas untuk sistem kompleks |
+| `laravel/livewire` | Komponen realtime UI | Dashboard realtime tanpa refresh | `^4.x` | Kompleksitas state management |
+| `laravel/sanctum` | API authentication | Keamanan API token | `^4.x` | Risiko konfigurasi keamanan |
 | `barryvdh/laravel-dompdf` | Generate PDF | Cetak invoice dan laporan rental | `^3.1` | Konsumsi memori tinggi |
-| `maatwebsite/excel` | Export/Import Excel | Laporan data rental & customer | `^3.1` | Performa turun tanpa chunking |
+| `maatwebsite/excel` | ~~Export/Import Excel~~ | ~~Laporan data rental & customer~~ | ~~`^3.1`~~ | **Dihapus** - PHP 8.5 tidak kompatibel |
 | `spatie/laravel-activitylog` | Activity logging | Audit trail aktivitas user | `^5.0` | Database membesar |
-| `intervention/image` | Image processing | Upload dan resize gambar mobil | `^2.x` | Beban server tinggi |
+| `intervention/image` | Image processing | Upload dan resize gambar mobil | `^4.x` | Beban server tinggi |
 | `blade-ui-kit/blade-heroicons` | Icon UI | Icon SVG dashboard | `^2.x` | Perubahan icon saat update |
 
 ---

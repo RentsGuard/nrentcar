@@ -44,7 +44,7 @@
                         <label class="text-sm font-medium text-white/80">Tipe Mobil</label>
                         <select name="tipe_mobil" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                             <option value="">-- Pilih --</option>
-                            @foreach(['SUV', 'MPV', 'Sedan', 'Hatchback', 'LCGC', 'Pickup', 'Sport', 'Lainnya'] as $t)
+                            @foreach(['Matic', 'Manual'] as $t)
                             <option value="{{ $t }}" {{ old('tipe_mobil') == $t ? 'selected' : '' }}>{{ $t }}</option>
                             @endforeach
                         </select>

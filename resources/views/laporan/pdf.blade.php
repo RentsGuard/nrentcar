@@ -20,7 +20,7 @@
         .aktif { background: #d4edda; color: #155724; }
         .selesai { background: #cce5ff; color: #004085; }
         .dibatalkan { background: #f8d7da; color: #721c24; }
-        .menunggu { background: #fff3cd; color: #856404; }
+
         .footer { margin-top: 20px; text-align: center; font-size: 9px; color: #aaa; border-top: 1px solid #ddd; padding-top: 10px; }
     </style>
 </head>

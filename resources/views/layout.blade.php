@@ -18,7 +18,7 @@
     <div x-show="sidebarOpen" x-cloak class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden" @click="sidebarOpen = false"></div>
     <aside x-cloak :class="sidebarOpen ? 'flex' : 'hidden'" class="md:flex md:flex-col w-64 min-w-64 h-screen fixed left-0 top-0 border-r border-white/[0.06] z-50 bg-gradient-to-b from-[#141414]/80 to-[#0c0c0c]/90 overflow-y-auto">
         <div class="p-6 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(193,18,31,0.5)]">R</div>
+            <img src="{{ asset('images/nrentcar.png') }}" alt="RentSCar" class="w-16 h-16">
             <span class="font-bold text-lg tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
         </div>
 
@@ -49,16 +49,16 @@
                 <span class="font-medium text-sm">Customer</span>
             </a>
 
-            <a href="{{ url('/verifikasi') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('verifikasi*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
-                @if(request()->is('verifikasi*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
-                <i class="bi bi-shield-check text-lg {{ request()->is('verifikasi*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
-                <span class="font-medium text-sm">Verifikasi</span>
-            </a>
-
             <a href="{{ url('/penyewaan') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('penyewaan*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('penyewaan*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
                 <i class="bi bi-journal-text text-lg {{ request()->is('penyewaan*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Penyewaan</span>
+            </a>
+
+            <a href="{{ url('/pengembalian') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('pengembalian*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
+                @if(request()->is('pengembalian*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
+                <i class="bi bi-arrow-return-left text-lg {{ request()->is('pengembalian*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
+                <span class="font-medium text-sm">Pengembalian</span>
             </a>
 
             @if(auth()->user()->role === 'admin')

@@ -33,7 +33,7 @@ class PenyewaanController extends Controller
             'tanggal_kembali' => 'required|date|after_or_equal:tanggal_sewa',
             'lama_sewa' => 'required|integer|min:1',
             'total_harga' => 'required|numeric|min:0',
-            'status' => 'required|in:aktif,menunggu,selesai,dibatalkan',
+            'status' => 'required|in:aktif,selesai,dibatalkan',
             'catatan' => 'nullable|string',
         ]);
 
@@ -74,7 +74,7 @@ class PenyewaanController extends Controller
             'tanggal_kembali' => 'required|date|after_or_equal:tanggal_sewa',
             'lama_sewa' => 'required|integer|min:1',
             'total_harga' => 'required|numeric|min:0',
-            'status' => 'required|in:aktif,menunggu,selesai,dibatalkan',
+            'status' => 'required|in:aktif,selesai,dibatalkan',
             'catatan' => 'nullable|string',
         ]);
 

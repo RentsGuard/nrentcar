@@ -21,7 +21,6 @@ class Penyewaan extends Model
         'tanggal_kembali',
         'lama_sewa',
         'total_harga',
-        'denda_per_jam',
         'status',
         'catatan',
     ];
@@ -33,7 +32,6 @@ class Penyewaan extends Model
             'tanggal_kembali' => 'date',
             'lama_sewa' => 'integer',
             'total_harga' => 'decimal:2',
-            'denda_per_jam' => 'decimal:2',
         ];
     }
 

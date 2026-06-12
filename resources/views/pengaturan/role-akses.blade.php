@@ -25,7 +25,7 @@
                         <th class="px-6 py-4 font-medium">Email</th>
                         <th class="px-6 py-4 font-medium">Role</th>
                         <th class="px-6 py-4 font-medium">Penyewaan</th>
-                        <th class="px-6 py-4 font-medium">Verifikasi</th>
+                        <th class="px-6 py-4 font-medium">Verif. Cust</th>
                         <th class="px-6 py-4 font-medium text-right">Aksi</th>
                     </tr>
                 </thead>
@@ -47,7 +47,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-white/60">{{ $user->penyewaan_count }}</td>
-                        <td class="px-6 py-4 text-white/60">{{ $user->verifikasi_count }}</td>
+                        <td class="px-6 py-4 text-white/60">{{ $user->verified_customers_count }}</td>
                         <td class="px-6 py-4 text-right">
                             @if(auth()->user()->role === 'admin' && $user->id !== auth()->id())
                             <a href="/staff/{{ $user->id }}/edit" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-white/70 hover:bg-white/[0.08] text-xs transition-colors no-underline">

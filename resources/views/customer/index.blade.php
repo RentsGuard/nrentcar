@@ -30,6 +30,7 @@
                         <th class="px-6 py-4 font-medium">Nama Customer</th>
                         <th class="px-6 py-4 font-medium">No. HP</th>
                         <th class="px-6 py-4 font-medium">Kota/Kab</th>
+                        <th class="px-6 py-4 font-medium">Verifikasi</th>
                         <th class="px-6 py-4 font-medium text-right">Aksi</th>
                     </tr>
                 </thead>
@@ -48,6 +49,10 @@
                         </td>
                         <td class="px-6 py-4 text-white/80">{{ $customer->no_hp }}</td>
                         <td class="px-6 py-4 text-white/60">{{ $customer->kota_kabupaten ?? '-' }}</td>
+                        <td class="px-6 py-4">
+                            @php $vc = match($customer->status_verifikasi) { 'disetujui' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'ditolak' => 'bg-red-500/10 text-red-400 border-red-500/20', default => 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' }; @endphp
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border {{ $vc }}">{{ ucfirst($customer->status_verifikasi ?? 'Belum') }}</span>
+                        </td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">
                                 <a href="/customer/{{ $customer->id }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-white/70 hover:bg-white/[0.08] transition-colors" title="Detail">
@@ -68,7 +73,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-8 text-center text-white/50">Tidak ada data customer.</td>
+                        <td colspan="6" class="px-6 py-8 text-center text-white/50">Tidak ada data customer.</td>
                     </tr>
                     @endforelse
                 </tbody>

@@ -14,7 +14,7 @@ use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PengaturanController;
-use App\Http\Controllerws\ProfileController;
+use App\Http\Controllers\ProfileController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;

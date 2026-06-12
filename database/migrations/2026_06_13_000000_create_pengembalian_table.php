@@ -8,6 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::table('penyewaan', function (Blueprint $table) {
+            $table->decimal('denda_per_jam', 12, 2)->nullable()->after('total_harga');
+        });
+
         Schema::create('pengembalian', function (Blueprint $table) {
             $table->id();
             $table->foreignId('penyewaan_id')->constrained('penyewaan')->cascadeOnDelete();
@@ -27,5 +31,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('pengembalian');
+        Schema::table('penyewaan', function (Blueprint $table) {
+            $table->dropColumn('denda_per_jam');
+        });
     }
 };

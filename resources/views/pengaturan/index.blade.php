@@ -12,7 +12,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="glass-card p-6">
+        <a href="/pengaturan/role-akses" class="glass-card p-6 no-underline group hover:border-white/[0.12] transition-all block">
             <div class="flex flex-col items-center text-center gap-3">
                 <div class="w-12 h-12 rounded-xl bg-[#C1121F]/10 flex items-center justify-center">
                     <i class="bi bi-shield-check text-2xl text-[#C1121F]"></i>
@@ -21,13 +21,13 @@
                     <h3 class="text-sm font-semibold text-white">Role & Akses</h3>
                     <p class="text-xs text-white/50 mt-1">Kelola hak akses dan role pengguna</p>
                 </div>
-                <a href="#" class="inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-white/[0.06] text-white/80 hover:bg-white/[0.1] text-sm transition-colors no-underline mt-2">
+                <span class="inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-white/[0.06] text-white/80 group-hover:bg-white/[0.1] text-sm transition-colors mt-2">
                     <i class="bi bi-gear"></i> Atur
-                </a>
+                </span>
             </div>
-        </div>
+        </a>
 
-        <div class="glass-card p-6">
+        <a href="/pengaturan/tampilan" class="glass-card p-6 no-underline group hover:border-white/[0.12] transition-all block">
             <div class="flex flex-col items-center text-center gap-3">
                 <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
                     <i class="bi bi-palette text-2xl text-emerald-400"></i>
@@ -36,13 +36,13 @@
                     <h3 class="text-sm font-semibold text-white">Tampilan</h3>
                     <p class="text-xs text-white/50 mt-1">Sesuaikan tema dan preferensi</p>
                 </div>
-                <a href="#" class="inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-white/[0.06] text-white/80 hover:bg-white/[0.1] text-sm transition-colors no-underline mt-2">
+                <span class="inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-white/[0.06] text-white/80 group-hover:bg-white/[0.1] text-sm transition-colors mt-2">
                     <i class="bi bi-gear"></i> Atur
-                </a>
+                </span>
             </div>
-        </div>
+        </a>
 
-        <div class="glass-card p-6">
+        <a href="/pengaturan/notifikasi" class="glass-card p-6 no-underline group hover:border-white/[0.12] transition-all block">
             <div class="flex flex-col items-center text-center gap-3">
                 <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
                     <i class="bi bi-bell text-2xl text-amber-400"></i>
@@ -51,11 +51,11 @@
                     <h3 class="text-sm font-semibold text-white">Notifikasi</h3>
                     <p class="text-xs text-white/50 mt-1">Pengaturan notifikasi sistem</p>
                 </div>
-                <a href="#" class="inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-white/[0.06] text-white/80 hover:bg-white/[0.1] text-sm transition-colors no-underline mt-2">
+                <span class="inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-white/[0.06] text-white/80 group-hover:bg-white/[0.1] text-sm transition-colors mt-2">
                     <i class="bi bi-gear"></i> Atur
-                </a>
+                </span>
             </div>
-        </div>
+        </a>
     </div>
 
     <div class="glass-card p-6">
@@ -82,17 +82,20 @@
 
     <div class="glass-card p-6">
         <h3 class="text-base font-semibold text-white mb-4">Aktivitas Terbaru</h3>
-        <div class="space-y-3">
+        <div class="space-y-2">
+            @forelse($recentActivities as $act)
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+                <div class="w-2 h-2 rounded-full bg-[#C1121F] shrink-0"></div>
+                <p class="text-sm text-white/70 flex-1">{{ $act->description }}</p>
+                <span class="text-xs text-white/40">{{ $act->created_at->diffForHumans() }}</span>
+            </div>
+            @empty
             <div class="flex items-center gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
                 <div class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></div>
                 <p class="text-sm text-white/70 flex-1">Sistem berjalan normal</p>
                 <span class="text-xs text-white/40">Sekarang</span>
             </div>
-            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
-                <div class="w-2 h-2 rounded-full bg-[#C1121F] shrink-0"></div>
-                <p class="text-sm text-white/70 flex-1">{{ auth()->user()->nama_user }} login ke sistem</p>
-                <span class="text-xs text-white/40">{{ now()->diffForHumans() }}</span>
-            </div>
+            @endforelse
         </div>
     </div>
 </div>

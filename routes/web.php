@@ -77,7 +77,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/verifikasi/{id}', [VerifikasiController::class, 'destroy']);
 
     Route::get('/laporan', [LaporanController::class, 'index']);
+    Route::get('/laporan/export/pdf', [LaporanController::class, 'exportPdf']);
+    Route::get('/laporan/export/excel', [LaporanController::class, 'exportExcel']);
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetak']);
+
     Route::get('/pengaturan', [PengaturanController::class, 'index']);
+    Route::get('/pengaturan/role-akses', [PengaturanController::class, 'roleAkses']);
+    Route::get('/pengaturan/tampilan', [PengaturanController::class, 'tampilan']);
+    Route::put('/pengaturan/tampilan', [PengaturanController::class, 'tampilanUpdate']);
+    Route::get('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasi']);
+    Route::put('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasiUpdate']);
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/staff', [StaffController::class,'index'])->name('staff.index');

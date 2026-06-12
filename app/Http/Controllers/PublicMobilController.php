@@ -14,8 +14,8 @@ class PublicMobilController extends Controller
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mobil', 'like', "%{$search}%")
-                  ->orWhere('tipe_mobil', 'like', "%{$search}%")
-                  ->orWhere('plat_mobil', 'like', "%{$search}%");
+                    ->orWhere('tipe_mobil', 'like', "%{$search}%")
+                    ->orWhere('plat_mobil', 'like', "%{$search}%");
             });
         }
 

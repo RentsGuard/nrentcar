@@ -23,7 +23,8 @@ class User extends Authenticatable
         'nama_user',
         'email',
         'password',
-        'role'
+        'role',
+        'foto_profil',
     ];
 
     /**
@@ -47,6 +48,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getFotoProfilUrlAttribute()
+    {
+        return $this->foto_profil
+            ? asset('storage/' . $this->foto_profil)
+            : null;
     }
 
     public function mobil(): HasMany

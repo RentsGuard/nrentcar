@@ -8,32 +8,34 @@
 ## Branches & Status
 | Branch | Owner | Status | Key Work |
 |--------|-------|--------|----------|
-| `aqsha` | Aqsha | ✅ Done | Auth, Layout, Dashboards, Staff CRUD, Landing, Errors, all UI, Deps |
-| `zahra` | Zahra | ✅ Done | Seeders (Mobil, Customer, Penyewaan, Verifikasi), Tests (Auth, Mobil, Customer), CRUD completion Mobil/Penyewaan/Verifikasi |
-| `gibran` | Gibran | ✅ Done | Laporan export (PDF/Excel/Cetak), Chart real data, Settings (Tampilan, Notifikasi, Role & Akses) |
+| `aqsha` | Aqsha | ✅ Done | Auth, Layout, Dashboards, Staff CRUD, Landing, Errors, all UI, Deps, logo, cleanup |
+| `zahra` | Zahra | ✅ Done | Seeders, Tests, CRUD completion |
+| `gibran` | Gibran | ✅ Done | Laporan export (PDF/Excel), Chart real data, Settings |
 | `nisrina` | Nisrina | ⏳ Pending | Pengembalian + Denda (branch `feature/tambah-data-denda`) |
 | `haikal` | Haikal | ❌ Not started | Public car listing |
 
 ## Implemented Features
 - ✅ Login/Logout + role redirect
 - ✅ Admin/Staff Dashboard (6 stats + Chart.js)
-- ✅ Staff CRUD (search, SWAL delete, reset pw, foto)
-- ✅ Customer CRUD (full KTP 18 fields + foto_ktp)
-- ✅ Mobil CRUD (foto, status sync)
-- ✅ Penyewaan CRUD (dropdown customer/mobil, status→mobil sync)
-- ✅ Verifikasi CRUD (dropdown customer, verifikator)
+- ✅ Staff CRUD (admin-only, search, SWAL delete, reset pw, foto)
+- ✅ Customer CRUD (full KTP 18 fields + foto_ktp at top)
+- ✅ Mobil CRUD (foto, status sync, tipe_mobil: Matic/Manual)
+- ✅ Penyewaan CRUD (dropdown customer/mobil, status→mobil sync, no "menunggu")
+- ✅ Verifikasi merged into Customer (status_verifikasi, verified_by, tanggal_verifikasi, catatan)
+- ✅ Pengembalian CRUD (manual denda input, marks penyewaan selesai + mobil tersedia)
 - ✅ Profile (foto profil, password)
-- ✅ Laporan (4 stat cards, 2 real charts, export PDF/Excel, cetak)
-- ✅ Pengaturan (Tampilan, Notifikasi, Role & Akses)
+- ✅ Laporan (4 stat cards, 2 real charts, export PDF/Excel, no Cetak)
+- ✅ Pengaturan (Tampilan, Notifikasi, Role & Akses — admin only)
 - ✅ Settings table + model
-- ✅ Seeders: 8 mobil, 5 customer, 6 penyewaan, 5 verifikasi
-- ✅ Tests: 13 feature tests passing
+- ✅ Seeders: 8 mobil, 5 customer, 6 penyewaan, 5 verifikasi (sets customers table)
+- ✅ Tests: 14 feature tests passing (31 assertions)
+- ✅ Logo: `images/nrentcar.png` (enlarged, no box/border)
+- ✅ File input dark styling (`resources/css/app.css`)
 
-## DB Schema (14 tables)
+## DB Schema (13 tables)
 - `users` (nama_user, role, foto_profil)
-- `customers` (18 KTP fields + foto_ktp)
-- `mobil`, `penyewaan`, `verifikasi` (singular tables)
-- `settings` (key-value), `activity_log`, standard Laravel tables
+- `customers` (18 KTP fields + foto_ktp + status_verifikasi, verified_by, tanggal_verifikasi, catatan_verifikasi)
+- `mobil`, `penyewaan`, `pengembalian`, `settings`, `activity_log`, standard Laravel tables
 
 ## Key Config
 - No `tailwind.config.js` — `@theme {}` in `resources/css/app.css`
@@ -46,13 +48,15 @@
 - `gibran`: Need email (Muhammad Gibran Pangestu, 2411083021)
 - `aqsha`: `maaqsha@gmail.com`
 
-## Left / Blockers
-- `feature/tambah-data-denda` (Nisrina) — kampus, separate
-- Public pages (Haikal) — unassigned
-- Laporan charts use MySQL `DATE_FORMAT` (prod only)
+## Notes
+- `app/Models/Pengembalian.php` has `protected $table = 'pengembalian'` (singular)
+- Logo file: `public/images/nrentcar.png` (132KB, PNG)
+- Staff cannot: delete mobil (403), manage staff (admin middleware), verify customers (admin middleware), access role-akses (admin middleware)
+- Admin can verify customers inside Customer edit/show pages (dropdown + approve/reject)
+- Verifikasi controller/model/views/routes fully deleted
 
 ## Commands
 ```bash
 php artisan migrate:fresh --seed
-php artisan test --filter=AuthTest,MobilTest,CustomerTest
+php artisan test
 ```

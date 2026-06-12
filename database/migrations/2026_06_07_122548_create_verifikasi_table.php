@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->foreignId('verified_by')->nullable()->constrained('users')->nullOnDelete();
             $table->date('tanggal_verifikasi')->nullable();
-            $table->enum('status_verifikasi', ['pending', 'approve', 'disapprove'])->default('pending')->index();
+            $table->enum('status_verifikasi', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu')->index();
             $table->text('catatan_verifikasi')->nullable();
             $table->timestamps();
         });

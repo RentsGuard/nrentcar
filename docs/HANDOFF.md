@@ -5,17 +5,21 @@
 | Area | Status | Notes |
 |------|--------|-------|
 | Auth | ✅ | Throttle 5:1, role redirect |
-| Layout (Sidebar + Navbar) | ✅ | Alpine.js, active glow |
+| Layout (Sidebar + Navbar) | ✅ | Alpine.js, active glow, logout sidebar |
 | Admin Dashboard | ✅ | 6 stat cards, Chart.js |
 | Staff Dashboard | ✅ | Same + staff greeting |
-| Staff CRUD | ✅ | Search, SweetAlert2 delete, reset pw |
-| Landing + Error Pages | ✅ | Hero, car grid, 403/404 |
-| Customer CRUD | ✅ | KTP upload, activity log |
-| Profile | ✅ | Foto profil, password |
-| Mobil, Penyewaan, Verifikasi UI | ✅ | Views only — no CRUD logic |
-| Laporan, Pengaturan UI | ✅ | Views only — no export logic |
+| Staff CRUD | ✅ | Search, SweetAlert2 delete, reset pw, foto profil |
+| Landing + Error Pages | ✅ | Hero, car grid from DB, 403/404 |
+| Customer CRUD | ✅ | Full KTP fields, foto_ktp upload, activity log |
+| Profile | ✅ | Foto profil upload, password change |
+| Mobil CRUD | ✅ | Foto upload, status management, activity log |
+| Penyewaan CRUD | ✅ | Customer/mobil dropdowns, status → mobil sync |
+| Verifikasi CRUD | ✅ | Customer dropdown, verifikator assignment |
+| Laporan + Pengaturan | ✅ | Stat cards, Chart.js (hardcoded data) |
+| Export (PDF/XLSX) | ⏳ | Demo routes exist, laporan export links are `#` |
 | Pengembalian + Denda | ⏳ | Branch `feature/tambah-data-denda` |
-| Dependency Integration | ✅ | All packages used |
+| Seeders | ✅ | Mobil, Customer, Penyewaan, Verifikasi |
+| Testing | ✅ | Auth, Mobil, Customer feature tests |
 
 > Views pake Tailwind v4 (no Bootstrap). Referensi: `UIreference/`.
 
@@ -35,7 +39,7 @@
 
 ## Stack
 
-Laravel 12 · PHP 8.5.5 · Tailwind v4.3 · Vite 7 · MySQL
+Laravel 12 · PHP 8.4.2 · Tailwind v4.3 · Vite 7 · MySQL
 
 ## Security
 
@@ -46,16 +50,17 @@ Auth + RoleMiddleware (`role:admin`/`role:staff`) · CSRF · Throttle 5/min logi
 | Member | Area | Progress |
 |--------|------|----------|
 | **Aqsha** | Auth, Layout, Dashboards, Staff CRUD, Landing, Errors, All UI, Deps | ✅ |
-| **Nisrina** | Customer, Mobil, Penyewaan, Verifikasi, Pengembalian CRUD | ⏳ Customer ✅, others UI only |
+| **Nisrina** | Customer, Mobil, Penyewaan, Verifikasi, Pengembalian CRUD | ✅ Completed |
+| **Zahra** | Schema docs, Seeders, Testing | ✅ Completed |
 | **Haikal** | Public pages | Unassigned |
 | **Gibran** | Laporan, Export, Pengaturan | ⏳ UI only |
-| **Zahra** | Schema docs, Seeders, Testing | Unassigned |
 
 ## Left
 
-- Store/update/destroy di Mobil, Penyewaan, Verifikasi, Pengembalian
-- Laporan export, Pengaturan logic
-- Public pages, Testing, Seeders
+- Laporan export (PDF/Excel/Cetak) links masih `#`
+- Pengaturan menu links masih `#`
+- Laporan Chart.js masih pakai hardcoded data
+- Public pages, Pengembalian + Denda
 
 ## Blocker
 

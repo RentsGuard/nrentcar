@@ -9,6 +9,7 @@ use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\PublicMobilController;
 use App\Http\Controllers\VerifikasiController;
 use App\Models\Mobil;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -17,6 +18,9 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
+
+Route::get('/cars', [PublicMobilController::class, 'index'])->name('public.mobil.index');
+Route::get('/cars/{id}', [PublicMobilController::class, 'show'])->name('public.mobil.show');
 
 Route::get('/', function () {
     if (auth()->check()) {

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Verifikasi;
 use App\Models\Customer;
 use App\Models\User;
+use App\Models\Verifikasi;
+use Illuminate\Database\Seeder;
 
 class VerifikasiSeeder extends Seeder
 {
@@ -14,7 +14,9 @@ class VerifikasiSeeder extends Seeder
         $admin = User::where('role', 'admin')->first();
         $customers = Customer::all();
 
-        if ($customers->isEmpty()) return;
+        if ($customers->isEmpty()) {
+            return;
+        }
 
         $verifikasis = [
             [

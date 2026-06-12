@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Penyewaan;
 use App\Models\Customer;
 use App\Models\Mobil;
+use App\Models\Penyewaan;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class PenyewaanSeeder extends Seeder
 {
@@ -17,7 +17,9 @@ class PenyewaanSeeder extends Seeder
         $customers = Customer::all();
         $mobils = Mobil::all();
 
-        if ($customers->isEmpty() || $mobils->isEmpty()) return;
+        if ($customers->isEmpty() || $mobils->isEmpty()) {
+            return;
+        }
 
         $penyewaans = [
             [

@@ -36,7 +36,7 @@ class Customer extends Model
     public function getFotoKtpUrlAttribute()
     {
         return $this->foto_ktp
-            ? asset('storage/' . $this->foto_ktp)
+            ? asset('storage/'.$this->foto_ktp)
             : null;
     }
 

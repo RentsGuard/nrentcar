@@ -11,6 +11,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::latest()->get();
+
         return view('customer.index', compact('customers'));
     }
 
@@ -59,12 +60,14 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::findOrFail($id);
+
         return view('customer.show', compact('customer'));
     }
 
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
+
         return view('customer.edit', compact('customer'));
     }
 
@@ -74,10 +77,10 @@ class CustomerController extends Controller
 
         $validated = $request->validate([
             'nama_customer' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255|unique:customers,email,' . $customer->id,
-            'no_hp' => 'required|string|max:20|unique:customers,no_hp,' . $customer->id,
+            'email' => 'nullable|email|max:255|unique:customers,email,'.$customer->id,
+            'no_hp' => 'required|string|max:20|unique:customers,no_hp,'.$customer->id,
             'alamat_customer' => 'required|string',
-            'nik' => 'required|string|max:16|unique:customers,nik,' . $customer->id,
+            'nik' => 'required|string|max:16|unique:customers,nik,'.$customer->id,
             'tempat_lahir' => 'nullable|string|max:255',
             'tanggal_lahir' => 'nullable|date',
             'jenis_kelamin' => 'nullable|in:L,P',

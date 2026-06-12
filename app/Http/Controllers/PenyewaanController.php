@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Penyewaan;
 use App\Models\Customer;
 use App\Models\Mobil;
+use App\Models\Penyewaan;
 use Illuminate\Http\Request;
 
 class PenyewaanController extends Controller
@@ -12,6 +12,7 @@ class PenyewaanController extends Controller
     public function index()
     {
         $penyewaans = Penyewaan::with('customer', 'mobil', 'user')->latest()->get();
+
         return view('penyewaan.index', compact('penyewaans'));
     }
 
@@ -19,6 +20,7 @@ class PenyewaanController extends Controller
     {
         $customers = Customer::orderBy('nama_customer')->get();
         $mobils = Mobil::where('status_mobil', 'tersedia')->orderBy('nama_mobil')->get();
+
         return view('penyewaan.create', compact('customers', 'mobils'));
     }
 
@@ -52,12 +54,14 @@ class PenyewaanController extends Controller
     public function show($id)
     {
         $penyewaan = Penyewaan::with('customer', 'mobil', 'user')->findOrFail($id);
+
         return view('penyewaan.show', compact('penyewaan'));
     }
 
     public function edit($id)
     {
         $penyewaan = Penyewaan::findOrFail($id);
+
         return view('penyewaan.edit', compact('penyewaan'));
     }
 

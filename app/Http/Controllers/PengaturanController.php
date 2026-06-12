@@ -12,12 +12,14 @@ class PengaturanController extends Controller
     public function index()
     {
         $recentActivities = Activity::latest()->take(10)->get();
+
         return view('pengaturan.index', compact('recentActivities'));
     }
 
     public function roleAkses()
     {
         $users = User::withCount('penyewaan', 'verifikasi')->latest()->get();
+
         return view('pengaturan.role-akses', compact('users'));
     }
 
@@ -27,6 +29,7 @@ class PengaturanController extends Controller
         $appDesc = Setting::getValue('app_description', 'Premium Car Rental System');
         $accentColor = Setting::getValue('app_accent_color', '#C1121F');
         $dendaPerHari = Setting::getValue('rental_denda_per_hari', '50000');
+
         return view('pengaturan.tampilan', compact('appName', 'appDesc', 'accentColor', 'dendaPerHari'));
     }
 
@@ -54,6 +57,7 @@ class PengaturanController extends Controller
     {
         $notifEmail = Setting::getValue('notifikasi_email', 'true');
         $notifSistem = Setting::getValue('notifikasi_sistem', 'true');
+
         return view('pengaturan.notifikasi', compact('notifEmail', 'notifSistem'));
     }
 

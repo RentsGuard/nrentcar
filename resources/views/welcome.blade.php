@@ -16,7 +16,6 @@
         <div class="flex items-center gap-3">
             <a href="/cars" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Mobil</a>
             <a href="#fitur" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Fitur</a>
-            <a href="/cars" class="text-sm font-semibold text-white px-4 py-2 rounded-lg bg-[#C1121F] shadow-[0_4px_15px_rgba(193,18,31,0.3)] hover:bg-[#a30f1a] transition-colors no-underline">Lihat Mobil</a>
             <a href="/login" class="text-sm font-semibold text-white/60 px-4 py-2 rounded-lg hover:text-white transition-colors no-underline">Login</a>
         </div>
     </nav>
@@ -63,12 +62,6 @@
     @else
     <p class="text-center text-white/50">Belum ada mobil tersedia saat ini.</p>
     @endif
-
-    <div class="text-center mt-10">
-        <a href="/cars" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/[0.1] text-white/80 font-medium text-sm hover:bg-white/[0.05] hover:text-white transition-colors no-underline">
-            Lihat Semua Mobil <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
 </div>
 
 <div class="py-16 sm:py-20 px-6 sm:px-10 relative z-10" id="fitur">

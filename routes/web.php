@@ -11,6 +11,10 @@ use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicMobilController;
 use App\Http\Controllers\StaffController;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\VerifikasiController;
+>>>>>>> main
 use App\Models\Mobil;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;

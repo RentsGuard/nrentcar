@@ -12,7 +12,7 @@
 <div class="detail-page">
     <nav class="flex items-center justify-between px-6 sm:px-10 py-4 relative z-10">
         <a href="/" class="flex items-center gap-3 no-underline">
-            <div class="w-9 h-9 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(193,18,31,0.6)]">R</div>
+            <img src="{{ asset('images/nrentcar.png?v=2') }}" alt="RentSCar" class="w-9 h-9">
             <span class="font-bold text-xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
         </a>
         <div class="flex items-center gap-3">

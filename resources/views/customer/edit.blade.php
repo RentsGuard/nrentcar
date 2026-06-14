@@ -129,6 +129,46 @@
                 </div>
 
                 <div class="pb-4 border-b border-white/[0.05]">
+                    <h3 class="text-base font-semibold text-white">Foto KTP</h3>
+                </div>
+
+                <div class="space-y-2">
+                    @if($customer->foto_ktp)
+                    <div class="mb-3">
+                        <img src="{{ asset('storage/'.$customer->foto_ktp) }}" alt="KTP {{ $customer->nama_customer }}" class="w-48 rounded-lg border border-white/[0.1]">
+                        <p class="text-xs text-white/50 mt-1">KTP saat ini. Upload baru untuk mengganti.</p>
+                    </div>
+                    @endif
+                    <label class="text-sm font-medium text-white/80">Foto KTP {{ $customer->foto_ktp ? '(Ganti)' : '' }}</label>
+                    <input type="file" name="foto_ktp" accept="image/jpeg,image/png" class="w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/20 file:bg-[#C1121F] file:text-white file:font-semibold file:text-sm hover:file:bg-[#a30f1a] transition-all @error('foto_ktp') border-red-500 @enderror">
+                    @error('foto_ktp') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                @if(auth()->user()->role === 'admin')
+                <div class="pb-4 border-b border-white/[0.05]">
+                    <h3 class="text-base font-semibold text-white">Verifikasi</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Status Verifikasi</label>
+                        <select name="status_verifikasi" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
+                            <option value="">-- Pilih --</option>
+                            <option value="disetujui" {{ old('status_verifikasi', $customer->status_verifikasi) == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                            <option value="ditolak" {{ old('status_verifikasi', $customer->status_verifikasi) == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Diverifikasi Oleh</label>
+                        <input type="text" value="{{ $customer->verifikator?->nama_user ?? 'Otomatis' }}" disabled class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D]/50 text-white/60 px-3 text-sm cursor-not-allowed">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Tanggal Verifikasi</label>
+                        <input type="text" value="{{ $customer->tanggal_verifikasi ? $customer->tanggal_verifikasi->format('d/m/Y H:i') : '-' }}" disabled class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D]/50 text-white/60 px-3 text-sm cursor-not-allowed">
+                    </div>
+                </div>
+                @endif
+
+                <div class="pb-4 border-b border-white/[0.05]">
                     <h3 class="text-base font-semibold text-white">Alamat</h3>
                 </div>
 
@@ -168,22 +208,6 @@
                         <input type="text" name="provinsi" value="{{ old('provinsi', $customer->provinsi) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('provinsi') border-red-500 @enderror">
                         @error('provinsi') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
-                </div>
-
-                <div class="pb-4 border-b border-white/[0.05]">
-                    <h3 class="text-base font-semibold text-white">Foto KTP</h3>
-                </div>
-
-                <div class="space-y-2">
-                    @if($customer->foto_ktp)
-                    <div class="mb-3">
-                        <img src="{{ asset('storage/'.$customer->foto_ktp) }}" alt="KTP {{ $customer->nama_customer }}" class="w-48 rounded-lg border border-white/[0.1]">
-                        <p class="text-xs text-white/50 mt-1">KTP saat ini. Upload baru untuk mengganti.</p>
-                    </div>
-                    @endif
-                    <label class="text-sm font-medium text-white/80">Foto KTP {{ $customer->foto_ktp ? '(Ganti)' : '' }}</label>
-                    <input type="file" name="foto_ktp" accept="image/jpeg,image/png" class="w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/20 file:bg-[#C1121F] file:text-white file:font-semibold file:text-sm hover:file:bg-[#a30f1a] transition-all @error('foto_ktp') border-red-500 @enderror">
-                    @error('foto_ktp') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">

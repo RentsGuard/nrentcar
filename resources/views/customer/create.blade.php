@@ -130,6 +130,17 @@
                 </div>
 
                 <div class="pb-4 border-b border-white/[0.05]">
+                    <h3 class="text-base font-semibold text-white">Foto KTP</h3>
+                    <p class="text-xs text-white/50 mt-1">Upload foto KTP (max 2MB, format JPG/PNG).</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-white/80">Foto KTP</label>
+                    <input type="file" name="foto_ktp" accept="image/jpeg,image/png" class="w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/20 file:bg-[#C1121F] file:text-white file:font-semibold file:text-sm hover:file:bg-[#a30f1a] transition-all @error('foto_ktp') border-red-500 @enderror">
+                    @error('foto_ktp') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="pb-4 border-b border-white/[0.05]">
                     <h3 class="text-base font-semibold text-white">Alamat</h3>
                     <p class="text-xs text-white/50 mt-1">Alamat lengkap sesuai KTP.</p>
                 </div>
@@ -170,17 +181,6 @@
                         <input type="text" name="provinsi" value="{{ old('provinsi') }}" placeholder="Provinsi" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('provinsi') border-red-500 @enderror">
                         @error('provinsi') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
-                </div>
-
-                <div class="pb-4 border-b border-white/[0.05]">
-                    <h3 class="text-base font-semibold text-white">Foto KTP</h3>
-                    <p class="text-xs text-white/50 mt-1">Upload foto KTP (max 2MB, format JPG/PNG).</p>
-                </div>
-
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-white/80">Foto KTP</label>
-                    <input type="file" name="foto_ktp" accept="image/jpeg,image/png" class="w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/20 file:bg-[#C1121F] file:text-white file:font-semibold file:text-sm hover:file:bg-[#a30f1a] transition-all @error('foto_ktp') border-red-500 @enderror">
-                    @error('foto_ktp') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">

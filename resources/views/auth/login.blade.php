@@ -18,12 +18,9 @@
 
         <div class="relative z-10">
             <div class="flex items-center gap-3 mb-8">
-                <div class="w-10 h-10 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(193,18,31,0.6)]">
-                    <i class="bi bi-car-front text-xl"></i>
-                </div>
+                <img src="{{ asset('images/nrentcar.png') }}" alt="RentSCar" class="w-20 h-20">
                 <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
             </div>
-        </div>
 
         <div class="relative z-10 max-w-xl">
             <h1 class="text-5xl font-bold text-white leading-tight mb-6">
@@ -42,7 +39,7 @@
 
         <div class="w-full max-w-md">
             <div class="lg:hidden flex items-center justify-center gap-3 mb-10">
-                <div class="w-10 h-10 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(193,18,31,0.6)]">R</div>
+                <img src="{{ asset('images/nrentcar.png') }}" alt="RentSCar" class="w-20 h-20">
                 <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
             </div>
 

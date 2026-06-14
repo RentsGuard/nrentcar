@@ -67,8 +67,8 @@ class User extends Authenticatable
         return $this->hasMany(Penyewaan::class);
     }
 
-    public function verifikasi(): HasMany
+    public function verifiedCustomers(): HasMany
     {
-        return $this->hasMany(Verifikasi::class, 'verified_by');
+        return $this->hasMany(Customer::class, 'verified_by');
     }
 }

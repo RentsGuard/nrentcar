@@ -6,11 +6,15 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MobilController;
 use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicMobilController;
 use App\Http\Controllers\StaffController;
+<<<<<<< HEAD
 use App\Http\Controllers\VerifikasiController;
+=======
+>>>>>>> 11162864ec806bb043fc349e76dcf559ece2a47e
 use App\Models\Mobil;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
@@ -75,27 +79,28 @@ Route::middleware('auth')->group(function () {
     Route::put('/penyewaan/{id}', [PenyewaanController::class, 'update']);
     Route::delete('/penyewaan/{id}', [PenyewaanController::class, 'destroy']);
 
-    Route::get('/verifikasi', [VerifikasiController::class, 'index']);
-    Route::get('/verifikasi/create', [VerifikasiController::class, 'create']);
-    Route::post('/verifikasi', [VerifikasiController::class, 'store']);
-    Route::get('/verifikasi/{id}', [VerifikasiController::class, 'show']);
-    Route::get('/verifikasi/{id}/edit', [VerifikasiController::class, 'edit']);
-    Route::put('/verifikasi/{id}', [VerifikasiController::class, 'update']);
-    Route::delete('/verifikasi/{id}', [VerifikasiController::class, 'destroy']);
+    Route::get('/pengembalian', [PengembalianController::class, 'index']);
+    Route::get('/pengembalian/create', [PengembalianController::class, 'create']);
+    Route::post('/pengembalian', [PengembalianController::class, 'store']);
+    Route::get('/pengembalian/{id}', [PengembalianController::class, 'show']);
+    Route::get('/pengembalian/{id}/edit', [PengembalianController::class, 'edit']);
+    Route::put('/pengembalian/{id}', [PengembalianController::class, 'update']);
+    Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy']);
 
     Route::get('/laporan', [LaporanController::class, 'index']);
     Route::get('/laporan/export/pdf', [LaporanController::class, 'exportPdf']);
     Route::get('/laporan/export/excel', [LaporanController::class, 'exportExcel']);
-    Route::get('/laporan/cetak', [LaporanController::class, 'cetak']);
 
     Route::get('/pengaturan', [PengaturanController::class, 'index']);
-    Route::get('/pengaturan/role-akses', [PengaturanController::class, 'roleAkses']);
     Route::get('/pengaturan/tampilan', [PengaturanController::class, 'tampilan']);
     Route::put('/pengaturan/tampilan', [PengaturanController::class, 'tampilanUpdate']);
     Route::get('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasi']);
     Route::put('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasiUpdate']);
 
     Route::middleware('role:admin')->group(function () {
+        Route::post('/customer/{id}/verify', [CustomerController::class, 'verify']);
+        Route::get('/pengaturan/role-akses', [PengaturanController::class, 'roleAkses']);
+
         Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
         Route::get('/staff/create', [StaffController::class, 'create'])->name('staff.create');
         Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');

@@ -61,8 +61,8 @@ class PenyewaanSeeder extends Seeder
                 'customer_id' => $customers[0]->id, 'mobil_id' => $mobils[4]->id,
                 'user_id' => $admin->id,
                 'tanggal_sewa' => '2026-06-10', 'tanggal_kembali' => '2026-06-15',
-                'lama_sewa' => 5, 'total_harga' => 4250000, 'status' => 'menunggu',
-                'catatan' => 'Sedang menunggu konfirmasi pembayaran',
+                'lama_sewa' => 5, 'total_harga' => 4250000, 'status' => 'aktif',
+                'catatan' => 'Perpanjangan sewa',
             ],
         ];
 

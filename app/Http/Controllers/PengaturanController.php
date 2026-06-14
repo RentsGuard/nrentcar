@@ -18,7 +18,7 @@ class PengaturanController extends Controller
 
     public function roleAkses()
     {
-        $users = User::withCount('penyewaan', 'verifikasi')->latest()->get();
+        $users = User::withCount('penyewaan', 'verifiedCustomers')->latest()->get();
 
         return view('pengaturan.role-akses', compact('users'));
     }
@@ -28,9 +28,8 @@ class PengaturanController extends Controller
         $appName = Setting::getValue('app_name', 'RentSCar');
         $appDesc = Setting::getValue('app_description', 'Premium Car Rental System');
         $accentColor = Setting::getValue('app_accent_color', '#C1121F');
-        $dendaPerHari = Setting::getValue('rental_denda_per_hari', '50000');
 
-        return view('pengaturan.tampilan', compact('appName', 'appDesc', 'accentColor', 'dendaPerHari'));
+        return view('pengaturan.tampilan', compact('appName', 'appDesc', 'accentColor'));
     }
 
     public function tampilanUpdate(Request $request)
@@ -39,13 +38,11 @@ class PengaturanController extends Controller
             'app_name' => 'required|string|max:255',
             'app_description' => 'nullable|string|max:500',
             'app_accent_color' => 'required|string|max:7',
-            'rental_denda_per_hari' => 'required|numeric|min:0',
         ]);
 
         Setting::setValue('app_name', $request->app_name);
         Setting::setValue('app_description', $request->app_description);
         Setting::setValue('app_accent_color', $request->app_accent_color);
-        Setting::setValue('rental_denda_per_hari', $request->rental_denda_per_hari);
 
         activity()->log('Pengaturan tampilan diperbarui');
 

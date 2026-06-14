@@ -7,6 +7,7 @@ use App\Models\Mobil;
 use App\Models\Penyewaan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use OpenSpout\Common\Entity\Row;
+use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Writer\XLSX\Writer;
 
 class LaporanController extends Controller
@@ -54,7 +55,8 @@ class LaporanController extends Controller
         $writer = new Writer;
         $writer->openToBrowser('laporan-penyewaan-'.date('Y-m-d').'.xlsx');
 
-        $writer->addRow(Row::fromValues(['ID', 'Customer', 'Mobil', 'Tanggal Sewa', 'Tanggal Kembali', 'Lama Sewa', 'Total Harga', 'Status', 'Catatan']));
+        $headerStyle = (new Style)->setFontBold()->setFontSize(12)->setBackgroundColor('C1121F')->setFontColor('FFFFFF');
+        $writer->addRow(Row::fromValuesWithStyle(['ID', 'Customer', 'Mobil', 'Tanggal Sewa', 'Tanggal Kembali', 'Lama', 'Total Harga', 'Status', 'Catatan'], $headerStyle));
 
         foreach ($penyewaans as $p) {
             $writer->addRow(Row::fromValues([
@@ -63,8 +65,8 @@ class LaporanController extends Controller
                 $p->mobil->nama_mobil ?? '-',
                 $p->tanggal_sewa ? $p->tanggal_sewa->format('d/m/Y') : '-',
                 $p->tanggal_kembali ? $p->tanggal_kembali->format('d/m/Y') : '-',
-                $p->lama_sewa.' Hari',
-                'Rp '.number_format($p->total_harga, 0, ',', '.'),
+                $p->lama_sewa,
+                $p->total_harga ? (int) $p->total_harga : 0,
                 ucfirst($p->status),
                 $p->catatan ?? '-',
             ]));
@@ -73,17 +75,4 @@ class LaporanController extends Controller
         $writer->close();
     }
 
-    public function cetak()
-    {
-        $penyewaans = Penyewaan::with('customer', 'mobil', 'user')
-            ->latest()->get();
-        $totalPendapatan = Penyewaan::where('status', 'selesai')->sum('total_harga');
-        $totalPenyewaan = Penyewaan::count();
-        $totalMobil = Mobil::count();
-        $totalCustomer = Customer::count();
-
-        return view('laporan.cetak', compact(
-            'penyewaans', 'totalPendapatan', 'totalPenyewaan', 'totalMobil', 'totalCustomer'
-        ));
-    }
 }

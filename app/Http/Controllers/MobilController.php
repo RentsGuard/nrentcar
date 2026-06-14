@@ -116,6 +116,10 @@ class MobilController extends Controller
 
     public function destroy($id)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Hanya admin yang dapat menghapus mobil');
+        }
+
         $mobil = Mobil::findOrFail($id);
 
         if ($mobil->foto_mobil) {

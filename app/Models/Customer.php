@@ -31,6 +31,16 @@ class Customer extends Model
         'kewarganegaraan',
         'berlaku_hingga',
         'foto_ktp',
+        'status_verifikasi',
+        'verified_by',
+        'tanggal_verifikasi',
+        'catatan_verifikasi',
+    ];
+
+    protected $casts = [
+        'tanggal_lahir' => 'date',
+        'berlaku_hingga' => 'date',
+        'tanggal_verifikasi' => 'datetime',
     ];
 
     public function getFotoKtpUrlAttribute()
@@ -45,8 +55,8 @@ class Customer extends Model
         return $this->hasMany(Penyewaan::class);
     }
 
-    public function verifikasi(): HasMany
+    public function verifikator()
     {
-        return $this->hasMany(Verifikasi::class);
+        return $this->belongsTo(User::class, 'verified_by');
     }
 }

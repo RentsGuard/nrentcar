@@ -19,7 +19,7 @@
 | Mobil CRUD | Nisrina | ❌ |
 | Customer CRUD | Nisrina | ❌ |
 | Rental/Penyewaan CRUD | Nisrina | ❌ |
-| Return Process | Nisrina | ❌ |
+| Return Process + Denda | Nisrina | ⏳ (branch: `feature/tambah-data-denda`) |
 | Verification | Nisrina | ❌ |
 | Public Car Listing | Haikal | ❌ |
 | Reports | Gibran | ❌ |

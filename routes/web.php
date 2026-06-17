@@ -7,15 +7,11 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MobilController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PengembalianController;
-<<<<<<< HEAD
-use App\Http\Controllers\ProfileController;
-=======
 use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicMobilController;
 use App\Http\Controllers\StaffController;
 use App\Models\Mobil;
->>>>>>> aqsha
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -38,7 +34,7 @@ Route::get('/', function () {
 
         return redirect('/login');
     }
-    $mobilTersedia = Mobil::where('is_visible', true)->latest()->take(6)->get();
+    $mobilTersedia = Mobil::latest()->take(6)->get();
 
     return view('welcome', compact('mobilTersedia'));
 });

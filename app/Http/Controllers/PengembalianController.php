@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-=======
 use App\Models\Penyewaan;
->>>>>>> aqsha
 use App\Models\Pengembalian;
 use Illuminate\Http\Request;
 
@@ -14,18 +11,12 @@ class PengembalianController extends Controller
     public function index()
     {
         $pengembalians = Pengembalian::with('penyewaan.customer', 'penyewaan.mobil')->latest()->get();
-<<<<<<< HEAD
-=======
 
->>>>>>> aqsha
         return view('pengembalian.index', compact('pengembalians'));
     }
 
     public function create()
     {
-<<<<<<< HEAD
-        return view('pengembalian.create');
-=======
         $penyewaans = Penyewaan::where('status', 'aktif')->with('customer', 'mobil')->orderBy('created_at', 'desc')->get();
 
         return view('pengembalian.create', compact('penyewaans'));
@@ -56,26 +47,18 @@ class PengembalianController extends Controller
 
         return redirect('/pengembalian')
             ->with('success', 'Data pengembalian berhasil dicatat');
->>>>>>> aqsha
     }
 
     public function show($id)
     {
         $pengembalian = Pengembalian::with('penyewaan.customer', 'penyewaan.mobil', 'penyewaan.user')->findOrFail($id);
-<<<<<<< HEAD
-=======
 
->>>>>>> aqsha
         return view('pengembalian.show', compact('pengembalian'));
     }
 
     public function edit($id)
     {
         $pengembalian = Pengembalian::findOrFail($id);
-<<<<<<< HEAD
-        return view('pengembalian.edit', compact('pengembalian'));
-    }
-=======
 
         return view('pengembalian.edit', compact('pengembalian'));
     }
@@ -111,5 +94,4 @@ class PengembalianController extends Controller
         return redirect('/pengembalian')
             ->with('success', 'Data pengembalian berhasil dihapus');
     }
->>>>>>> aqsha
 }

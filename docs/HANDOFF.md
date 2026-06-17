@@ -67,47 +67,25 @@
 
 ## Stack
 
-<<<<<<< HEAD
 Laravel 12 / PHP 8.5.5 / Tailwind v4.3 / Vite 7.x / MySQL
 
 ## Security
 
 - Auth + RoleMiddleware (`role:admin` / `role:staff`)
 - CSRF active, throttle 5/min on login
-=======
-Laravel 12 · PHP 8.4.2 · Tailwind v4.3 · Vite 7 · MySQL · Alpine.js · Chart.js · SweetAlert2 · DOMPDF · OpenSpout · Intervention Image · Spatie Activitylog
-
-## Permissions
-
-- Staff **cannot**: delete mobil (403), manage staff (admin middleware), verify customers (admin middleware), access role-akses page
-- Admin can verify customers inside Customer edit/show pages (dropdown + approve/reject)
-
-## Security
-
-Auth + RoleMiddleware (`role:admin`/`role:staff`) · CSRF · Throttle 5/min login
->>>>>>> aqsha
 
 ## Team
 
 | Member | Area | Progress |
 |--------|------|----------|
-<<<<<<< HEAD
 | **Aqsha** | Auth, Layout, Dashboards, Staff CRUD, Landing, Errors, All UI views, Dependencies | ✅ |
 | **Nisrina** | Customer, Mobil, Penyewaan, Verifikasi, Pengembalian CRUD | ⏳ Customer ✅, others: UI only |
 | **Haikal** | Public pages | Need assignment |
 | **Gibran** | Laporan, Export, Pengaturan | ⏳ UI only |
 | **Zahra** | Schema docs, Seeders, Testing | Need assignment |
-=======
-| **Aqsha** | Auth, Layout, Dashboards, Staff CRUD, Landing, Errors, All UI, Deps, logo, cleanup | ✅ |
-| **Nisrina** | Customer, Mobil, Penyewaan, Verifikasi, Pengembalian CRUD | ✅ Merged |
-| **Zahra** | Schema docs, Seeders, Testing | ✅ |
-| **Haikal** | Public pages (welcome, mobil list/detail) | ❌ Not started |
-| **Gibran** | Laporan, Export, Pengaturan | ✅ Done |
->>>>>>> aqsha
 
 ## Left / Blocker
 
-<<<<<<< HEAD
 - Store/update/destroy di Mobil, Penyewaan, Verifikasi, Pengembalian Controller
 - Laporan export (PDF/Excel), Pengaturan functionality
 - Public pages (Haikal), Testing & seeders (Zahra)
@@ -119,7 +97,3 @@ Auth + RoleMiddleware (`role:admin`/`role:staff`) · CSRF · Throttle 5/min logi
 ## AI Prompts per Member
 
 > Lihat file `docs/HANDOFF.md` versi sebelumnya atau konten di bawah untuk prompt length yang sudah dipakai tiap anggota. (Prompt dihapus dari file ini untuk menjaga ringkasnya — jika perlu, lihat riwayat git atau minta ke Aqsha)
-=======
-- Public car listing (Haikal — unassigned)
-- Auto-calculate denda (deferred to mini hackathon)
->>>>>>> aqsha

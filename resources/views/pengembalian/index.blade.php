@@ -25,8 +25,8 @@
                         <th class="px-6 py-4 font-medium">Customer</th>
                         <th class="px-6 py-4 font-medium">Mobil</th>
                         <th class="px-6 py-4 font-medium">Tgl Kembali</th>
-                        <th class="px-6 py-4 font-medium">Denda</th>
-                        <th class="px-6 py-4 font-medium">Kondisi</th>
+                        <th class="px-6 py-4 font-medium">Total Denda</th>
+                        <th class="px-6 py-4 font-medium">Status</th>
                         <th class="px-6 py-4 font-medium text-right">Aksi</th>
                     </tr>
                 </thead>
@@ -37,9 +37,31 @@
                         <td class="px-6 py-4 text-white/80">{{ $p->penyewaan?->customer?->nama_customer ?? '-' }}</td>
                         <td class="px-6 py-4 text-white/80">{{ $p->penyewaan?->mobil?->nama_mobil ?? '-' }}</td>
                         <td class="px-6 py-4 text-white/80">{{ $p->tanggal_pengembalian ? $p->tanggal_pengembalian->format('d/m/Y') : '-' }}</td>
-                        <td class="px-6 py-4 text-white/80">Rp {{ number_format($p->denda ?? 0, 0, ',', '.') }}</td>
                         <td class="px-6 py-4">
-                            <span class="text-white/80">{{ $p->kondisi_mobil ?? '-' }}</span>
+                            @if($p->total_denda > 0)
+                            <span class="text-red-400 font-medium">Rp {{ number_format($p->total_denda, 0, ',', '.') }}</span>
+                            @else
+                            <span class="text-emerald-400">-</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            @php
+                            $sc = match($p->status_pengembalian) {
+                                'tepat_waktu' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                                'telat' => 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+                                'rusak' => 'bg-red-500/10 text-red-400 border-red-500/20',
+                                'telat_dan_rusak' => 'bg-red-500/10 text-red-400 border-red-500/20',
+                                default => 'bg-white/[0.1] text-white/80'
+                            };
+                            $sl = match($p->status_pengembalian) {
+                                'tepat_waktu' => 'Tepat Waktu',
+                                'telat' => 'Telat',
+                                'rusak' => 'Rusak',
+                                'telat_dan_rusak' => 'Telat & Rusak',
+                                default => $p->status_pengembalian
+                            };
+                            @endphp
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $sc }}">{{ $sl }}</span>
                         </td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Penyewaan;
 use App\Models\Pengembalian;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PengembalianController extends Controller
@@ -28,7 +29,7 @@ class PengembalianController extends Controller
             'penyewaan_id' => 'required|exists:penyewaan,id',
             'tanggal_pengembalian' => 'required|date',
             'kondisi_mobil' => 'nullable|string|max:255',
-            'denda' => 'nullable|numeric|min:0',
+            'denda_kerusakan' => 'nullable|numeric|min:0',
             'catatan' => 'nullable|string',
         ]);
 
@@ -38,7 +39,43 @@ class PengembalianController extends Controller
             return back()->with('error', 'Penyewaan ini sudah memiliki data pengembalian');
         }
 
-        $pengembalian = Pengembalian::create($validated);
+        $tglKembali = Carbon::parse($validated['tanggal_pengembalian']);
+        $tglRencana = Carbon::parse($penyewaan->tanggal_kembali->format('Y-m-d').' 23:59:59');
+        $telatJam = 0;
+        if ($tglKembali->greaterThan($tglRencana)) {
+            $telatJam = (int) ceil($tglRencana->diffInMinutes($tglKembali) / 60);
+        }
+        $dendaPerJam = $penyewaan->denda_per_jam ?? 0;
+        $dendaTelat = $telatJam * $dendaPerJam;
+        $dendaKerusakan = (float) ($validated['denda_kerusakan'] ?? 0);
+        $totalDenda = $dendaTelat + $dendaKerusakan;
+
+        $adaTelat = $telatJam > 0;
+        $adaRusak = $dendaKerusakan > 0;
+        if ($adaTelat && $adaRusak) {
+            $statusPengembalian = 'telat_dan_rusak';
+        } elseif ($adaTelat) {
+            $statusPengembalian = 'telat';
+        } elseif ($adaRusak) {
+            $statusPengembalian = 'rusak';
+        } else {
+            $statusPengembalian = 'tepat_waktu';
+        }
+
+        $data = [
+            'penyewaan_id' => $validated['penyewaan_id'],
+            'tanggal_pengembalian' => $validated['tanggal_pengembalian'],
+            'kondisi_mobil' => $validated['kondisi_mobil'] ?? null,
+            'telat_jam' => $telatJam,
+            'denda_per_jam' => $dendaPerJam,
+            'denda_telat' => $dendaTelat,
+            'denda_kerusakan' => $dendaKerusakan,
+            'total_denda' => $totalDenda,
+            'status_pengembalian' => $statusPengembalian,
+            'catatan' => $validated['catatan'] ?? null,
+        ];
+
+        $pengembalian = Pengembalian::create($data);
 
         $penyewaan->update(['status' => 'selesai']);
         $penyewaan->mobil()->update(['status_mobil' => 'tersedia']);
@@ -70,11 +107,48 @@ class PengembalianController extends Controller
         $validated = $request->validate([
             'tanggal_pengembalian' => 'required|date',
             'kondisi_mobil' => 'nullable|string|max:255',
-            'denda' => 'nullable|numeric|min:0',
+            'denda_kerusakan' => 'nullable|numeric|min:0',
             'catatan' => 'nullable|string',
         ]);
 
-        $pengembalian->update($validated);
+        $penyewaan = $pengembalian->penyewaan;
+
+        $tglKembali = Carbon::parse($validated['tanggal_pengembalian']);
+        $tglRencana = Carbon::parse($penyewaan->tanggal_kembali->format('Y-m-d').' 23:59:59');
+        $telatJam = 0;
+        if ($tglKembali->greaterThan($tglRencana)) {
+            $telatJam = (int) ceil($tglRencana->diffInMinutes($tglKembali) / 60);
+        }
+        $dendaPerJam = $penyewaan->denda_per_jam ?? 0;
+        $dendaTelat = $telatJam * $dendaPerJam;
+        $dendaKerusakan = (float) ($validated['denda_kerusakan'] ?? 0);
+        $totalDenda = $dendaTelat + $dendaKerusakan;
+
+        $adaTelat = $telatJam > 0;
+        $adaRusak = $dendaKerusakan > 0;
+        if ($adaTelat && $adaRusak) {
+            $statusPengembalian = 'telat_dan_rusak';
+        } elseif ($adaTelat) {
+            $statusPengembalian = 'telat';
+        } elseif ($adaRusak) {
+            $statusPengembalian = 'rusak';
+        } else {
+            $statusPengembalian = 'tepat_waktu';
+        }
+
+        $data = [
+            'tanggal_pengembalian' => $validated['tanggal_pengembalian'],
+            'kondisi_mobil' => $validated['kondisi_mobil'] ?? null,
+            'telat_jam' => $telatJam,
+            'denda_per_jam' => $dendaPerJam,
+            'denda_telat' => $dendaTelat,
+            'denda_kerusakan' => $dendaKerusakan,
+            'total_denda' => $totalDenda,
+            'status_pengembalian' => $statusPengembalian,
+            'catatan' => $validated['catatan'] ?? null,
+        ];
+
+        $pengembalian->update($data);
 
         activity()->performedOn($pengembalian)->log("Pengembalian #{$pengembalian->penyewaan_id} diperbarui");
 

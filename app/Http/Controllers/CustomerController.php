@@ -11,6 +11,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::latest()->get();
+
         return view('customer.index', compact('customers'));
     }
 
@@ -59,12 +60,14 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::findOrFail($id);
+
         return view('customer.show', compact('customer'));
     }
 
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
+
         return view('customer.edit', compact('customer'));
     }
 
@@ -74,10 +77,10 @@ class CustomerController extends Controller
 
         $validated = $request->validate([
             'nama_customer' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255|unique:customers,email,' . $customer->id,
-            'no_hp' => 'required|string|max:20|unique:customers,no_hp,' . $customer->id,
+            'email' => 'nullable|email|max:255|unique:customers,email,'.$customer->id,
+            'no_hp' => 'required|string|max:20|unique:customers,no_hp,'.$customer->id,
             'alamat_customer' => 'required|string',
-            'nik' => 'required|string|max:16|unique:customers,nik,' . $customer->id,
+            'nik' => 'required|string|max:16|unique:customers,nik,'.$customer->id,
             'tempat_lahir' => 'nullable|string|max:255',
             'tanggal_lahir' => 'nullable|date',
             'jenis_kelamin' => 'nullable|in:L,P',
@@ -93,6 +96,7 @@ class CustomerController extends Controller
             'kewarganegaraan' => 'nullable|string|max:10',
             'berlaku_hingga' => 'nullable|date',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'status_verifikasi' => 'nullable|in:disetujui,ditolak',
         ]);
 
         if ($request->hasFile('foto_ktp')) {
@@ -100,6 +104,11 @@ class CustomerController extends Controller
                 Storage::disk('public')->delete($customer->foto_ktp);
             }
             $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp', 'public');
+        }
+
+        if ($request->has('status_verifikasi')) {
+            $validated['verified_by'] = auth()->id();
+            $validated['tanggal_verifikasi'] = now();
         }
 
         $customer->update($validated);
@@ -125,5 +134,29 @@ class CustomerController extends Controller
 
         return redirect('/customer')
             ->with('success', 'Data customer berhasil dihapus');
+    }
+
+    public function verify(Request $request, $id)
+    {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Hanya admin yang dapat memverifikasi customer');
+        }
+
+        $customer = Customer::findOrFail($id);
+
+        $request->validate([
+            'action' => 'required|in:disetujui,ditolak',
+        ]);
+
+        $customer->update([
+            'status_verifikasi' => $request->action,
+            'verified_by' => auth()->id(),
+            'tanggal_verifikasi' => now(),
+        ]);
+
+        activity()->performedOn($customer)->log("Customer {$customer->nama_customer} verifikasi: {$request->action}");
+
+        return redirect('/customer/'.$id)
+            ->with('success', 'Status verifikasi berhasil diperbarui');
     }
 }

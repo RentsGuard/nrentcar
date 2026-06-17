@@ -135,6 +135,57 @@
 
             <div class="glass-card">
                 <div class="px-6 py-5 border-b border-white/[0.05]">
+                    <h3 class="text-base font-semibold text-white">Verifikasi</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <p class="text-xs text-white/50 uppercase tracking-wide">Status</p>
+                        @php
+                        $vc = match($customer->status_verifikasi) { 'disetujui' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'ditolak' => 'bg-red-500/10 text-red-400 border-red-500/20', default => 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' };
+                        @endphp
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $vc }} mt-1">{{ ucfirst($customer->status_verifikasi ?? 'Belum diverifikasi') }}</span>
+                    </div>
+                    @if($customer->verified_by && $customer->verifikator)
+                    <div>
+                        <p class="text-xs text-white/50 uppercase tracking-wide">Diverifikasi Oleh</p>
+                        <p class="text-sm text-white mt-1">{{ $customer->verifikator->nama_user }}</p>
+                    </div>
+                    @endif
+                    @if($customer->tanggal_verifikasi)
+                    <div>
+                        <p class="text-xs text-white/50 uppercase tracking-wide">Tanggal Verifikasi</p>
+                        <p class="text-sm text-white mt-1">{{ $customer->tanggal_verifikasi->format('d M Y H:i') }}</p>
+                    </div>
+                    @endif
+                    @if($customer->catatan_verifikasi)
+                    <div>
+                        <p class="text-xs text-white/50 uppercase tracking-wide">Catatan</p>
+                        <p class="text-sm text-white/80 mt-1">{{ $customer->catatan_verifikasi }}</p>
+                    </div>
+                    @endif
+                    @if(auth()->user()->role === 'admin' && !$customer->status_verifikasi)
+                    <div class="pt-2 space-y-2">
+                        <form action="/customer/{{ $customer->id }}/verify" method="POST">
+                            @csrf
+                            <input type="hidden" name="action" value="disetujui">
+                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-emerald-500 text-white font-semibold text-xs hover:bg-emerald-600 transition-all">
+                                <i class="bi bi-check-lg"></i> Setujui
+                            </button>
+                        </form>
+                        <form action="/customer/{{ $customer->id }}/verify" method="POST">
+                            @csrf
+                            <input type="hidden" name="action" value="ditolak">
+                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-red-500/20 text-red-400 font-semibold text-xs hover:bg-red-500/30 transition-all">
+                                <i class="bi bi-x-lg"></i> Tolak
+                            </button>
+                        </form>
+                    </div>
+                    @endif
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="px-6 py-5 border-b border-white/[0.05]">
                     <h3 class="text-base font-semibold text-white">Info Sistem</h3>
                 </div>
                 <div class="p-6 space-y-4">

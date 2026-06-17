@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
+        Schema::table('mobil', function (Blueprint $table) {
+            $table->boolean('is_visible')->default(true)->after('status_mobil');
+            $table->softDeletes();
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
+        Schema::table('mobil', function (Blueprint $table) {
+            $table->dropColumn('is_visible');
+            $table->dropSoftDeletes();
         });
     }
 };

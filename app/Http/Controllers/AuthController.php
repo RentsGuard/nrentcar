@@ -19,7 +19,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (!Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials)) {
             return back()->with('error', 'Login gagal');
         }
 
@@ -37,6 +37,7 @@ class AuthController extends Controller
 
         return redirect('/');
     }
+
     public function logout(Request $request)
     {
         Auth::logout();

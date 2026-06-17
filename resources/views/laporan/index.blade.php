@@ -67,26 +67,19 @@
 
     <div class="glass-card p-6">
         <h3 class="text-base font-semibold text-white mb-4">Export Laporan</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <a href="#" class="flex items-center gap-3 p-4 rounded-lg border border-white/[0.06] hover:bg-white/[0.03] transition-colors no-underline group">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a href="/laporan/export/pdf" target="_blank" class="flex items-center gap-3 p-4 rounded-lg border border-white/[0.06] hover:bg-white/[0.03] transition-colors no-underline group">
                 <div class="p-3 rounded-lg bg-[#C1121F]/10 text-[#C1121F]"><i class="bi bi-filetype-pdf text-xl"></i></div>
                 <div>
                     <p class="text-sm font-medium text-white group-hover:text-[#C1121F] transition-colors">Export PDF</p>
                     <p class="text-xs text-white/50">Laporan penyewaan</p>
                 </div>
             </a>
-            <a href="#" class="flex items-center gap-3 p-4 rounded-lg border border-white/[0.06] hover:bg-white/[0.03] transition-colors no-underline group">
+            <a href="/laporan/export/excel" target="_blank" class="flex items-center gap-3 p-4 rounded-lg border border-white/[0.06] hover:bg-white/[0.03] transition-colors no-underline group">
                 <div class="p-3 rounded-lg bg-emerald-500/10 text-emerald-400"><i class="bi bi-file-earmark-spreadsheet text-xl"></i></div>
                 <div>
                     <p class="text-sm font-medium text-white group-hover:text-emerald-400 transition-colors">Export Excel</p>
                     <p class="text-xs text-white/50">Data penyewaan</p>
-                </div>
-            </a>
-            <a href="#" class="flex items-center gap-3 p-4 rounded-lg border border-white/[0.06] hover:bg-white/[0.03] transition-colors no-underline group">
-                <div class="p-3 rounded-lg bg-blue-500/10 text-blue-400"><i class="bi bi-printer text-xl"></i></div>
-                <div>
-                    <p class="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">Cetak</p>
-                    <p class="text-xs text-white/50">Ringkasan laporan</p>
                 </div>
             </a>
         </div>
@@ -97,19 +90,27 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const revData = @json($monthlyRevenue);
+    const renData = @json($monthlyRentals);
+
+    const allKeys = [...new Set([...Object.keys(revData), ...Object.keys(renData)])].sort();
+    const labels = allKeys.map(k => { const p = k.split('-'); const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return months[parseInt(p[1])-1] + ' ' + p[0]; });
+    const revenueValues = allKeys.map(k => revData[k] ? Math.round(parseFloat(revData[k]) / 1000000) : 0);
+    const rentalValues = allKeys.map(k => renData[k] ? parseInt(renData[k]) : 0);
+
     new Chart(document.getElementById('revenueChart'), {
         type: 'line',
-        data: { labels: m, datasets: [{ label: 'Pendapatan', data: [25,28,26,45,55,38,60,52,48,42,46,85], borderColor: '#C1121F', backgroundColor: 'rgba(193,18,31,0.1)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 0 }] },
+        data: { labels: labels, datasets: [{ label: 'Pendapatan', data: revenueValues, borderColor: '#C1121F', backgroundColor: 'rgba(193,18,31,0.1)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 0 }] },
         options: {
             responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8, callbacks: { label: function(ctx) { return 'Rp ' + ctx.parsed.y + 'Jt'; } } } },
             scales: { x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 }, callback: function(v) { return 'Rp' + v + 'M'; } } } }
         }
     });
+
     new Chart(document.getElementById('rentalChart'), {
         type: 'bar',
-        data: { labels: m, datasets: [{ label: 'Penyewaan', data: [12,15,10,25,30,18,35,22,20,15,19,45], backgroundColor: '#C1121F', borderRadius: 4, barPercentage: 0.6 }] },
+        data: { labels: labels, datasets: [{ label: 'Penyewaan', data: rentalValues, backgroundColor: '#C1121F', borderRadius: 4, barPercentage: 0.6 }] },
         options: {
             responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8 } },

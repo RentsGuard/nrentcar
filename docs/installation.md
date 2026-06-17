@@ -5,7 +5,7 @@ Dokumen ini menjelaskan langkah instalasi proyek **RentsCar - Sistem Manajemen R
 
 ## Persyaratan Sistem
 
-* PHP 8.3 atau lebih baru
+* PHP 8.4.2 atau lebih baru
 * Composer
 * Node.js dan NPM
 * MySQL atau MariaDB

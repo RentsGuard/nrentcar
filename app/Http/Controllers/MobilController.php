@@ -10,7 +10,7 @@ class MobilController extends Controller
 {
     public function index()
     {
-        $mobils = Mobil::with('manager')->latest()->get();
+        $mobils = Mobil::with('manager')->withTrashed()->latest()->get();
 
         return view('mobil.index', compact('mobils'));
     }
@@ -121,11 +121,6 @@ class MobilController extends Controller
         }
 
         $mobil = Mobil::findOrFail($id);
-
-        if ($mobil->foto_mobil) {
-            Storage::disk('public')->delete($mobil->foto_mobil);
-        }
-
         $name = $mobil->nama_mobil;
         $mobil->delete();
 
@@ -134,4 +129,5 @@ class MobilController extends Controller
         return redirect('/mobil')
             ->with('success', 'Data mobil berhasil dihapus');
     }
+
 }

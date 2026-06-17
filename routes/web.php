@@ -34,7 +34,7 @@ Route::get('/', function () {
 
         return redirect('/login');
     }
-    $mobilTersedia = Mobil::where('status_mobil', 'tersedia')->latest()->take(6)->get();
+    $mobilTersedia = Mobil::where('is_visible', true)->latest()->take(6)->get();
 
     return view('welcome', compact('mobilTersedia'));
 });
@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mobil/{id}/edit', [MobilController::class, 'edit']);
     Route::put('/mobil/{id}', [MobilController::class, 'update']);
     Route::delete('/mobil/{id}', [MobilController::class, 'destroy']);
+
 
     Route::get('/penyewaan', [PenyewaanController::class, 'index']);
     Route::get('/penyewaan/create', [PenyewaanController::class, 'create']);

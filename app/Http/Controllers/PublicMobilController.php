@@ -9,7 +9,7 @@ class PublicMobilController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Mobil::where('status_mobil', 'tersedia');
+        $query = Mobil::query();
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -35,7 +35,7 @@ class PublicMobilController extends Controller
         };
 
         $mobilList = $query->paginate(9)->withQueryString();
-        $bahanBakarList = Mobil::where('status_mobil', 'tersedia')
+        $bahanBakarList = Mobil::query()
             ->select('bahan_bakar')
             ->distinct()
             ->pluck('bahan_bakar');
@@ -45,8 +45,8 @@ class PublicMobilController extends Controller
 
     public function show($id)
     {
-        $mobil = Mobil::where('status_mobil', 'tersedia')->findOrFail($id);
-        $mobilLain = Mobil::where('status_mobil', 'tersedia')
+        $mobil = Mobil::findOrFail($id);
+        $mobilLain = Mobil::where('id', '!=', $id)
             ->where('id', '!=', $id)
             ->inRandomOrder()
             ->take(4)

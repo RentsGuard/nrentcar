@@ -17,8 +17,7 @@
         </a>
         <div class="flex items-center gap-3">
             <a href="/" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline"><i class="bi bi-house"></i> Beranda</a>
-            <a href="/login" class="text-sm font-semibold text-white px-4 py-2 rounded-lg border border-white/20 hover:bg-white/[0.05] transition-colors no-underline">Masuk</a>
-            <a href="/login" class="text-sm font-semibold text-white px-4 py-2 rounded-lg bg-[#C1121F] shadow-[0_4px_15px_rgba(193,18,31,0.3)] hover:bg-[#a30f1a] transition-colors no-underline">Daftar</a>
+            <a href="/login" class="text-sm font-semibold text-white px-4 py-2 rounded-lg border border-white/20 hover:bg-white/[0.05] transition-colors no-underline">Admin</a>
         </div>
     </nav>
 
@@ -72,11 +71,16 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             @foreach($mobilList as $mobil)
             <a href="/cars/{{ $mobil->id }}" class="rounded-2xl border border-white/[0.06] bg-[#141414]/60 backdrop-blur-xl overflow-hidden hover:border-[#C1121F]/30 hover:-translate-y-1 transition-all duration-300 shadow-[0_12px_40px_rgba(0,0,0,0.3)] no-underline group">
+                @if($mobil->foto_mobil)
+                <div class="h-44 overflow-hidden"><img src="{{ asset('storage/'.$mobil->foto_mobil) }}" alt="{{ $mobil->nama_mobil }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
+                @else
                 <div class="h-44 bg-white/[0.02] flex items-center justify-center text-5xl text-white/[0.12] border-b border-white/[0.06] group-hover:text-[#C1121F]/20 transition-colors"><i class="bi bi-car-front"></i></div>
+                @endif
                 <div class="p-5">
                     <div class="flex items-start justify-between mb-1">
                         <h3 class="text-lg font-bold text-white">{{ $mobil->nama_mobil }}</h3>
-                        <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 whitespace-nowrap">{{ $mobil->status_mobil }}</span>
+                        @php $sc = match($mobil->status_mobil) { 'tersedia' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'disewa' => 'bg-amber-500/10 text-amber-400 border-amber-500/20', 'maintenance' => 'bg-red-500/10 text-red-400 border-red-500/20', default => 'bg-white/[0.1] text-white/80' }; $sl = match($mobil->status_mobil) { 'tersedia' => 'Tersedia', 'disewa' => 'Disewa', 'maintenance' => 'Maintenance', default => $mobil->status_mobil }; @endphp
+                        <span class="text-xs px-2 py-0.5 rounded-full border whitespace-nowrap {{ $sc }}">{{ $sl }}</span>
                     </div>
                     <p class="text-sm text-white/50 mb-3">{{ $mobil->tipe_mobil }} &middot; {{ $mobil->tahun_mobil }}</p>
                     <div class="flex gap-4 pt-3 border-t border-white/[0.06] text-sm text-white/50">

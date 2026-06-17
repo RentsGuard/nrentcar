@@ -114,6 +114,6 @@ class MobilTest extends TestCase
 
         $response = $this->actingAs($this->admin)->delete("/mobil/{$mobil->id}");
         $response->assertRedirect('/mobil');
-        $this->assertDatabaseMissing('mobil', ['id' => $mobil->id]);
+        $this->assertNotNull($mobil->fresh()->deleted_at);
     }
 }

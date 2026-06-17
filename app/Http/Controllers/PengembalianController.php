@@ -27,7 +27,6 @@ class PengembalianController extends Controller
     {
         $validated = $request->validate([
             'penyewaan_id' => 'required|exists:penyewaan,id',
-            'tanggal_pengembalian' => 'required|date',
             'kondisi_mobil' => 'nullable|string|max:255',
             'denda_kerusakan' => 'nullable|numeric|min:0',
             'catatan' => 'nullable|string',
@@ -39,11 +38,14 @@ class PengembalianController extends Controller
             return back()->with('error', 'Penyewaan ini sudah memiliki data pengembalian');
         }
 
-        $tglKembali = Carbon::parse($validated['tanggal_pengembalian']);
-        $tglRencana = Carbon::parse($penyewaan->tanggal_kembali->format('Y-m-d').' 23:59:59');
+        $tanggalPengembalian = now();
+        $deadline = Carbon::parse($penyewaan->tanggal_kembali->format('Y-m-d').' '.($penyewaan->jam_kembali ?? '17:00'));
         $telatJam = 0;
-        if ($tglKembali->greaterThan($tglRencana)) {
-            $telatJam = (int) ceil($tglRencana->diffInMinutes($tglKembali) / 60);
+        if ($tanggalPengembalian->greaterThan($deadline)) {
+            $totalJam = $deadline->diffInMinutes($tanggalPengembalian) / 60;
+            $hariTelat = intdiv((int) $totalJam, 24);
+            $sisaJam = (int) ceil($totalJam % 24);
+            $telatJam = ($hariTelat * 8) + min($sisaJam, 8);
         }
         $dendaPerJam = $penyewaan->denda_per_jam ?? 0;
         $dendaTelat = $telatJam * $dendaPerJam;
@@ -64,7 +66,7 @@ class PengembalianController extends Controller
 
         $data = [
             'penyewaan_id' => $validated['penyewaan_id'],
-            'tanggal_pengembalian' => $validated['tanggal_pengembalian'],
+            'tanggal_pengembalian' => $tanggalPengembalian,
             'kondisi_mobil' => $validated['kondisi_mobil'] ?? null,
             'telat_jam' => $telatJam,
             'denda_per_jam' => $dendaPerJam,
@@ -73,6 +75,7 @@ class PengembalianController extends Controller
             'total_denda' => $totalDenda,
             'status_pengembalian' => $statusPengembalian,
             'catatan' => $validated['catatan'] ?? null,
+            'user_id' => auth()->id(),
         ];
 
         $pengembalian = Pengembalian::create($data);
@@ -114,10 +117,13 @@ class PengembalianController extends Controller
         $penyewaan = $pengembalian->penyewaan;
 
         $tglKembali = Carbon::parse($validated['tanggal_pengembalian']);
-        $tglRencana = Carbon::parse($penyewaan->tanggal_kembali->format('Y-m-d').' 23:59:59');
+        $deadline = Carbon::parse($penyewaan->tanggal_kembali->format('Y-m-d').' '.($penyewaan->jam_kembali ?? '17:00'));
         $telatJam = 0;
-        if ($tglKembali->greaterThan($tglRencana)) {
-            $telatJam = (int) ceil($tglRencana->diffInMinutes($tglKembali) / 60);
+        if ($tglKembali->greaterThan($deadline)) {
+            $totalJam = $deadline->diffInMinutes($tglKembali) / 60;
+            $hariTelat = intdiv((int) $totalJam, 24);
+            $sisaJam = (int) ceil($totalJam % 24);
+            $telatJam = ($hariTelat * 8) + min($sisaJam, 8);
         }
         $dendaPerJam = $penyewaan->denda_per_jam ?? 0;
         $dendaTelat = $telatJam * $dendaPerJam;

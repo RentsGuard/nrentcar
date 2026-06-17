@@ -31,15 +31,19 @@
                     </div>
                     <div>
                         <span class="text-white/50">Tanggal Sewa</span>
-                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->tanggal_sewa ? $penyewaan->tanggal_sewa->format('d M Y') : '-' }}</p>
+                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->tanggal_sewa ? $penyewaan->tanggal_sewa->format('d M Y') : '-' }} {{ $penyewaan->jam_sewa ?? '' }}</p>
                     </div>
                     <div>
                         <span class="text-white/50">Tanggal Kembali</span>
-                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->tanggal_kembali ? $penyewaan->tanggal_kembali->format('d M Y') : '-' }}</p>
+                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->tanggal_kembali ? $penyewaan->tanggal_kembali->format('d M Y') : '-' }} {{ $penyewaan->jam_kembali ?? '' }}</p>
                     </div>
                     <div>
                         <span class="text-white/50">Lama Sewa</span>
                         <p class="text-white font-medium mt-0.5">{{ $penyewaan->lama_sewa }} Hari</p>
+                    </div>
+                    <div>
+                        <span class="text-white/50">Denda / Jam</span>
+                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->denda_per_jam ? 'Rp '.number_format($penyewaan->denda_per_jam, 0, ',', '.') : 'Rp 0' }}</p>
                     </div>
                     <div>
                         <span class="text-white/50">Status</span>

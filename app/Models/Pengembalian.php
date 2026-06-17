@@ -11,6 +11,7 @@ class Pengembalian extends Model
 
     protected $fillable = [
         'penyewaan_id',
+        'user_id',
         'tanggal_pengembalian',
         'kondisi_mobil',
         'telat_jam',

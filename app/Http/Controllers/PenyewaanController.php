@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Mobil;
 use App\Models\Penyewaan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PenyewaanController extends Controller
@@ -30,12 +31,21 @@ class PenyewaanController extends Controller
             'customer_id' => 'required|exists:customers,id',
             'mobil_id' => 'required|exists:mobil,id',
             'tanggal_sewa' => 'required|date',
+            'jam_sewa' => 'nullable',
             'tanggal_kembali' => 'required|date|after_or_equal:tanggal_sewa',
-            'lama_sewa' => 'required|integer|min:1',
+            'jam_kembali' => 'nullable',
             'total_harga' => 'required|numeric|min:0',
+            'denda_per_jam' => 'required|numeric|min:0',
             'status' => 'required|in:aktif,selesai,dibatalkan',
             'catatan' => 'nullable|string',
         ]);
+
+        $validated['jam_sewa'] = $validated['jam_sewa'] ?? '08:00';
+        $validated['jam_kembali'] = $validated['jam_kembali'] ?? '17:00';
+
+        $mulai = Carbon::parse($validated['tanggal_sewa'] . ' ' . $validated['jam_sewa']);
+        $selesai = Carbon::parse($validated['tanggal_kembali'] . ' ' . $validated['jam_kembali']);
+        $validated['lama_sewa'] = max(1, (int) ceil($mulai->diffInMinutes($selesai) / (60 * 24)));
 
         $validated['user_id'] = auth()->id();
 
@@ -71,12 +81,21 @@ class PenyewaanController extends Controller
 
         $validated = $request->validate([
             'tanggal_sewa' => 'required|date',
+            'jam_sewa' => 'nullable',
             'tanggal_kembali' => 'required|date|after_or_equal:tanggal_sewa',
-            'lama_sewa' => 'required|integer|min:1',
+            'jam_kembali' => 'nullable',
             'total_harga' => 'required|numeric|min:0',
+            'denda_per_jam' => 'required|numeric|min:0',
             'status' => 'required|in:aktif,selesai,dibatalkan',
             'catatan' => 'nullable|string',
         ]);
+
+        $validated['jam_sewa'] = $validated['jam_sewa'] ?? '08:00';
+        $validated['jam_kembali'] = $validated['jam_kembali'] ?? '17:00';
+
+        $mulai = Carbon::parse($validated['tanggal_sewa'] . ' ' . $validated['jam_sewa']);
+        $selesai = Carbon::parse($validated['tanggal_kembali'] . ' ' . $validated['jam_kembali']);
+        $validated['lama_sewa'] = max(1, (int) ceil($mulai->diffInMinutes($selesai) / (60 * 24)));
 
         $oldStatus = $penyewaan->status;
         $penyewaan->update($validated);

@@ -40,7 +40,7 @@
                     </div>
                     <div>
                         <span class="text-white/50">Tgl Kembali (Jadwal)</span>
-                        <p class="text-white font-medium mt-0.5">{{ $pengembalian->penyewaan->tanggal_kembali ? $pengembalian->penyewaan->tanggal_kembali->format('d M Y') : '-' }}</p>
+                        <p class="text-white font-medium mt-0.5">{{ $pengembalian->penyewaan->tanggal_kembali ? $pengembalian->penyewaan->tanggal_kembali->format('d M Y') : '-' }} {{ $pengembalian->penyewaan->jam_kembali ?? '' }}</p>
                     </div>
                     <div>
                         <span class="text-white/50">Tgl Kembali (Real)</span>

@@ -39,7 +39,8 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tanggal Pengembalian</label>
-                        <input type="datetime-local" name="tanggal_pengembalian" value="{{ old('tanggal_pengembalian', date('Y-m-d\TH:i')) }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        <div class="h-10 flex items-center text-white/70 text-sm">Otomatis (saat ini) — <span id="nowDisplay">{{ now()->format('d M Y H:i') }}</span></div>
+                        <input type="hidden" name="tanggal_pengembalian" value="{{ now()->format('Y-m-d\TH:i') }}">
                     </div>
 
                     <div class="space-y-2">

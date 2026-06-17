@@ -18,7 +18,9 @@ class Penyewaan extends Model
         'mobil_id',
         'user_id',
         'tanggal_sewa',
+        'jam_sewa',
         'tanggal_kembali',
+        'jam_kembali',
         'lama_sewa',
         'total_harga',
         'denda_per_jam',
@@ -30,7 +32,9 @@ class Penyewaan extends Model
     {
         return [
             'tanggal_sewa' => 'date',
+            'jam_sewa' => 'string',
             'tanggal_kembali' => 'date',
+            'jam_kembali' => 'string',
             'lama_sewa' => 'integer',
             'total_harga' => 'decimal:2',
             'denda_per_jam' => 'decimal:2',

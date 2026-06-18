@@ -24,7 +24,15 @@
 
 | Feature | Assignee | Status |
 |---------|----------|--------|
+<<<<<<< HEAD
+| Mobil CRUD | Nisrina | ❌ |
+| Customer CRUD | Nisrina | ❌ |
+| Rental/Penyewaan CRUD | Nisrina | ❌ |
+| Return Process + Denda | Nisrina | ⏳ (branch: `feature/tambah-data-denda`) |
+| Verification | Nisrina | ❌ |
+=======
 | Laporan Export (PDF/XLSX) | Gibran | ⏳ |
 | Pengaturan Logic | Gibran | ❌ |
+>>>>>>> aqsha
 | Public Car Listing | Haikal | ❌ |
 | Pengembalian + Denda | Nisrina | ⏳ Branch separate |

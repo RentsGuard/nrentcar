@@ -11,7 +11,7 @@
         <p class="text-white/50 text-sm mt-1">Ringkasan data dan export laporan.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <div class="glass-card p-6">
             <div class="flex items-center gap-4">
                 <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-journal-text text-xl text-white/70"></i></div>
@@ -48,9 +48,18 @@
                 </div>
             </div>
         </div>
+        <div class="glass-card p-6">
+            <div class="flex items-center gap-4">
+                <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20"><i class="bi bi-exclamation-triangle text-xl text-amber-400"></i></div>
+                <div>
+                    <p class="text-sm font-medium text-white/50">Total Denda</p>
+                    <h3 class="text-2xl font-bold text-amber-400">Rp {{ number_format($totalDenda, 0, ',', '.') }}</h3>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="glass-card">
             <div class="p-5 pb-2"><h3 class="text-base font-semibold text-white">Pendapatan Bulanan</h3></div>
             <div class="p-5 pt-0">
@@ -61,6 +70,12 @@
             <div class="p-5 pb-2"><h3 class="text-base font-semibold text-white">Penyewaan Bulanan</h3></div>
             <div class="p-5 pt-0">
                 <div class="h-[280px] w-full"><canvas id="rentalChart"></canvas></div>
+            </div>
+        </div>
+        <div class="glass-card">
+            <div class="p-5 pb-2"><h3 class="text-base font-semibold text-white">Denda Bulanan</h3></div>
+            <div class="p-5 pt-0">
+                <div class="h-[280px] w-full"><canvas id="dendaChart"></canvas></div>
             </div>
         </div>
     </div>
@@ -88,6 +103,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const revData = @json($monthlyRevenue);
@@ -115,6 +131,19 @@ document.addEventListener('DOMContentLoaded', function() {
             responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8 } },
             scales: { x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } } }
+        }
+    });
+
+    const dendaData = @json($monthlyDenda);
+    const dendaValues = allKeys.map(k => dendaData[k] ? Math.round(parseFloat(dendaData[k]) / 1000) : 0);
+
+    new Chart(document.getElementById('dendaChart'), {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ label: 'Denda', data: dendaValues, backgroundColor: '#F59E0B', borderRadius: 4, barPercentage: 0.6 }] },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8, callbacks: { label: function(ctx) { return 'Rp ' + ctx.parsed.y + 'rb'; } } } },
+            scales: { x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 }, callback: function(v) { return 'Rp' + v + 'rb'; } } } }
         }
     });
 });

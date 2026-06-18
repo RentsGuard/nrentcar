@@ -16,8 +16,7 @@
         <div class="flex items-center gap-3">
             <a href="/cars" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Mobil</a>
             <a href="#fitur" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Fitur</a>
-            <a href="/login" class="text-sm font-semibold text-white px-4 py-2 rounded-lg border border-white/20 hover:bg-white/[0.05] transition-colors no-underline">Login Admin</a>
-            <a href="/cars" class="text-sm font-semibold text-white px-4 py-2 rounded-lg bg-[#C1121F] shadow-[0_4px_15px_rgba(193,18,31,0.3)] hover:bg-[#a30f1a] transition-colors no-underline">Lihat Mobil</a>
+            <a href="/login" class="text-sm font-semibold text-white/60 px-4 py-2 rounded-lg hover:text-white transition-colors no-underline">Login</a>
         </div>
     </nav>
 
@@ -34,7 +33,7 @@
                 <i class="bi bi-car-front"></i> Lihat Mobil
             </a>
             <a href="/login" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white/[0.06] text-white font-semibold text-base border border-white/[0.1] hover:bg-white/[0.1] hover:-translate-y-0.5 transition-all no-underline">
-                <i class="bi bi-box-arrow-in-right"></i> Masuk Admin/Staff
+                <i class="bi bi-box-arrow-in-right"></i> Login
             </a>
         </div>
     </div>
@@ -46,10 +45,18 @@
     @if($mobilTersedia->count())
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         @foreach($mobilTersedia as $mobil)
-        <div class="rounded-2xl border border-white/[0.06] bg-[#141414]/60 backdrop-blur-xl overflow-hidden hover:border-[#C1121F]/30 hover:-translate-y-1 transition-all duration-300 shadow-[0_12px_40px_rgba(0,0,0,0.3)]">
-            <div class="h-44 bg-white/[0.02] flex items-center justify-center text-5xl text-white/[0.12] border-b border-white/[0.06]"><i class="bi bi-car-front"></i></div>
+        <a href="/cars/{{ $mobil->id }}" class="rounded-2xl border border-white/[0.06] bg-[#141414]/60 backdrop-blur-xl overflow-hidden hover:border-[#C1121F]/30 hover:-translate-y-1 transition-all duration-300 shadow-[0_12px_40px_rgba(0,0,0,0.3)] no-underline group">
+            @if($mobil->foto_mobil)
+            <div class="h-44 overflow-hidden"><img src="{{ asset('storage/'.$mobil->foto_mobil) }}" alt="{{ $mobil->nama_mobil }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
+            @else
+            <div class="h-44 bg-white/[0.02] flex items-center justify-center text-5xl text-white/[0.12] border-b border-white/[0.06] group-hover:text-[#C1121F]/20 transition-colors"><i class="bi bi-car-front"></i></div>
+            @endif
             <div class="p-5">
-                <h3 class="text-lg font-bold text-white mb-1">{{ $mobil->nama_mobil }}</h3>
+                <div class="flex items-start justify-between mb-1">
+                    <h3 class="text-lg font-bold text-white">{{ $mobil->nama_mobil }}</h3>
+                    @php $sc = match($mobil->status_mobil) { 'tersedia' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'disewa' => 'bg-amber-500/10 text-amber-400 border-amber-500/20', 'maintenance' => 'bg-red-500/10 text-red-400 border-red-500/20', default => 'bg-white/[0.1] text-white/80' }; $sl = match($mobil->status_mobil) { 'tersedia' => 'Tersedia', 'disewa' => 'Disewa', 'maintenance' => 'Maintenance', default => $mobil->status_mobil }; @endphp
+                    <span class="text-xs px-2 py-0.5 rounded-full border whitespace-nowrap {{ $sc }}">{{ $sl }}</span>
+                </div>
                 <p class="text-sm text-white/50 mb-3">{{ $mobil->tipe_mobil }} &middot; {{ $mobil->tahun_mobil }}</p>
                 <div class="flex gap-4 pt-3 border-t border-white/[0.06] text-sm text-white/50">
                     <span class="flex items-center gap-1.5"><i class="bi bi-people"></i> {{ $mobil->kapasitas_mobil }} kursi</span>
@@ -57,18 +64,12 @@
                 </div>
                 <div class="text-xl font-bold text-[#C1121F] mt-3">Rp{{ number_format($mobil->harga_mobil, 0, ',', '.') }} <span class="text-sm font-normal text-white/50">/hari</span></div>
             </div>
-        </div>
+        </a>
         @endforeach
     </div>
     @else
     <p class="text-center text-white/50">Belum ada mobil tersedia saat ini.</p>
     @endif
-
-    <div class="text-center mt-10">
-        <a href="/cars" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/[0.1] text-white/80 font-medium text-sm hover:bg-white/[0.05] hover:text-white transition-colors no-underline">
-            Lihat Semua Mobil <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
 </div>
 
 <div class="py-16 sm:py-20 px-6 sm:px-10 relative z-10" id="fitur">
@@ -101,8 +102,7 @@
 <div class="border-t border-white/[0.06] px-6 sm:px-10 py-8 flex flex-wrap justify-between items-center gap-4 text-sm text-white/40">
     <span>&copy; {{ date('Y') }} RentSCar.id &mdash; All Rights Reserved</span>
     <div class="flex gap-6">
-        <a href="/login" class="text-white/50 hover:text-white transition-colors no-underline">Admin</a>
-        <a href="/login" class="text-white/50 hover:text-white transition-colors no-underline">Staff</a>
+        <a href="/login" class="text-white/50 hover:text-white transition-colors no-underline">Login</a>
     </div>
 </div>
 @endsection

@@ -10,7 +10,7 @@ class MobilController extends Controller
 {
     public function index()
     {
-        $mobils = Mobil::with('manager')->latest()->get();
+        $mobils = Mobil::with('manager')->withTrashed()->latest()->get();
 
         return view('mobil.index', compact('mobils'));
     }
@@ -38,9 +38,9 @@ class MobilController extends Controller
             'nama_mobil' => $validated['nama_mobil'],
             'plat_mobil' => $validated['plat_mobil'],
             'tahun_mobil' => $validated['tahun_mobil'],
-            'tipe_mobil' => $validated['tipe_mobil'],
+            'tipe_mobil' => $validated['tipe_mobil'] ?? null,
             'kapasitas_mobil' => $validated['kapasitas_mobil'],
-            'bahan_bakar' => $validated['bahan_bakar'],
+            'bahan_bakar' => $validated['bahan_bakar'] ?? null,
             'harga_mobil' => $validated['harga_mobil'],
             'status_mobil' => $validated['status_mobil'],
             'managed_by' => auth()->id(),
@@ -92,9 +92,9 @@ class MobilController extends Controller
             'nama_mobil' => $validated['nama_mobil'],
             'plat_mobil' => $validated['plat_mobil'],
             'tahun_mobil' => $validated['tahun_mobil'],
-            'tipe_mobil' => $validated['tipe_mobil'],
+            'tipe_mobil' => $validated['tipe_mobil'] ?? null,
             'kapasitas_mobil' => $validated['kapasitas_mobil'],
-            'bahan_bakar' => $validated['bahan_bakar'],
+            'bahan_bakar' => $validated['bahan_bakar'] ?? null,
             'harga_mobil' => $validated['harga_mobil'],
             'status_mobil' => $validated['status_mobil'],
         ];
@@ -122,8 +122,8 @@ class MobilController extends Controller
 
         $mobil = Mobil::findOrFail($id);
 
-        if ($mobil->foto_mobil) {
-            Storage::disk('public')->delete($mobil->foto_mobil);
+        if ($mobil->penyewaan()->where('status', 'aktif')->exists()) {
+            return back()->with('error', 'Mobil tidak dapat dihapus karena masih memiliki penyewaan aktif');
         }
 
         $name = $mobil->nama_mobil;
@@ -134,4 +134,5 @@ class MobilController extends Controller
         return redirect('/mobil')
             ->with('success', 'Data mobil berhasil dihapus');
     }
+
 }

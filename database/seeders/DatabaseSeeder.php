@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             PenyewaanSeeder::class,
             VerifikasiSeeder::class,
+            PengembalianSeeder::class,
         ]);
     }
 }

@@ -100,7 +100,7 @@ document.querySelectorAll('.btn-delete').forEach(function(btn) {
         var form = this.closest('form');
         var name = this.dataset.name;
         Swal.fire({
-            title: 'Hapus ' + name + '?',
+            titleText: 'Hapus ' + name + '?',
             text: 'Tindakan ini tidak dapat dibatalkan.',
             icon: 'warning',
             showCancelButton: true,

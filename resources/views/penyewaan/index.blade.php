@@ -51,8 +51,8 @@
                                 <span class="text-white/80">{{ $sewa->mobil->nama_mobil ?? '-' }}</span>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_sewa ? $sewa->tanggal_sewa->format('d/m/Y') : '-' }}</td>
-                        <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_kembali ? $sewa->tanggal_kembali->format('d/m/Y') : '-' }}</td>
+                        <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_sewa ? $sewa->tanggal_sewa->format('d/m/Y') : '-' }}<br><span class="text-[11px] text-white/40">{{ $sewa->jam_sewa ?? '' }}</span></td>
+                        <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_kembali ? $sewa->tanggal_kembali->format('d/m/Y') : '-' }}<br><span class="text-[11px] text-white/40">{{ $sewa->jam_kembali ?? '' }}</span></td>
                         <td class="px-6 py-4 font-medium text-white">Rp {{ number_format($sewa->total_harga, 0, ',', '.') }}</td>
                         <td class="px-6 py-4">
                             @php

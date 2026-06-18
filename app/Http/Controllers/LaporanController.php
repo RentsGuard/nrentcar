@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Mobil;
+use App\Models\Pengembalian;
 use App\Models\Penyewaan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use OpenSpout\Common\Entity\Row;
@@ -19,6 +20,9 @@ class LaporanController extends Controller
         $totalMobil = Mobil::count();
         $totalCustomer = Customer::count();
 
+        $totalDenda = Pengembalian::sum('total_denda');
+        $totalPengembalian = Pengembalian::count();
+
         $monthlyRevenue = Penyewaan::where('status', 'selesai')
             ->selectRaw("DATE_FORMAT(tanggal_kembali, '%Y-%m') as bulan, SUM(total_harga) as total")
             ->groupBy('bulan')
@@ -30,9 +34,15 @@ class LaporanController extends Controller
             ->orderBy('bulan')
             ->pluck('total', 'bulan');
 
+        $monthlyDenda = Pengembalian::selectRaw("DATE_FORMAT(tanggal_pengembalian, '%Y-%m') as bulan, SUM(total_denda) as total")
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->pluck('total', 'bulan');
+
         return view('laporan.index', compact(
             'totalPenyewaan', 'totalPendapatan', 'totalMobil', 'totalCustomer',
-            'monthlyRevenue', 'monthlyRentals'
+            'totalDenda', 'totalPengembalian',
+            'monthlyRevenue', 'monthlyRentals', 'monthlyDenda'
         ));
     }
 

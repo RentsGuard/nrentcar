@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('tanggal_kembali')->index();
             $table->unsignedInteger('lama_sewa');
             $table->decimal('total_harga', 12, 2);
+            $table->decimal('denda_per_jam', 12, 2)->nullable();
             $table->enum('status', ['aktif', 'menunggu', 'selesai', 'dibatalkan'])->default('aktif')->index();
             $table->text('catatan')->nullable();
             $table->timestamps();

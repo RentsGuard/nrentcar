@@ -38,9 +38,9 @@ class MobilController extends Controller
             'nama_mobil' => $validated['nama_mobil'],
             'plat_mobil' => $validated['plat_mobil'],
             'tahun_mobil' => $validated['tahun_mobil'],
-            'tipe_mobil' => $validated['tipe_mobil'],
+            'tipe_mobil' => $validated['tipe_mobil'] ?? null,
             'kapasitas_mobil' => $validated['kapasitas_mobil'],
-            'bahan_bakar' => $validated['bahan_bakar'],
+            'bahan_bakar' => $validated['bahan_bakar'] ?? null,
             'harga_mobil' => $validated['harga_mobil'],
             'status_mobil' => $validated['status_mobil'],
             'managed_by' => auth()->id(),
@@ -92,9 +92,9 @@ class MobilController extends Controller
             'nama_mobil' => $validated['nama_mobil'],
             'plat_mobil' => $validated['plat_mobil'],
             'tahun_mobil' => $validated['tahun_mobil'],
-            'tipe_mobil' => $validated['tipe_mobil'],
+            'tipe_mobil' => $validated['tipe_mobil'] ?? null,
             'kapasitas_mobil' => $validated['kapasitas_mobil'],
-            'bahan_bakar' => $validated['bahan_bakar'],
+            'bahan_bakar' => $validated['bahan_bakar'] ?? null,
             'harga_mobil' => $validated['harga_mobil'],
             'status_mobil' => $validated['status_mobil'],
         ];
@@ -121,6 +121,11 @@ class MobilController extends Controller
         }
 
         $mobil = Mobil::findOrFail($id);
+
+        if ($mobil->penyewaan()->where('status', 'aktif')->exists()) {
+            return back()->with('error', 'Mobil tidak dapat dihapus karena masih memiliki penyewaan aktif');
+        }
+
         $name = $mobil->nama_mobil;
         $mobil->delete();
 

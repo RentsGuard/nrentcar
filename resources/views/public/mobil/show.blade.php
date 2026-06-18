@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', $mobil->nama_mobil . ' - RentSCar')
+@section('title', $mobil->nama_mobil)
 
 @section('content')
 <style>

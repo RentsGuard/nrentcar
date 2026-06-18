@@ -47,7 +47,6 @@ class PublicMobilController extends Controller
     {
         $mobil = Mobil::findOrFail($id);
         $mobilLain = Mobil::where('id', '!=', $id)
-            ->where('id', '!=', $id)
             ->inRandomOrder()
             ->take(4)
             ->get();

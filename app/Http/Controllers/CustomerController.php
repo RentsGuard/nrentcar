@@ -27,7 +27,7 @@ class CustomerController extends Controller
             'email' => 'nullable|email|max:255|unique:customers,email',
             'no_hp' => 'required|string|max:20|unique:customers,no_hp',
             'alamat_customer' => 'required|string',
-            'nik' => 'required|string|max:16|unique:customers,nik',
+            'nik' => 'required|digits:16|unique:customers,nik',
             'tempat_lahir' => 'nullable|string|max:255',
             'tanggal_lahir' => 'nullable|date',
             'jenis_kelamin' => 'nullable|in:L,P',
@@ -80,7 +80,7 @@ class CustomerController extends Controller
             'email' => 'nullable|email|max:255|unique:customers,email,'.$customer->id,
             'no_hp' => 'required|string|max:20|unique:customers,no_hp,'.$customer->id,
             'alamat_customer' => 'required|string',
-            'nik' => 'required|string|max:16|unique:customers,nik,'.$customer->id,
+            'nik' => 'required|digits:16|unique:customers,nik,'.$customer->id,
             'tempat_lahir' => 'nullable|string|max:255',
             'tanggal_lahir' => 'nullable|date',
             'jenis_kelamin' => 'nullable|in:L,P',
@@ -96,7 +96,6 @@ class CustomerController extends Controller
             'kewarganegaraan' => 'nullable|string|max:10',
             'berlaku_hingga' => 'nullable|date',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'status_verifikasi' => 'nullable|in:disetujui,ditolak',
         ]);
 
         if ($request->hasFile('foto_ktp')) {
@@ -104,11 +103,6 @@ class CustomerController extends Controller
                 Storage::disk('public')->delete($customer->foto_ktp);
             }
             $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp', 'public');
-        }
-
-        if ($request->has('status_verifikasi')) {
-            $validated['verified_by'] = auth()->id();
-            $validated['tanggal_verifikasi'] = now();
         }
 
         $customer->update($validated);

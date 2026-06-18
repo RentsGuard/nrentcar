@@ -31,7 +31,7 @@ class ProfileController extends Controller
             'email' => $validated['email'],
         ];
 
-        if ($validated['password']) {
+        if ($validated['password'] ?? null) {
             $data['password'] = Hash::make($validated['password']);
         }
 

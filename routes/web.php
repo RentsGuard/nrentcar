@@ -12,12 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicMobilController;
 use App\Http\Controllers\StaffController;
 use App\Models\Mobil;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Writer\XLSX\Writer;
 
 Route::get('/cars', [PublicMobilController::class, 'index'])->name('public.mobil.index');
 Route::get('/cars/{id}', [PublicMobilController::class, 'show'])->name('public.mobil.show');
@@ -67,7 +62,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/mobil/{id}', [MobilController::class, 'update']);
     Route::delete('/mobil/{id}', [MobilController::class, 'destroy']);
 
-
     Route::get('/penyewaan', [PenyewaanController::class, 'index']);
     Route::get('/penyewaan/create', [PenyewaanController::class, 'create']);
     Route::post('/penyewaan', [PenyewaanController::class, 'store']);
@@ -75,14 +69,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/penyewaan/{id}/edit', [PenyewaanController::class, 'edit']);
     Route::put('/penyewaan/{id}', [PenyewaanController::class, 'update']);
     Route::delete('/penyewaan/{id}', [PenyewaanController::class, 'destroy']);
-
-    Route::get('/pengembalian', [PengembalianController::class, 'index']);
-    Route::get('/pengembalian/create', [PengembalianController::class, 'create']);
-    Route::post('/pengembalian', [PengembalianController::class, 'store']);
-    Route::get('/pengembalian/{id}', [PengembalianController::class, 'show']);
-    Route::get('/pengembalian/{id}/edit', [PengembalianController::class, 'edit']);
-    Route::put('/pengembalian/{id}', [PengembalianController::class, 'update']);
-    Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy']);
 
     Route::get('/laporan', [LaporanController::class, 'index']);
     Route::get('/laporan/export/pdf', [LaporanController::class, 'exportPdf']);
@@ -114,36 +100,5 @@ Route::middleware('auth')->group(function () {
         Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
 
         Route::post('/staff/{id}/reset-password', [StaffController::class, 'resetPassword'])->name('staff.reset-password');
-        Route::get('/demo/pdf', function () {
-            $pdf = Pdf::loadHTML('<h1>RentSCar Invoice</h1><p>Demo PDF generated with DOMPDF.</p>');
-            $pdf->setPaper('A4', 'portrait');
-
-            return $pdf->download('demo-invoice.pdf');
-        });
-
-        // Intervention Image demo
-        Route::get('/demo/image', function () {
-            $manager = new ImageManager(Driver::class);
-            $img = $manager->createImage(200, 200);
-            $img->fill('#C1121F');
-            $encoded = $img->encodeUsingMediaType('image/png');
-
-            return response($encoded->toString(), 200, ['Content-Type' => 'image/png']);
-        });
-
-        // OpenSpout demo
-        Route::get('/demo/excel', function () {
-            $writer = new Writer;
-            $writer->openToBrowser('demo-export.xlsx');
-            $writer->addRow(Row::fromValues(['Nama', 'Email', 'Role']));
-            $writer->addRow(Row::fromValues(['Admin', 'admin@rentscar.id', 'admin']));
-            $writer->addRow(Row::fromValues(['Staff', 'staff@rentscar.id', 'staff']));
-            $writer->close();
-        });
-
-        // Livewire demo
-        Route::get('/demo/livewire', function () {
-            return view('livewire.health-check');
-        });
     });
 });

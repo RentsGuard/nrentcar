@@ -6,6 +6,7 @@ use App\Models\Penyewaan;
 use App\Models\Pengembalian;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PengembalianController extends Controller
 {
@@ -32,7 +33,9 @@ class PengembalianController extends Controller
             'catatan' => 'nullable|string',
         ]);
 
-        $penyewaan = Penyewaan::findOrFail($validated['penyewaan_id']);
+        $penyewaan = Penyewaan::where('id', $validated['penyewaan_id'])
+            ->where('status', 'aktif')
+            ->firstOrFail();
 
         if ($penyewaan->pengembalian) {
             return back()->with('error', 'Penyewaan ini sudah memiliki data pengembalian');
@@ -78,10 +81,12 @@ class PengembalianController extends Controller
             'user_id' => auth()->id(),
         ];
 
-        $pengembalian = Pengembalian::create($data);
-
-        $penyewaan->update(['status' => 'selesai']);
-        $penyewaan->mobil()->update(['status_mobil' => 'tersedia']);
+        $pengembalian = DB::transaction(function () use ($data, $penyewaan) {
+            $pengembalian = Pengembalian::create($data);
+            $penyewaan->update(['status' => 'selesai']);
+            $penyewaan->mobil()->update(['status_mobil' => 'tersedia']);
+            return $pengembalian;
+        });
 
         activity()->performedOn($pengembalian)->log("Pengembalian #{$penyewaan->id} dicatat");
 
@@ -164,12 +169,16 @@ class PengembalianController extends Controller
 
     public function destroy($id)
     {
-        $pengembalian = Pengembalian::findOrFail($id);
+        $pengembalian = Pengembalian::with('penyewaan.mobil')->findOrFail($id);
 
-        $penyewaanId = $pengembalian->penyewaan_id;
-        $pengembalian->delete();
+        DB::transaction(function () use ($pengembalian) {
+            $penyewaan = $pengembalian->penyewaan;
+            $penyewaan?->update(['status' => 'aktif']);
+            $penyewaan?->mobil()->update(['status_mobil' => 'disewa']);
+            $pengembalian->delete();
+        });
 
-        activity()->log("Pengembalian #{$penyewaanId} deleted");
+        activity()->log("Pengembalian #{$pengembalian->penyewaan_id} deleted");
 
         return redirect('/pengembalian')
             ->with('success', 'Data pengembalian berhasil dihapus');

@@ -145,7 +145,7 @@
                     <p class="text-xs text-white/50 mt-1">Alamat lengkap sesuai KTP.</p>
                 </div>
 
-                <div x-data="wilayahForm()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2 md:col-span-2">
                         <label class="text-sm font-medium text-white/80">Alamat</label>
                         <textarea name="alamat_customer" rows="2" required placeholder="Alamat lengkap" class="w-full rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 py-2 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('alamat_customer') border-red-500 @enderror">{{ old('alamat_customer') }}</textarea>
@@ -160,125 +160,28 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Provinsi</label>
-                        <select x-model="selectedProvinsi" @change="loadKabupaten" name="provinsi" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
-                            <option value="">-- Pilih Provinsi --</option>
-                        </select>
+                        <input type="text" name="provinsi" value="{{ old('provinsi') }}" placeholder="Contoh: JAWA BARAT" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('provinsi') border-red-500 @enderror">
                         @error('provinsi') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Kota/Kabupaten</label>
-                        <select x-model="selectedKabupaten" @change="loadKecamatan" name="kota_kabupaten" :disabled="!kabupatenList.length" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none disabled:opacity-40" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
-                            <option value="">-- Pilih Kota/Kabupaten --</option>
-                        </select>
+                        <input type="text" name="kota_kabupaten" value="{{ old('kota_kabupaten') }}" placeholder="Contoh: KABUPATEN BANDUNG" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kota_kabupaten') border-red-500 @enderror">
                         @error('kota_kabupaten') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Kecamatan</label>
-                        <select x-model="selectedKecamatan" @change="loadKelurahan" name="kecamatan" :disabled="!kecamatanList.length" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none disabled:opacity-40" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
-                            <option value="">-- Pilih Kecamatan --</option>
-                        </select>
+                        <input type="text" name="kecamatan" value="{{ old('kecamatan') }}" placeholder="Contoh: CICENDO" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kecamatan') border-red-500 @enderror">
                         @error('kecamatan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Kelurahan</label>
-                        <select x-model="selectedKelurahan" name="kelurahan" :disabled="!kelurahanList.length" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none disabled:opacity-40" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
-                            <option value="">-- Pilih Kelurahan --</option>
-                        </select>
+                        <input type="text" name="kelurahan" value="{{ old('kelurahan') }}" placeholder="Contoh: PASIRKALIKI" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kelurahan') border-red-500 @enderror">
                         @error('kelurahan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
-
-<script>
-function wilayahForm() {
-    return {
-        provinsiList: [],
-        kabupatenList: [],
-        kecamatanList: [],
-        kelurahanList: [],
-        selectedProvinsi: '{{ old("provinsi") }}',
-        selectedKabupaten: '{{ old("kota_kabupaten") }}',
-        selectedKecamatan: '{{ old("kecamatan") }}',
-        selectedKelurahan: '{{ old("kelurahan") }}',
-
-        syncSelect(name, data, placeholder) {
-            const el = this.$el.querySelector('select[name="' + name + '"]');
-            if (!el) return;
-            el.innerHTML = '<option value="">' + placeholder + '</option>'
-                + data.map(i => '<option value="' + i.name + '">' + i.name + '</option>').join('');
-        },
-
-        async init() {
-            try {
-                const res = await fetch('/api/wilayah/provinsi');
-                this.provinsiList = await res.json();
-                this.syncSelect('provinsi', this.provinsiList, '-- Pilih Provinsi --');
-            } catch(e) { console.error('Wilayah init:', e); }
-            if (this.selectedProvinsi) await this.syncKabupaten();
-            if (this.selectedKabupaten) await this.syncKecamatan();
-            if (this.selectedKecamatan) await this.syncKelurahan();
-        },
-
-        async syncKabupaten() {
-            if (!this.selectedProvinsi) { this.kabupatenList = []; this.syncSelect('kota_kabupaten', [], '-- Pilih Kota/Kabupaten --'); return; }
-            const prov = this.provinsiList.find(p => p.name === this.selectedProvinsi);
-            if (!prov) return;
-            try {
-                const res = await fetch('/api/wilayah/kabupaten/' + prov.id);
-                this.kabupatenList = await res.json();
-            } catch(e) { console.error('Wilayah kabupaten:', e); }
-            this.syncSelect('kota_kabupaten', this.kabupatenList, '-- Pilih Kota/Kabupaten --');
-        },
-
-        async syncKecamatan() {
-            if (!this.selectedKabupaten) { this.kecamatanList = []; this.syncSelect('kecamatan', [], '-- Pilih Kecamatan --'); return; }
-            const kab = this.kabupatenList.find(k => k.name === this.selectedKabupaten);
-            if (!kab) return;
-            try {
-                const res = await fetch('/api/wilayah/kecamatan/' + kab.id);
-                this.kecamatanList = await res.json();
-            } catch(e) { console.error('Wilayah kecamatan:', e); }
-            this.syncSelect('kecamatan', this.kecamatanList, '-- Pilih Kecamatan --');
-        },
-
-        async syncKelurahan() {
-            if (!this.selectedKecamatan) { this.kelurahanList = []; this.syncSelect('kelurahan', [], '-- Pilih Kelurahan --'); return; }
-            const kec = this.kecamatanList.find(k => k.name === this.selectedKecamatan);
-            if (!kec) return;
-            try {
-                const res = await fetch('/api/wilayah/kelurahan/' + kec.id);
-                this.kelurahanList = await res.json();
-            } catch(e) { console.error('Wilayah kelurahan:', e); }
-            this.syncSelect('kelurahan', this.kelurahanList, '-- Pilih Kelurahan --');
-        },
-
-        async loadKabupaten() {
-            this.kabupatenList = []; this.kecamatanList = []; this.kelurahanList = [];
-            this.selectedKabupaten = ''; this.selectedKecamatan = ''; this.selectedKelurahan = '';
-            this.syncSelect('kota_kabupaten', [], '-- Pilih Kota/Kabupaten --');
-            this.syncSelect('kecamatan', [], '-- Pilih Kecamatan --');
-            this.syncSelect('kelurahan', [], '-- Pilih Kelurahan --');
-            await this.syncKabupaten();
-        },
-
-        async loadKecamatan() {
-            this.kecamatanList = []; this.kelurahanList = [];
-            this.selectedKecamatan = ''; this.selectedKelurahan = '';
-            this.syncSelect('kecamatan', [], '-- Pilih Kecamatan --');
-            this.syncSelect('kelurahan', [], '-- Pilih Kelurahan --');
-            await this.syncKecamatan();
-        },
-
-        async loadKelurahan() {
-            this.kelurahanList = []; this.selectedKelurahan = '';
-            this.syncSelect('kelurahan', [], '-- Pilih Kelurahan --');
-            await this.syncKelurahan();
-        }
-    }
-}
-</script>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">
                     <button type="submit" class="inline-flex items-center gap-2 h-10 px-6 rounded-lg bg-[#C1121F] text-white font-semibold text-sm shadow-[0_0_24px_-6px_rgba(193,18,31,0.6)] hover:bg-[#a30f1a] transition-all">

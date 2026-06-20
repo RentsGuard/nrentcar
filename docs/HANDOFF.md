@@ -20,7 +20,7 @@
 | Pengaturan | ✅ | Tampilan, Notifikasi, Role & Akses (admin only) |
 | Export (PDF/XLSX) | ✅ | DOMPDF + OpenSpout v5 |
 | Seeders | ✅ | 8 mobil, 5 customer, 6 penyewaan, verifikasi, pengembalian |
-| Testing | ✅ | 14 feature tests, 31 assertions |
+| Testing | ✅ | **35 tests, 66 assertions** |
 
 > Views pake Tailwind v4 (no Bootstrap). Logo: `images/nrentcar.png`.
 
@@ -32,6 +32,8 @@
 - **Tailwind:** v4 via `@theme {}` in CSS — no `tailwind.config.js`
 - **Assets:** `@vite('resources/css/app.css')` only
 - **Logo:** `public/images/nrentcar.png` (132KB, PNG)
+- **Session:** `SESSION_DRIVER=file` (changed from `database` — more reliable in dev)
+- **DB engine:** Laragon MySQL 8.4.3, port 3306
 
 ## Credentials
 
@@ -42,7 +44,57 @@
 
 ## Stack
 
-Laravel 12 / PHP 8.5.5 / Tailwind v4.3 / Vite 7.x / MySQL
+Laravel 12 / PHP 8.5.5 / Tailwind v4.3 / Vite 7.x / MySQL (Laragon)
+
+## Known Issues & Fixes
+
+### 1. Duplicate MySQL processes
+Laragon spawns 2+ `mysqld.exe` processes, causing connection flips, data loss, missing columns.
+- **Root cause:** Multiple mysqld processes share same data dir, corrupts InnoDB data on write conflict.
+- **Fix:** `dev.ps1` kills ALL mysqld, starts clean single instance, then `php artisan serve`.
+- **Always** run `.\dev.ps1` instead of `php artisan serve`.
+- **Additional hardening:** `CACHE_STORE=file`, `QUEUE_CONNECTION=sync` (changed from `database`) to reduce MySQL write dependency.
+- If data lost: `php artisan migrate:fresh --seed`
+
+### 2. Wilayah API cascade dropdown (REMOVED)
+Alpine.js + morphdom reset `<select>` options when reactive data changed. All approaches (closure vars, direct DOM) failed because Alpine re-renders the select element on any parent reactive change.
+- **Fix:** Replaced all 4 wilayah `<select>` with `<input type="text">` fields. User types manually. No API dependency, no Alpine, always clickable.
+- Applies to both `create.blade.php` and `edit.blade.php`
+
+### 3. Login session lost on serve restart
+`SESSION_DRIVER=database` caused sessions to vanish when MySQL had issues.
+- **Fix:** Changed to `SESSION_DRIVER=file` — sessions stored on disk, survive `php artisan serve` restart.
+
+### 4. Composer cleanup
+Removed unused packages: `laravel/breeze`, `laravel/sanctum`, `livewire/livewire`.
+Deleted `config/sanctum.php`.
+
+## Current Session Context (21 Jun 2026)
+
+Key work done:
+- Migrated XAMPP MySQL → Laragon MySQL
+- Updated seed date range: 1 Jun – 30 Jul 2026
+- Fixed wilayah dropdown (replaced with text inputs)
+- Fixed MySQL duplicate process issue
+- Changed session driver to `file`
+- Cleaned composer dependencies
+- All 35 tests passing
+
+## Session 2 Context (21 Jun 2026)
+
+- **Bug fix:** data/columns lost on page refresh or VSCode file save.
+  - Root cause: Laragon duplicate mysqld processes corrupt InnoDB data when they conflict.
+  - `dev.ps1` rewritten: kills ALL mysqld processes (not just extras), starts clean single instance.
+  - `.env`: `CACHE_STORE=database` → `file`, `QUEUE_CONNECTION=database` → `sync`.
+  - Database re-seeded with `php artisan migrate:fresh --seed`.
+
+## Next Session Priority
+
+1. **Dashboard denda count** — `pengembalianHariIni` shows 0 when no returns today. Review if logic needs change (seed data has returns Jun 4 & 26, not Jun 21).
+2. **Manual test CRUD customer form** — verify all text inputs for provinsi/kota/kecamatan/kelurahan submit correctly.
+3. **Review `.env.example`** — ensure `SESSION_DRIVER=file`, `CACHE_STORE=file`, `QUEUE_CONNECTION=sync` reflected.
+4. **Consider deleting `docs/HANDOFF.md`** from git tracking (or keep as session handoff doc).
+5. **If duplicate MySQL returns** — check Laragon settings: disable "Auto start MySQL" on Windows boot, only start via Laragon UI or `dev.ps1`.
 
 ## Security
 
@@ -50,6 +102,7 @@ Laravel 12 / PHP 8.5.5 / Tailwind v4.3 / Vite 7.x / MySQL
 - CSRF active, throttle 5/min on login
 - XSS protection (yieldContent, @json, titleText)
 - Mass assignment protected (no $request->all())
+- `password` cast: `'hashed'` in User model (detects bcrypt before re-hash)
 
 ## Team
 
@@ -64,4 +117,6 @@ Laravel 12 / PHP 8.5.5 / Tailwind v4.3 / Vite 7.x / MySQL
 ## Left / Blocker
 
 - `maatwebsite/excel` incompatible with PHP 8.5 → replaced with `openspout/openspout` ^5.7
-- Obsolete `laravel/breeze`, `laravel/sanctum`, `livewire/livewire` in composer (unused)
+- Obsolete packages removed: `laravel/breeze`, `laravel/sanctum`, `livewire/livewire`
+- Wilayah API dropdown removed entirely due to Alpine morphdom incompatibility
+- Two Laragon MySQL processes may cause data loss on restart — use `dev.ps1`

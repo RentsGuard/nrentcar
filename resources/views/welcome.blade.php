@@ -16,6 +16,8 @@
         <div class="flex items-center gap-3">
             <a href="/cars" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Mobil</a>
             <a href="#fitur" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Fitur</a>
+            <a href="/tentang-kami" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Tentang</a>
+            <a href="https://wa.me/{{ config('app.admin_wa') }}" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-white px-4 py-2 rounded-lg transition-colors no-underline" style="background:#25D366"><i class="bi bi-whatsapp"></i> Hubungi</a>
             <a href="/login" class="text-sm font-semibold text-white/60 px-4 py-2 rounded-lg hover:text-white transition-colors no-underline">Login</a>
         </div>
     </nav>
@@ -99,6 +101,15 @@
     </div>
 </div>
 
+<div class="py-16 sm:py-20 px-6 sm:px-10 relative z-10" id="lokasi">
+    <p class="text-xs font-semibold uppercase tracking-widest text-[#C1121F] text-center mb-2">Lokasi Kami</p>
+    <h2 class="text-3xl sm:text-4xl font-bold text-white text-center mb-4 tracking-tight">Temukan Kami</h2>
+    <p class="text-white/60 text-sm text-center max-w-lg mx-auto mb-10">Komplek Perumdam/III/4, Tunggul Hitam, Kota Padang</p>
+    <div class="max-w-4xl mx-auto rounded-2xl overflow-hidden border border-white/[0.06] shadow-[0_12px_40px_rgba(0,0,0,0.3)]">
+        <div id="homeMap" style="height:380px;"></div>
+    </div>
+</div>
+
 <div class="border-t border-white/[0.06] px-6 sm:px-10 py-8 flex flex-wrap justify-between items-center gap-4 text-sm text-white/40">
     <span>&copy; {{ date('Y') }} RentSCar.id &mdash; All Rights Reserved</span>
     <div class="flex gap-6">
@@ -106,3 +117,23 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+@endpush
+
+@push('scripts')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var map = L.map('homeMap').setView([-0.923, 100.372], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 19
+    }).addTo(map);
+    L.marker([-0.923, 100.372]).addTo(map)
+        .bindPopup('<b>NrentCar Padang</b><br>Komplek Perumdam/III/4<br>Tunggul Hitam, Kota Padang')
+        .openPopup();
+});
+</script>
+@endpush

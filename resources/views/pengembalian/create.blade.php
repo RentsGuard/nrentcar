@@ -30,17 +30,20 @@
                         <select name="penyewaan_id" id="penyewaanSelect" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                             <option value="">-- Pilih Penyewaan --</option>
                             @foreach($penyewaans as $s)
-                            <option value="{{ $s->id }}" data-tgl-kembali="{{ $s->tanggal_kembali?->format('Y-m-d') }}" data-denda-per-jam="{{ $s->denda_per_jam ?? 0 }}" {{ old('penyewaan_id') == $s->id ? 'selected' : '' }}>
+                            <option value="{{ $s->id }}" data-tgl-kembali="{{ $s->tanggal_kembali?->format('Y-m-d') }}" data-jam-kembali="{{ $s->jam_kembali ?? '17:00' }}" data-denda-per-jam="{{ $s->denda_per_jam ?? 0 }}" {{ old('penyewaan_id') == $s->id ? 'selected' : '' }}>
                                 RNT-{{ str_pad($s->id, 3, '0', STR_PAD_LEFT) }} - {{ $s->customer->nama_customer ?? '-' }} ({{ $s->mobil->nama_mobil ?? '-' }})
                             </option>
                             @endforeach
                         </select>
+                        <div id="expectedReturn" class="hidden text-xs text-white/50 mt-2 p-2 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+                            <span class="text-white/70">Jatuh tempo:</span>
+                            <span id="expectedReturnText" class="text-white font-medium"></span>
+                        </div>
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tanggal Pengembalian</label>
                         <div class="h-10 flex items-center text-white/70 text-sm">Otomatis (saat ini) — <span id="nowDisplay">{{ now()->format('d M Y H:i') }}</span></div>
-                        <input type="hidden" name="tanggal_pengembalian" value="{{ now()->format('Y-m-d\TH:i') }}">
                     </div>
 
                     <div class="space-y-2">
@@ -72,4 +75,21 @@
         </div>
     </form>
 </div>
+@push('scripts')
+<script>
+document.getElementById('penyewaanSelect').addEventListener('change', function() {
+    const opt = this.options[this.selectedIndex];
+    const box = document.getElementById('expectedReturn');
+    const text = document.getElementById('expectedReturnText');
+    if (opt && opt.value) {
+        const tgl = opt.dataset.tglKembali;
+        const jam = opt.dataset.jamKembali;
+        text.textContent = tgl + ' ' + jam;
+        box.classList.remove('hidden');
+    } else {
+        box.classList.add('hidden');
+    }
+});
+</script>
+@endpush
 @endsection

@@ -11,11 +11,22 @@ use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicMobilController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\WilayahController;
 use App\Models\Mobil;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/cars', [PublicMobilController::class, 'index'])->name('public.mobil.index');
 Route::get('/cars/{id}', [PublicMobilController::class, 'show'])->name('public.mobil.show');
+Route::get('/tentang-kami', function () {
+    return view('public.tentang');
+});
+
+Route::prefix('api/wilayah')->group(function () {
+    Route::get('/provinsi', [WilayahController::class, 'provinces']);
+    Route::get('/kabupaten/{provinceId}', [WilayahController::class, 'regencies']);
+    Route::get('/kecamatan/{regencyId}', [WilayahController::class, 'districts']);
+    Route::get('/kelurahan/{districtId}', [WilayahController::class, 'villages']);
+});
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -34,7 +45,7 @@ Route::get('/', function () {
     return view('welcome', compact('mobilTersedia'));
 });
 
-Route::get('/login', [AuthController::class, 'showLogin']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -69,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/penyewaan/{id}/edit', [PenyewaanController::class, 'edit']);
     Route::put('/penyewaan/{id}', [PenyewaanController::class, 'update']);
     Route::delete('/penyewaan/{id}', [PenyewaanController::class, 'destroy']);
+    Route::put('/penyewaan/{id}/batalkan', [PenyewaanController::class, 'batalkan']);
 
     Route::get('/laporan', [LaporanController::class, 'index']);
     Route::get('/laporan/export/pdf', [LaporanController::class, 'exportPdf']);
@@ -87,6 +99,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengembalian/{id}/edit', [PengembalianController::class, 'edit']);
     Route::put('/pengembalian/{id}', [PengembalianController::class, 'update']);
     Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy']);
+    Route::put('/pengembalian/{id}/lunas', [PengembalianController::class, 'tandaiLunas'])->name('pengembalian.lunas');
+    Route::put('/pengembalian/{id}/batal-lunas', [PengembalianController::class, 'batalkanLunas'])->name('pengembalian.batal-lunas');
 
     Route::middleware('role:admin')->group(function () {
         Route::post('/customer/{id}/verify', [CustomerController::class, 'verify']);

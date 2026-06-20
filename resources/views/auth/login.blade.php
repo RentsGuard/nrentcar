@@ -16,11 +16,12 @@
         <div class="absolute top-[-10%] left-[-10%] w-1/2 h-1/2 bg-[#C1121F] rounded-full mix-blend-screen filter blur-[150px] opacity-20 animate-pulse"></div>
         <div class="absolute bottom-[-10%] right-[-10%] w-1/2 h-1/2 bg-red-900 rounded-full mix-blend-screen filter blur-[150px] opacity-20"></div>
 
-            <div class="relative z-10">
+        <div class="relative z-10">
             <a href="/" class="flex items-center gap-3 mb-8 no-underline">
                 <img src="{{ asset('images/nrentcar.png') }}" alt="RentSCar" class="w-20 h-20">
                 <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
             </a>
+        </div>
 
         <div class="relative z-10 max-w-xl">
             <h1 class="text-5xl font-bold text-white leading-tight mb-6">

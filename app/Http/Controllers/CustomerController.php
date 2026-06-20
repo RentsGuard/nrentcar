@@ -115,7 +115,13 @@ class CustomerController extends Controller
 
     public function destroy($id)
     {
-        $customer = Customer::findOrFail($id);
+        $customer = Customer::withCount(['penyewaan as aktif_count' => function ($q) {
+            $q->where('status', 'aktif');
+        }])->findOrFail($id);
+
+        if ($customer->aktif_count > 0) {
+            return back()->with('error', 'Customer tidak dapat dihapus karena masih memiliki penyewaan aktif');
+        }
 
         if ($customer->foto_ktp) {
             Storage::disk('public')->delete($customer->foto_ktp);

@@ -18,11 +18,11 @@ class VerifikasiSeeder extends Seeder
         }
 
         $data = [
-            ['customer_id' => $customers[0]->id, 'verified_by' => $admin->id, 'tanggal_verifikasi' => '2026-05-15 10:00:00', 'status_verifikasi' => 'disetujui', 'catatan_verifikasi' => 'Dokumen KTP lengkap dan valid'],
-            ['customer_id' => $customers[1]->id, 'verified_by' => $admin->id, 'tanggal_verifikasi' => '2026-05-20 10:00:00', 'status_verifikasi' => 'disetujui', 'catatan_verifikasi' => 'Data sesuai dengan KTP asli'],
-            ['customer_id' => $customers[2]->id, 'verified_by' => $admin->id, 'tanggal_verifikasi' => '2026-05-25 10:00:00', 'status_verifikasi' => 'disetujui', 'catatan_verifikasi' => null],
+            ['customer_id' => $customers[0]->id, 'verified_by' => $admin->id, 'tanggal_verifikasi' => '2026-06-03 10:00:00', 'status_verifikasi' => 'disetujui', 'catatan_verifikasi' => 'Dokumen KTP lengkap dan valid'],
+            ['customer_id' => $customers[1]->id, 'verified_by' => $admin->id, 'tanggal_verifikasi' => '2026-06-07 10:00:00', 'status_verifikasi' => 'disetujui', 'catatan_verifikasi' => 'Data sesuai dengan KTP asli'],
+            ['customer_id' => $customers[2]->id, 'verified_by' => $admin->id, 'tanggal_verifikasi' => '2026-06-27 10:00:00', 'status_verifikasi' => 'disetujui', 'catatan_verifikasi' => null],
             ['customer_id' => $customers[3]->id, 'verified_by' => null, 'tanggal_verifikasi' => null, 'status_verifikasi' => null, 'catatan_verifikasi' => 'Menunggu upload KTP'],
-            ['customer_id' => $customers[4]->id, 'verified_by' => $admin->id, 'tanggal_verifikasi' => '2026-05-10 10:00:00', 'status_verifikasi' => 'ditolak', 'catatan_verifikasi' => 'Foto KTP tidak jelas, harap upload ulang'],
+            ['customer_id' => $customers[4]->id, 'verified_by' => $admin->id, 'tanggal_verifikasi' => '2026-06-14 10:00:00', 'status_verifikasi' => 'ditolak', 'catatan_verifikasi' => 'Foto KTP tidak jelas, harap upload ulang'],
         ];
 
         foreach ($data as $d) {

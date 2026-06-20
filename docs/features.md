@@ -15,7 +15,7 @@
 | Penyewaan CRUD | ✅ | Customer/mobil dropdowns, auto-status sync |
 | Verifikasi CRUD | ✅ | Customer dropdown, verifikator assignment |
 | Profile | ✅ | Foto profil upload, password change |
-| Laporan | ✅ | Stat cards, Chart.js preview |
+| Laporan | ✅ | Stat cards, Chart.js preview, export PDF/Excel |
 | Pengaturan | ✅ | System info, activity display |
 | Seeders | ✅ | Mobil (8), Customer (5), Penyewaan (6), Verifikasi (5) |
 | Testing | ✅ | Feature tests: Auth, Mobil, Customer |
@@ -24,15 +24,6 @@
 
 | Feature | Assignee | Status |
 |---------|----------|--------|
-<<<<<<< HEAD
-| Mobil CRUD | Nisrina | ❌ |
-| Customer CRUD | Nisrina | ❌ |
-| Rental/Penyewaan CRUD | Nisrina | ❌ |
-| Return Process + Denda | Nisrina | ⏳ (branch: `feature/tambah-data-denda`) |
-| Verification | Nisrina | ❌ |
-=======
 | Laporan Export (PDF/XLSX) | Gibran | ⏳ |
-| Pengaturan Logic | Gibran | ❌ |
->>>>>>> aqsha
 | Public Car Listing | Haikal | ❌ |
-| Pengembalian + Denda | Nisrina | ⏳ Branch separate |
+| Pengembalian + Denda | Nisrina | ⏳ |

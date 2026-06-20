@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $penyewaanAktif = Penyewaan::where('status', 'aktif')->with('customer', 'mobil')->latest()->take(5)->get();
         $pelangganBaru = Customer::latest()->take(6)->get();
 
-        $totalDenda = Pengembalian::sum('total_denda');
+        $totalDenda = Pengembalian::where('status_denda', '!=', 'lunas')->sum('total_denda');
         $pengembalianHariIni = Pengembalian::whereDate('tanggal_pengembalian', today())->count();
 
         $view = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'staff.dashboard';

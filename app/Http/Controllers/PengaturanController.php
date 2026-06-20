@@ -37,7 +37,7 @@ class PengaturanController extends Controller
         $request->validate([
             'app_name' => 'required|string|max:255',
             'app_description' => 'nullable|string|max:500',
-            'app_accent_color' => 'required|string|max:7',
+            'app_accent_color' => 'required|string|max:7|regex:/^#[a-fA-F0-9]{6}$/',
         ]);
 
         Setting::setValue('app_name', $request->app_name);

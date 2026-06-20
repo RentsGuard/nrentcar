@@ -21,7 +21,7 @@ class PengembalianSeeder extends Seeder
         $pengembalians = [
             [
                 'penyewaan_id' => $selesaiPenyewaan[0]->id,
-                'tanggal_pengembalian' => '2026-05-25 14:30:00',
+                'tanggal_pengembalian' => '2026-06-04 16:00:00',
                 'telat_jam' => 0,
                 'denda_per_jam' => 0,
                 'denda_telat' => 0,
@@ -34,7 +34,7 @@ class PengembalianSeeder extends Seeder
             ],
             [
                 'penyewaan_id' => $selesaiPenyewaan[1]->id,
-                'tanggal_pengembalian' => '2026-05-12 18:45:00',
+                'tanggal_pengembalian' => '2026-06-26 00:00:00',
                 'telat_jam' => 6,
                 'denda_per_jam' => 50000,
                 'denda_telat' => 300000,

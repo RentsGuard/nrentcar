@@ -33,7 +33,7 @@ class PenyewaanController extends Controller
             'mobil_id' => 'required|exists:mobil,id',
             'tanggal_sewa' => 'required|date',
             'jam_sewa' => 'nullable|date_format:H:i',
-            'tanggal_kembali' => 'required|date|after_or_equal:tanggal_sewa',
+            'tanggal_kembali' => 'required|date',
             'jam_kembali' => 'nullable|date_format:H:i',
             'total_harga' => 'required|numeric|min:0',
             'denda_per_jam' => 'required|numeric|min:0',
@@ -43,13 +43,18 @@ class PenyewaanController extends Controller
         $validated['jam_sewa'] = $validated['jam_sewa'] ?? '08:00';
         $validated['jam_kembali'] = $validated['jam_kembali'] ?? '17:00';
 
+        $mulai = Carbon::parse($validated['tanggal_sewa'] . ' ' . $validated['jam_sewa']);
+        $selesai = Carbon::parse($validated['tanggal_kembali'] . ' ' . $validated['jam_kembali']);
+
+        if ($selesai <= $mulai) {
+            return back()->withErrors(['tanggal_kembali' => 'Tanggal dan jam kembali harus setelah tanggal dan jam sewa.'])->withInput();
+        }
+
         $mobil = Mobil::where('id', $validated['mobil_id'])
             ->where('status_mobil', 'tersedia')
             ->firstOrFail();
 
-        $mulai = Carbon::parse($validated['tanggal_sewa'] . ' ' . $validated['jam_sewa']);
-        $selesai = Carbon::parse($validated['tanggal_kembali'] . ' ' . $validated['jam_kembali']);
-        $validated['lama_sewa'] = max(1, (int) ceil($mulai->diffInMinutes($selesai) / (60 * 24)));
+        $validated['lama_sewa'] = (int) ceil($mulai->diffInMinutes($selesai) / (60 * 24));
 
         $validated['user_id'] = auth()->id();
         $validated['status'] = 'aktif';
@@ -87,11 +92,10 @@ class PenyewaanController extends Controller
         $validated = $request->validate([
             'tanggal_sewa' => 'required|date',
             'jam_sewa' => 'nullable|date_format:H:i',
-            'tanggal_kembali' => 'required|date|after_or_equal:tanggal_sewa',
+            'tanggal_kembali' => 'required|date',
             'jam_kembali' => 'nullable|date_format:H:i',
             'total_harga' => 'required|numeric|min:0',
             'denda_per_jam' => 'required|numeric|min:0',
-            'status' => 'required|in:aktif,selesai,dibatalkan',
             'catatan' => 'nullable|string',
         ]);
 
@@ -100,22 +104,19 @@ class PenyewaanController extends Controller
 
         $mulai = Carbon::parse($validated['tanggal_sewa'] . ' ' . $validated['jam_sewa']);
         $selesai = Carbon::parse($validated['tanggal_kembali'] . ' ' . $validated['jam_kembali']);
-        $validated['lama_sewa'] = max(1, (int) ceil($mulai->diffInMinutes($selesai) / (60 * 24)));
 
-        $oldStatus = $penyewaan->status;
+        if ($selesai <= $mulai) {
+            return back()->withErrors(['tanggal_kembali' => 'Tanggal dan jam kembali harus setelah tanggal dan jam sewa.'])->withInput();
+        }
 
-        DB::transaction(function () use ($penyewaan, $validated, $oldStatus) {
-            $penyewaan->update($validated);
+        $validated['lama_sewa'] = (int) ceil($mulai->diffInMinutes($selesai) / (60 * 24));
 
-            $mobil = Mobil::withTrashed()->find($penyewaan->mobil_id);
-            if (!$mobil) return;
+        $penyewaan->update($validated);
 
-            if ($validated['status'] === 'aktif' && $oldStatus !== 'aktif') {
-                $mobil->update(['status_mobil' => 'disewa']);
-            } elseif (in_array($validated['status'], ['selesai', 'dibatalkan']) && $oldStatus === 'aktif') {
-                $mobil->update(['status_mobil' => 'tersedia']);
-            }
-        });
+        $mobil = Mobil::withTrashed()->find($penyewaan->mobil_id);
+        if ($mobil && $penyewaan->status === 'aktif' && $mobil->status_mobil !== 'disewa') {
+            $mobil->update(['status_mobil' => 'disewa']);
+        }
 
         activity()->performedOn($penyewaan)->log("Penyewaan #{$penyewaan->id} updated");
 
@@ -138,5 +139,26 @@ class PenyewaanController extends Controller
 
         return redirect('/penyewaan')
             ->with('success', 'Data penyewaan berhasil dihapus');
+    }
+
+    public function batalkan($id)
+    {
+        $penyewaan = Penyewaan::findOrFail($id);
+
+        if ($penyewaan->status !== 'aktif') {
+            return back()->with('error', 'Hanya penyewaan aktif yang bisa dibatalkan.');
+        }
+
+        DB::transaction(function () use ($penyewaan) {
+            $penyewaan->update(['status' => 'dibatalkan']);
+            Mobil::where('id', $penyewaan->mobil_id)
+                ->where('status_mobil', 'disewa')
+                ->update(['status_mobil' => 'tersedia']);
+        });
+
+        activity()->performedOn($penyewaan)->log("Penyewaan #{$penyewaan->id} dibatalkan");
+
+        return redirect('/penyewaan')
+            ->with('success', 'Penyewaan berhasil dibatalkan.');
     }
 }

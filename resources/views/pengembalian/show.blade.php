@@ -39,11 +39,11 @@
                         <p class="text-white font-medium mt-0.5">{{ $pengembalian->penyewaan->user->nama_user ?? '-' }}</p>
                     </div>
                     <div>
-                        <span class="text-white/50">Tgl Kembali (Jadwal)</span>
+                        <span class="text-white/50">Tgl Jatuh Tempo</span>
                         <p class="text-white font-medium mt-0.5">{{ $pengembalian->penyewaan->tanggal_kembali ? $pengembalian->penyewaan->tanggal_kembali->format('d M Y') : '-' }} {{ $pengembalian->penyewaan->jam_kembali ?? '' }}</p>
                     </div>
                     <div>
-                        <span class="text-white/50">Tgl Kembali (Real)</span>
+                        <span class="text-white/50">Tgl Dikembalikan</span>
                         <p class="text-white font-medium mt-0.5">{{ $pengembalian->tanggal_pengembalian ? $pengembalian->tanggal_pengembalian->format('d M Y H:i') : '-' }}</p>
                     </div>
                     <div>
@@ -105,10 +105,20 @@
                         <span class="text-white/50">Denda Kerusakan</span>
                         <span class="text-white font-medium">{{ $pengembalian->denda_kerusakan ? 'Rp '.number_format($pengembalian->denda_kerusakan, 0, ',', '.') : 'Rp 0' }}</span>
                     </div>
+                    @php $lunas = $pengembalian->status_denda === 'lunas'; @endphp
                     <div class="border-t border-white/[0.05] pt-3 flex justify-between text-sm">
                         <span class="text-white/80 font-medium">Total Denda</span>
+                        @if($lunas)
+                        <span class="text-emerald-400 font-bold text-base flex items-center gap-1.5">
+                            <i class="bi bi-check-circle-fill text-xs"></i> Lunas
+                        </span>
+                        @else
                         <span class="text-red-400 font-bold text-base">{{ $pengembalian->total_denda ? 'Rp '.number_format($pengembalian->total_denda, 0, ',', '.') : 'Rp 0' }}</span>
+                        @endif
                     </div>
+                    @if($lunas && $pengembalian->dendaLunasBy)
+                    <div class="text-xs text-white/40 text-right pt-1">Dibayar oleh {{ $pengembalian->dendaLunasBy->nama_user }}, {{ $pengembalian->denda_lunas_at->format('d M Y H:i') }}</div>
+                    @endif
                 </div>
             </div>
 
@@ -126,6 +136,16 @@
                 </div>
             </div>
 
+            @if($pengembalian->total_denda > 0)
+            <form action="/pengembalian/{{ $pengembalian->id }}/{{ $pengembalian->status_denda === 'lunas' ? 'batal-lunas' : 'lunas' }}" method="POST">
+                @csrf
+                @method('PUT')
+                <button type="submit" class="w-full inline-flex items-center justify-center gap-2 h-10 rounded-lg {{ $pengembalian->status_denda === 'lunas' ? 'bg-amber-500/10 text-amber-400 hover:bg-amber-500/20' : 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20' }} text-sm transition-colors border-0 cursor-pointer mb-3">
+                    <i class="bi {{ $pengembalian->status_denda === 'lunas' ? 'bi-arrow-counterclockwise' : 'bi-check-lg' }}"></i>
+                    {{ $pengembalian->status_denda === 'lunas' ? 'Batalkan Lunas' : 'Tandai Lunas' }}
+                </button>
+            </form>
+            @endif
             <div class="flex gap-3">
                 <a href="/pengembalian/{{ $pengembalian->id }}/edit" class="flex-1 inline-flex items-center justify-center gap-2 h-10 rounded-lg bg-white/[0.08] text-white hover:bg-white/[0.12] text-sm transition-colors no-underline">
                     <i class="bi bi-pencil"></i> Edit

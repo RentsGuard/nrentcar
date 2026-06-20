@@ -69,6 +69,14 @@
                                 <a href="/penyewaan/{{ $sewa->id }}/edit" class="w-8 h-8 flex items-center justify-center rounded-lg text-white/70 hover:bg-white/[0.08] transition-colors" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
+                                @if($sewa->status === 'aktif')
+                                <form action="/penyewaan/{{ $sewa->id }}/batalkan" method="POST" onsubmit="return confirm('Yakin batalkan penyewaan ini? Mobil akan kembali tersedia.')">
+                                    @csrf @method('PUT')
+                                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-500/10 transition-colors" title="Batalkan">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                </form>
+                                @endif
                             </div>
                         </td>
                     </tr>

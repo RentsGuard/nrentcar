@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -123,6 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'admin_wa' => env('ADMIN_WA_NUMBER', '62812xxxxxxx'),
+    'admin_wa' => env('ADMIN_WA_NUMBER', '6281234567890'),
 
 ];

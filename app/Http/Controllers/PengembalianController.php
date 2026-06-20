@@ -45,10 +45,7 @@ class PengembalianController extends Controller
         $deadline = Carbon::parse($penyewaan->tanggal_kembali->format('Y-m-d').' '.($penyewaan->jam_kembali ?? '17:00'));
         $telatJam = 0;
         if ($tanggalPengembalian->greaterThan($deadline)) {
-            $totalJam = $deadline->diffInMinutes($tanggalPengembalian) / 60;
-            $hariTelat = intdiv((int) $totalJam, 24);
-            $sisaJam = (int) ceil($totalJam % 24);
-            $telatJam = ($hariTelat * 8) + min($sisaJam, 8);
+            $telatJam = (int) ceil($deadline->diffInMinutes($tanggalPengembalian) / 60);
         }
         $dendaPerJam = $penyewaan->denda_per_jam ?? 0;
         $dendaTelat = $telatJam * $dendaPerJam;
@@ -123,12 +120,15 @@ class PengembalianController extends Controller
 
         $tglKembali = Carbon::parse($validated['tanggal_pengembalian']);
         $deadline = Carbon::parse($penyewaan->tanggal_kembali->format('Y-m-d').' '.($penyewaan->jam_kembali ?? '17:00'));
+        $tglMulai = Carbon::parse($penyewaan->tanggal_sewa->format('Y-m-d').' '.($penyewaan->jam_sewa ?? '08:00'));
+
+        if ($tglKembali->lessThanOrEqualTo($tglMulai)) {
+            return back()->withErrors(['tanggal_pengembalian' => 'Tanggal pengembalian harus setelah tanggal sewa.'])->withInput();
+        }
+
         $telatJam = 0;
         if ($tglKembali->greaterThan($deadline)) {
-            $totalJam = $deadline->diffInMinutes($tglKembali) / 60;
-            $hariTelat = intdiv((int) $totalJam, 24);
-            $sisaJam = (int) ceil($totalJam % 24);
-            $telatJam = ($hariTelat * 8) + min($sisaJam, 8);
+            $telatJam = (int) ceil($deadline->diffInMinutes($tglKembali) / 60);
         }
         $dendaPerJam = $penyewaan->denda_per_jam ?? 0;
         $dendaTelat = $telatJam * $dendaPerJam;
@@ -157,6 +157,9 @@ class PengembalianController extends Controller
             'total_denda' => $totalDenda,
             'status_pengembalian' => $statusPengembalian,
             'catatan' => $validated['catatan'] ?? null,
+            'status_denda' => 'belum_dibayar',
+            'denda_lunas_at' => null,
+            'denda_lunas_by' => null,
         ];
 
         $pengembalian->update($data);
@@ -173,8 +176,14 @@ class PengembalianController extends Controller
 
         DB::transaction(function () use ($pengembalian) {
             $penyewaan = $pengembalian->penyewaan;
-            $penyewaan?->update(['status' => 'aktif']);
-            $penyewaan?->mobil()->update(['status_mobil' => 'disewa']);
+
+            if ($penyewaan) {
+                $penyewaan->update(['status' => 'aktif']);
+                if ($penyewaan->mobil) {
+                    $penyewaan->mobil()->update(['status_mobil' => 'disewa']);
+                }
+            }
+
             $pengembalian->delete();
         });
 
@@ -182,5 +191,45 @@ class PengembalianController extends Controller
 
         return redirect('/pengembalian')
             ->with('success', 'Data pengembalian berhasil dihapus');
+    }
+
+    public function tandaiLunas($id)
+    {
+        $pengembalian = Pengembalian::findOrFail($id);
+
+        if ($pengembalian->status_denda === 'lunas') {
+            return back()->with('error', 'Denda sudah lunas');
+        }
+
+        $pengembalian->update([
+            'status_denda' => 'lunas',
+            'denda_lunas_at' => now(),
+            'denda_lunas_by' => auth()->id(),
+        ]);
+
+        activity()->performedOn($pengembalian)->log("Pengembalian #{$pengembalian->penyewaan_id} denda ditandai lunas");
+
+        return redirect('/pengembalian/' . $pengembalian->id)
+            ->with('success', 'Denda ditandai lunas');
+    }
+
+    public function batalkanLunas($id)
+    {
+        $pengembalian = Pengembalian::findOrFail($id);
+
+        if ($pengembalian->status_denda !== 'lunas') {
+            return back()->with('error', 'Denda belum lunas');
+        }
+
+        $pengembalian->update([
+            'status_denda' => 'belum_dibayar',
+            'denda_lunas_at' => null,
+            'denda_lunas_by' => null,
+        ]);
+
+        activity()->performedOn($pengembalian)->log("Pengembalian #{$pengembalian->penyewaan_id} status denda dibatalkan");
+
+        return redirect('/pengembalian/' . $pengembalian->id)
+            ->with('success', 'Status denda dikembalikan ke belum dibayar');
     }
 }

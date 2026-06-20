@@ -24,7 +24,7 @@
                         <th class="px-6 py-4 font-medium">ID Sewa</th>
                         <th class="px-6 py-4 font-medium">Customer</th>
                         <th class="px-6 py-4 font-medium">Mobil</th>
-                        <th class="px-6 py-4 font-medium">Tgl Kembali</th>
+                        <th class="px-6 py-4 font-medium">Tgl Dikembalikan</th>
                         <th class="px-6 py-4 font-medium">Total Denda</th>
                         <th class="px-6 py-4 font-medium">Status</th>
                         <th class="px-6 py-4 font-medium text-right">Aksi</th>
@@ -40,6 +40,11 @@
                         <td class="px-6 py-4">
                             @if($p->total_denda > 0)
                             <span class="text-red-400 font-medium">Rp {{ number_format($p->total_denda, 0, ',', '.') }}</span>
+                            @if($p->status_denda === 'lunas')
+                            <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 ml-1">Lunas</span>
+                            @else
+                            <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium border bg-amber-500/10 text-amber-400 border-amber-500/20 ml-1">Belum</span>
+                            @endif
                             @else
                             <span class="text-emerald-400">-</span>
                             @endif

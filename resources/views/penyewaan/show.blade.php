@@ -86,6 +86,14 @@
                 <a href="/penyewaan/{{ $penyewaan->id }}/edit" class="flex-1 inline-flex items-center justify-center gap-2 h-10 rounded-lg bg-white/[0.08] text-white hover:bg-white/[0.12] text-sm transition-colors no-underline">
                     <i class="bi bi-pencil"></i> Edit
                 </a>
+                @if($penyewaan->status === 'aktif')
+                <form action="/penyewaan/{{ $penyewaan->id }}/batalkan" method="POST" class="flex-1" onsubmit="return confirm('Yakin batalkan penyewaan ini? Mobil akan kembali tersedia.')">
+                    @csrf @method('PUT')
+                    <button type="submit" class="w-full h-10 inline-flex items-center justify-center gap-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 text-sm transition-colors border-0 cursor-pointer">
+                        <i class="bi bi-x-circle"></i> Batalkan
+                    </button>
+                </form>
+                @endif
             </div>
         </div>
     </div>

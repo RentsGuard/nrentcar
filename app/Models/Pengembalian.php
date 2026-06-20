@@ -22,6 +22,9 @@ class Pengembalian extends Model
         'denda_kerusakan',
         'total_denda',
         'status_pengembalian',
+        'status_denda',
+        'denda_lunas_at',
+        'denda_lunas_by',
         'catatan',
         'foto_kondisi',
     ];
@@ -35,11 +38,17 @@ class Pengembalian extends Model
             'denda_telat' => 'decimal:2',
             'denda_kerusakan' => 'decimal:2',
             'total_denda' => 'decimal:2',
+            'denda_lunas_at' => 'datetime',
         ];
     }
 
     public function penyewaan(): BelongsTo
     {
         return $this->belongsTo(Penyewaan::class);
+    }
+
+    public function dendaLunasBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'denda_lunas_by');
     }
 }

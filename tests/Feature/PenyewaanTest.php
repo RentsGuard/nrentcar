@@ -40,7 +40,7 @@ class PenyewaanTest extends TestCase
             'plat_mobil' => 'B 1234 XYZ',
             'tahun_mobil' => 2023,
             'tipe_mobil' => 'Matic',
-            'kapasitas_mobil' => 7,
+            'kapasitas_mobil' => 3,
             'bahan_bakar' => 'Bensin',
             'harga_mobil' => 350000,
             'status_mobil' => 'tersedia',

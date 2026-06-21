@@ -53,8 +53,8 @@
 
                         <div class="space-y-4 mb-6">
                             <div class="flex items-center justify-between py-2 border-b border-white/[0.06]">
-                                <span class="text-sm text-white/50 flex items-center gap-2"><i class="bi bi-people"></i> Kapasitas</span>
-                                <span class="text-sm text-white font-medium">{{ $mobil->kapasitas_mobil }} Kursi</span>
+                                <span class="text-sm text-white/50 flex items-center gap-2"><i class="bi bi-grid-3x3-gap-fill"></i> Baris</span>
+                                <span class="text-sm text-white font-medium">{{ $mobil->kapasitas_mobil }} Baris</span>
                             </div>
                             <div class="flex items-center justify-between py-2 border-b border-white/[0.06]">
                                 <span class="text-sm text-white/50 flex items-center gap-2"><i class="bi bi-fuel-pump"></i> Bahan Bakar</span>

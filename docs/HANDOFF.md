@@ -81,11 +81,17 @@ Key work done:
 
 - **Hardening:** `.env`: `CACHE_STORE=database` → `file`, `QUEUE_CONNECTION=database` → `sync`.
   - No extra files needed. Default Laragon setup.
+- **UI fixes:**
+  - Dropdown text invisible → added `select { color-scheme: dark; }` in app.css
+  - Search button text "Cari" removed, icon only
+  - "Kapasitas/Kursi" → "Baris" (all views)
+  - Price gradient box in admin mobil card simplified (drop-shadow instead of gradient overlay)
+  - PNG image support: validation already allows PNG (`mimes:jpeg,png,jpg`), storage link verified working
 
 ## Next Session Priority
 
 1. ~~**Dashboard denda count** — `pengembalianHariIni` shows 0 when no returns today. Review if logic needs change.~~ ✅ Fixed — counts both `tanggal_pengembalian` today OR `denda_lunas_at` today.
-2. **Manual test CRUD customer form** — verify all text inputs for provinsi/kota/kecamatan/kelurahan submit correctly.
+2. ~~**Manual test CRUD customer form** — verify all text inputs for provinsi/kota/kecamatan/kelurahan submit correctly.~~ 🔄 Still needed after wilayah text input changes.
 3. ~~**Review `.env.example`** — ensure `SESSION_DRIVER=file`, `CACHE_STORE=file`, `QUEUE_CONNECTION=sync` reflected.~~ ✅ Done
 4. **Consider deleting `docs/HANDOFF.md`** from git tracking (or keep as session handoff doc).
 5. **If duplicate MySQL returns** — only click MySQL → Start once in Laragon UI.

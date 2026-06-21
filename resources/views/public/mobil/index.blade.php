@@ -46,11 +46,11 @@
                     </select>
                 </div>
                 <div class="w-36">
-                    <label class="text-xs text-white/50 block mb-1.5">Min. Kursi</label>
+                    <label class="text-xs text-white/50 block mb-1.5">Min. Baris</label>
                     <select name="kapasitas" class="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:border-[#C1121F]/50 focus:outline-none transition-colors">
                         <option value="">Semua</option>
                         @foreach([2,4,5,6,7,8] as $k)
-                        <option value="{{ $k }}" @selected((int)request('kapasitas') === $k)>{{ $k }} Kursi</option>
+                        <option value="{{ $k }}" @selected((int)request('kapasitas') === $k)>{{ $k }} Baris</option>
                         @endforeach
                     </select>
                 </div>
@@ -62,7 +62,7 @@
                         <option value="termahal" @selected(request('sort') === 'termahal')>Termahal</option>
                     </select>
                 </div>
-                <button type="submit" class="px-5 py-2.5 rounded-xl bg-[#C1121F] text-white text-sm font-semibold hover:bg-[#a30f1a] transition-colors shadow-[0_4px_15px_rgba(193,18,31,0.3)]"><i class="bi bi-search mr-1.5"></i>Cari</button>
+                <button type="submit" class="w-10 h-10 flex items-center justify-center rounded-xl bg-[#C1121F] text-white hover:bg-[#a30f1a] transition-colors shadow-[0_4px_15px_rgba(193,18,31,0.3)]"><i class="bi bi-search"></i></button>
                 @if(request()->anyFilled('search','bahan_bakar','kapasitas','sort'))
                 <a href="/cars" class="px-4 py-2.5 rounded-xl bg-white/[0.06] text-white/70 text-sm hover:text-white hover:bg-white/[0.1] transition-colors no-underline"><i class="bi bi-x-lg mr-1"></i>Reset</a>
                 @endif
@@ -86,7 +86,7 @@
                     </div>
                     <p class="text-sm text-white/50 mb-3">{{ $mobil->tipe_mobil }} &middot; {{ $mobil->tahun_mobil }}</p>
                     <div class="flex gap-4 pt-3 border-t border-white/[0.06] text-sm text-white/50">
-                        <span class="flex items-center gap-1.5"><i class="bi bi-people"></i> {{ $mobil->kapasitas_mobil }} kursi</span>
+                        <span class="flex items-center gap-1.5"><i class="bi bi-grid-3x3-gap-fill"></i> {{ $mobil->kapasitas_mobil }} baris</span>
                         <span class="flex items-center gap-1.5"><i class="bi bi-fuel-pump"></i> {{ $mobil->bahan_bakar }}</span>
                     </div>
                     <div class="text-xl font-bold text-[#C1121F] mt-3">Rp{{ number_format($mobil->harga_mobil, 0, ',', '.') }} <span class="text-sm font-normal text-white/50">/hari</span></div>

@@ -48,10 +48,8 @@
                     @endif
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $sc }}">{{ $sl }}</span>
                 </div>
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-4 pt-8">
-                    <div class="flex items-center justify-between">
-                        <span class="text-lg font-bold text-white tracking-tight">Rp {{ number_format($mobil->harga_mobil, 0, ',', '.') }}<span class="text-xs font-normal text-white/60">/hari</span></span>
-                    </div>
+                <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <span class="text-lg font-bold text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">Rp {{ number_format($mobil->harga_mobil, 0, ',', '.') }}<span class="text-xs font-normal text-white/70">/hari</span></span>
                 </div>
             </div>
             <div class="p-4 space-y-3">
@@ -60,7 +58,7 @@
                     <p class="text-xs text-white/50 mt-0.5">{{ $mobil->plat_mobil }}</p>
                 </div>
                 <div class="flex items-center gap-4 text-xs text-white/60">
-                    <span class="flex items-center gap-1"><i class="bi bi-people"></i> {{ $mobil->kapasitas_mobil }} kursi</span>
+                    <span class="flex items-center gap-1"><i class="bi bi-grid-3x3-gap-fill"></i> {{ $mobil->kapasitas_mobil }} baris</span>
                     <span class="flex items-center gap-1"><i class="bi bi-fuel-pump"></i> {{ $mobil->bahan_bakar ?? '-' }}</span>
                 </div>
                 <div class="flex items-center gap-2 pt-2 border-t border-white/[0.05] opacity-0 group-hover:opacity-100 transition-opacity">

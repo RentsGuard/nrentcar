@@ -48,8 +48,8 @@
                         <p class="text-white font-medium mt-0.5">{{ $mobil->tipe_mobil ?? '-' }}</p>
                     </div>
                     <div>
-                        <span class="text-white/50">Kapasitas</span>
-                        <p class="text-white font-medium mt-0.5">{{ $mobil->kapasitas_mobil }} Kursi</p>
+                        <span class="text-white/50">Baris</span>
+                        <p class="text-white font-medium mt-0.5">{{ $mobil->kapasitas_mobil }} Baris</p>
                     </div>
                     <div>
                         <span class="text-white/50">Bahan Bakar</span>

@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Kapasitas Kursi</label>
+                        <label class="text-sm font-medium text-white/80">Baris</label>
                         <input type="number" name="kapasitas_mobil" value="{{ old('kapasitas_mobil', 4) }}" required min="1" max="20" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                     </div>
 

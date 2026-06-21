@@ -61,7 +61,7 @@
                 </div>
                 <p class="text-sm text-white/50 mb-3">{{ $mobil->tipe_mobil }} &middot; {{ $mobil->tahun_mobil }}</p>
                 <div class="flex gap-4 pt-3 border-t border-white/[0.06] text-sm text-white/50">
-                    <span class="flex items-center gap-1.5"><i class="bi bi-people"></i> {{ $mobil->kapasitas_mobil }} kursi</span>
+                    <span class="flex items-center gap-1.5"><i class="bi bi-grid-3x3-gap-fill"></i> {{ $mobil->kapasitas_mobil }} baris</span>
                     <span class="flex items-center gap-1.5"><i class="bi bi-fuel-pump"></i> {{ $mobil->bahan_bakar }}</span>
                 </div>
                 <div class="text-xl font-bold text-[#C1121F] mt-3">Rp{{ number_format($mobil->harga_mobil, 0, ',', '.') }} <span class="text-sm font-normal text-white/50">/hari</span></div>

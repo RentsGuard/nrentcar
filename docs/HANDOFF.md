@@ -48,13 +48,10 @@ Laravel 12 / PHP 8.5.5 / Tailwind v4.3 / Vite 7.x / MySQL (Laragon)
 
 ## Known Issues & Fixes
 
-### 1. Duplicate MySQL processes
-Laragon spawns 2+ `mysqld.exe` processes, causing connection flips, data loss, missing columns.
-- **Root cause:** Multiple mysqld processes share same data dir, corrupts InnoDB data on write conflict.
-- **Fix:** `dev.ps1` kills ALL mysqld, starts clean single instance, then `php artisan serve`.
-- **Always** run `.\dev.ps1` instead of `php artisan serve`.
-- **Additional hardening:** `CACHE_STORE=file`, `QUEUE_CONNECTION=sync` (changed from `database`) to reduce MySQL write dependency.
-- If data lost: `php artisan migrate:fresh --seed`
+### 1. Duplicate MySQL processes (Laragon bug)
+Laragon occasionally spawns 2+ `mysqld.exe` processes.
+- **Prevention:** In Laragon UI, only click MySQL → Start once.
+- **Hardening:** `CACHE_STORE=file`, `QUEUE_CONNECTION=sync` to reduce MySQL write dependency.
 
 ### 2. Wilayah API cascade dropdown (REMOVED)
 Alpine.js + morphdom reset `<select>` options when reactive data changed. All approaches (closure vars, direct DOM) failed because Alpine re-renders the select element on any parent reactive change.
@@ -82,19 +79,16 @@ Key work done:
 
 ## Session 2 Context (21 Jun 2026)
 
-- **Bug fix:** data/columns lost on page refresh or VSCode file save.
-  - Root cause: Laragon duplicate mysqld processes corrupt InnoDB data when they conflict.
-  - `dev.ps1` rewritten: kills ALL mysqld processes (not just extras), starts clean single instance.
-  - `.env`: `CACHE_STORE=database` → `file`, `QUEUE_CONNECTION=database` → `sync`.
-  - Database re-seeded with `php artisan migrate:fresh --seed`.
+- **Hardening:** `.env`: `CACHE_STORE=database` → `file`, `QUEUE_CONNECTION=database` → `sync`.
+  - No extra files needed. Default Laragon setup.
 
 ## Next Session Priority
 
-1. **Dashboard denda count** — `pengembalianHariIni` shows 0 when no returns today. Review if logic needs change (seed data has returns Jun 4 & 26, not Jun 21).
+1. ~~**Dashboard denda count** — `pengembalianHariIni` shows 0 when no returns today. Review if logic needs change.~~ ✅ Fixed — counts both `tanggal_pengembalian` today OR `denda_lunas_at` today.
 2. **Manual test CRUD customer form** — verify all text inputs for provinsi/kota/kecamatan/kelurahan submit correctly.
-3. **Review `.env.example`** — ensure `SESSION_DRIVER=file`, `CACHE_STORE=file`, `QUEUE_CONNECTION=sync` reflected.
+3. ~~**Review `.env.example`** — ensure `SESSION_DRIVER=file`, `CACHE_STORE=file`, `QUEUE_CONNECTION=sync` reflected.~~ ✅ Done
 4. **Consider deleting `docs/HANDOFF.md`** from git tracking (or keep as session handoff doc).
-5. **If duplicate MySQL returns** — check Laragon settings: disable "Auto start MySQL" on Windows boot, only start via Laragon UI or `dev.ps1`.
+5. **If duplicate MySQL returns** — only click MySQL → Start once in Laragon UI.
 
 ## Security
 
@@ -119,4 +113,4 @@ Key work done:
 - `maatwebsite/excel` incompatible with PHP 8.5 → replaced with `openspout/openspout` ^5.7
 - Obsolete packages removed: `laravel/breeze`, `laravel/sanctum`, `livewire/livewire`
 - Wilayah API dropdown removed entirely due to Alpine morphdom incompatibility
-- Two Laragon MySQL processes may cause data loss on restart — use `dev.ps1`
+- Two Laragon MySQL processes may cause connection issues — only click MySQL → Start once

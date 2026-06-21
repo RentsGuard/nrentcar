@@ -21,7 +21,9 @@ class DashboardController extends Controller
         $pelangganBaru = Customer::latest()->take(6)->get();
 
         $totalDenda = Pengembalian::where('status_denda', '!=', 'lunas')->sum('total_denda');
-        $pengembalianHariIni = Pengembalian::whereDate('tanggal_pengembalian', today())->count();
+        $pengembalianHariIni = Pengembalian::whereDate('tanggal_pengembalian', today())
+            ->orWhereDate('denda_lunas_at', today())
+            ->count();
 
         $view = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'staff.dashboard';
 

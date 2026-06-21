@@ -163,20 +163,20 @@
                         <p class="text-sm text-white/80 mt-1">{{ $customer->catatan_verifikasi }}</p>
                     </div>
                     @endif
-                    @if(auth()->user()->role === 'admin' && !$customer->status_verifikasi)
-                    <div class="pt-2 space-y-2">
-                        <form action="/customer/{{ $customer->id }}/verify" method="POST">
+                    @if(auth()->user()->role === 'admin')
+                    <div class="pt-2">
+                        <form action="/customer/{{ $customer->id }}/verify" method="POST" class="space-y-3">
                             @csrf
-                            <input type="hidden" name="action" value="disetujui">
-                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-emerald-500 text-white font-semibold text-xs hover:bg-emerald-600 transition-all">
-                                <i class="bi bi-check-lg"></i> Setujui
-                            </button>
-                        </form>
-                        <form action="/customer/{{ $customer->id }}/verify" method="POST">
-                            @csrf
-                            <input type="hidden" name="action" value="ditolak">
-                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-red-500/20 text-red-400 font-semibold text-xs hover:bg-red-500/30 transition-all">
-                                <i class="bi bi-x-lg"></i> Tolak
+                            <div>
+                                <label class="text-xs text-white/50 uppercase tracking-wide block mb-1.5">Ubah Status</label>
+                                <select name="action" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
+                                    <option value="">Belum diverifikasi</option>
+                                    <option value="disetujui" {{ $customer->status_verifikasi === 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                    <option value="ditolak" {{ $customer->status_verifikasi === 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-[#C1121F] text-white font-semibold text-xs hover:bg-[#a30f1a] transition-all">
+                                <i class="bi bi-check-lg"></i> Simpan Verifikasi
                             </button>
                         </form>
                     </div>

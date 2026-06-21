@@ -8,9 +8,29 @@ use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::latest()->get();
+        $query = Customer::query()->with('verifikator');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_customer', 'like', "%{$search}%")
+                  ->orWhere('nik', 'like', "%{$search}%")
+                  ->orWhere('no_hp', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('filter_verifikasi')) {
+            match ($request->filter_verifikasi) {
+                'belum' => $query->whereNull('status_verifikasi'),
+                'disetujui' => $query->where('status_verifikasi', 'disetujui'),
+                'ditolak' => $query->where('status_verifikasi', 'ditolak'),
+                default => null,
+            };
+        }
+
+        $customers = $query->latest()->paginate(15)->withQueryString();
 
         return view('customer.index', compact('customers'));
     }
@@ -47,6 +67,10 @@ class CustomerController extends Controller
 
         if ($request->hasFile('foto_ktp')) {
             $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp', 'public');
+        }
+
+        if ($request->has('seumur_hidup')) {
+            $validated['berlaku_hingga'] = null;
         }
 
         $customer = Customer::create($validated);
@@ -96,7 +120,24 @@ class CustomerController extends Controller
             'kewarganegaraan' => 'nullable|string|max:10',
             'berlaku_hingga' => 'nullable|date',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'status_verifikasi' => 'nullable|in:disetujui,ditolak',
         ]);
+
+        if (auth()->user()->role === 'admin' && $request->has('status_verifikasi')) {
+            if ($request->filled('status_verifikasi')) {
+                $validated['status_verifikasi'] = $request->status_verifikasi;
+                $validated['verified_by'] = auth()->id();
+                $validated['tanggal_verifikasi'] = now();
+            } else {
+                $validated['status_verifikasi'] = null;
+                $validated['verified_by'] = null;
+                $validated['tanggal_verifikasi'] = null;
+            }
+        }
+
+        if ($request->has('seumur_hidup')) {
+            $validated['berlaku_hingga'] = null;
+        }
 
         if ($request->hasFile('foto_ktp')) {
             if ($customer->foto_ktp) {
@@ -145,16 +186,25 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id);
 
         $request->validate([
-            'action' => 'required|in:disetujui,ditolak',
+            'action' => 'nullable|in:disetujui,ditolak',
         ]);
 
-        $customer->update([
-            'status_verifikasi' => $request->action,
-            'verified_by' => auth()->id(),
-            'tanggal_verifikasi' => now(),
-        ]);
+        if ($request->filled('action')) {
+            $customer->update([
+                'status_verifikasi' => $request->action,
+                'verified_by' => auth()->id(),
+                'tanggal_verifikasi' => now(),
+            ]);
+        } else {
+            $customer->update([
+                'status_verifikasi' => null,
+                'verified_by' => null,
+                'tanggal_verifikasi' => null,
+            ]);
+        }
 
-        activity()->performedOn($customer)->log("Customer {$customer->nama_customer} verifikasi: {$request->action}");
+        $verb = $request->action ?? 'direset';
+        activity()->performedOn($customer)->log("Customer {$customer->nama_customer} verifikasi: {$verb}");
 
         return redirect('/customer/'.$id)
             ->with('success', 'Status verifikasi berhasil diperbarui');

@@ -2,58 +2,55 @@
 
 @section('title', 'Laporan - RentSCar')
 
-@section('page-title', 'Laporan')
+@section('page-title', 'Ringkasan Laporan')
 
 @section('content')
 <div class="space-y-6">
-    <div>
-        <h1 class="text-2xl font-bold text-white tracking-tight">Laporan</h1>
-        <p class="text-white/50 text-sm mt-1">Ringkasan data dan export laporan.</p>
-    </div>
+    @include('laporan.tabs')
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <div class="glass-card p-6">
-            <div class="flex items-center gap-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-journal-text text-xl text-white/70"></i></div>
-                <div>
-                    <p class="text-sm font-medium text-white/50">Total Penyewaan</p>
-                    <h3 class="text-2xl font-bold text-white">{{ $totalPenyewaan }}</h3>
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="glass-card p-5">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] shrink-0"><i class="bi bi-journal-text text-lg text-white/70"></i></div>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-medium text-white/50 uppercase tracking-wider">Penyewaan</p>
+                    <h3 class="text-xl font-bold text-white mt-0.5">{{ $totalPenyewaan }}</h3>
                 </div>
             </div>
         </div>
-        <div class="glass-card p-6">
-            <div class="flex items-center gap-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-cash-stack text-xl text-white/70"></i></div>
-                <div>
-                    <p class="text-sm font-medium text-white/50">Total Pendapatan</p>
-                    <h3 class="text-2xl font-bold text-white">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
+        <div class="glass-card p-5">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] shrink-0"><i class="bi bi-cash-stack text-lg text-white/70"></i></div>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-medium text-white/50 uppercase tracking-wider">Pendapatan</p>
+                    <h3 class="text-xl font-bold text-white mt-0.5 truncate">Rp{{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
                 </div>
             </div>
         </div>
-        <div class="glass-card p-6">
-            <div class="flex items-center gap-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-car-front text-xl text-white/70"></i></div>
-                <div>
-                    <p class="text-sm font-medium text-white/50">Total Mobil</p>
-                    <h3 class="text-2xl font-bold text-white">{{ $totalMobil }}</h3>
+        <div class="glass-card p-5">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] shrink-0"><i class="bi bi-car-front text-lg text-white/70"></i></div>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-medium text-white/50 uppercase tracking-wider">Mobil</p>
+                    <h3 class="text-xl font-bold text-white mt-0.5">{{ $totalMobil }}</h3>
                 </div>
             </div>
         </div>
-        <div class="glass-card p-6">
-            <div class="flex items-center gap-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-people text-xl text-white/70"></i></div>
-                <div>
-                    <p class="text-sm font-medium text-white/50">Total Customer</p>
-                    <h3 class="text-2xl font-bold text-white">{{ $totalCustomer }}</h3>
+        <div class="glass-card p-5">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] shrink-0"><i class="bi bi-people text-lg text-white/70"></i></div>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-medium text-white/50 uppercase tracking-wider">Customer</p>
+                    <h3 class="text-xl font-bold text-white mt-0.5">{{ $totalCustomer }}</h3>
                 </div>
             </div>
         </div>
-        <div class="glass-card p-6">
-            <div class="flex items-center gap-4">
-                <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20"><i class="bi bi-exclamation-triangle text-xl text-amber-400"></i></div>
-                <div>
-                    <p class="text-sm font-medium text-white/50">Total Denda</p>
-                    <h3 class="text-2xl font-bold text-amber-400">Rp {{ number_format($totalDenda, 0, ',', '.') }}</h3>
+        <div class="glass-card p-5 col-span-2 lg:col-span-1">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 shrink-0"><i class="bi bi-exclamation-triangle text-lg text-amber-400"></i></div>
+                <div class="min-w-0">
+                    <p class="text-[11px] font-medium text-white/50 uppercase tracking-wider">Denda</p>
+                    <h3 class="text-xl font-bold text-amber-400 mt-0.5 truncate">Rp{{ number_format($totalDenda, 0, ',', '.') }}</h3>
                 </div>
             </div>
         </div>
@@ -61,40 +58,57 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="glass-card">
-            <div class="p-5 pb-2"><h3 class="text-base font-semibold text-white">Pendapatan Bulanan</h3></div>
-            <div class="p-5 pt-0">
-                <div class="h-[280px] w-full"><canvas id="revenueChart"></canvas></div>
+            <div class="px-5 pt-5 pb-1">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold text-white tracking-tight">Pendapatan Bulanan</h3>
+                    <span class="text-[11px] text-white/40">(Juta)</span>
+                </div>
+            </div>
+            <div class="p-5 pt-2">
+                <div class="h-[260px] w-full"><canvas id="revenueChart"></canvas></div>
             </div>
         </div>
         <div class="glass-card">
-            <div class="p-5 pb-2"><h3 class="text-base font-semibold text-white">Penyewaan Bulanan</h3></div>
-            <div class="p-5 pt-0">
-                <div class="h-[280px] w-full"><canvas id="rentalChart"></canvas></div>
+            <div class="px-5 pt-5 pb-1">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold text-white tracking-tight">Penyewaan Bulanan</h3>
+                    <span class="text-[11px] text-white/40">(Transaksi)</span>
+                </div>
+            </div>
+            <div class="p-5 pt-2">
+                <div class="h-[260px] w-full"><canvas id="rentalChart"></canvas></div>
             </div>
         </div>
         <div class="glass-card">
-            <div class="p-5 pb-2"><h3 class="text-base font-semibold text-white">Denda Bulanan</h3></div>
-            <div class="p-5 pt-0">
-                <div class="h-[280px] w-full"><canvas id="dendaChart"></canvas></div>
+            <div class="px-5 pt-5 pb-1">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold text-white tracking-tight">Denda Bulanan</h3>
+                    <span class="text-[11px] text-white/40">(Ribuan)</span>
+                </div>
+            </div>
+            <div class="p-5 pt-2">
+                <div class="h-[260px] w-full"><canvas id="dendaChart"></canvas></div>
             </div>
         </div>
     </div>
 
-    <div class="glass-card p-6">
-        <h3 class="text-base font-semibold text-white mb-4">Export Laporan</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <a href="/laporan/export/pdf" target="_blank" class="flex items-center gap-3 p-4 rounded-lg border border-white/[0.06] hover:bg-white/[0.03] transition-colors no-underline group">
-                <div class="p-3 rounded-lg bg-[#C1121F]/10 text-[#C1121F]"><i class="bi bi-filetype-pdf text-xl"></i></div>
-                <div>
-                    <p class="text-sm font-medium text-white group-hover:text-[#C1121F] transition-colors">Export PDF</p>
-                    <p class="text-xs text-white/50">Laporan penyewaan</p>
+    <div class="glass-card">
+        <div class="px-5 pt-5 pb-3">
+            <h3 class="text-sm font-semibold text-white tracking-tight">Export Laporan</h3>
+        </div>
+        <div class="px-5 pb-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <a href="/laporan/export/pdf" target="_blank" class="flex items-center gap-3 p-4 rounded-xl border border-white/[0.06] hover:bg-white/[0.03] transition-all no-underline group">
+                <div class="p-2.5 rounded-xl bg-[#C1121F]/10 text-[#C1121F] shrink-0"><i class="bi bi-filetype-pdf text-xl"></i></div>
+                <div class="min-w-0">
+                    <p class="text-sm font-semibold text-white group-hover:text-[#C1121F] transition-colors">Export PDF</p>
+                    <p class="text-xs text-white/50 mt-0.5">Laporan penyewaan &mdash; semua data</p>
                 </div>
             </a>
-            <a href="/laporan/export/excel" target="_blank" class="flex items-center gap-3 p-4 rounded-lg border border-white/[0.06] hover:bg-white/[0.03] transition-colors no-underline group">
-                <div class="p-3 rounded-lg bg-emerald-500/10 text-emerald-400"><i class="bi bi-file-earmark-spreadsheet text-xl"></i></div>
-                <div>
-                    <p class="text-sm font-medium text-white group-hover:text-emerald-400 transition-colors">Export Excel</p>
-                    <p class="text-xs text-white/50">Data penyewaan</p>
+            <a href="/laporan/export/excel" target="_blank" class="flex items-center gap-3 p-4 rounded-xl border border-white/[0.06] hover:bg-white/[0.03] transition-all no-underline group">
+                <div class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0"><i class="bi bi-file-earmark-spreadsheet text-xl"></i></div>
+                <div class="min-w-0">
+                    <p class="text-sm font-semibold text-white group-hover:text-emerald-400 transition-colors">Export Excel</p>
+                    <p class="text-xs text-white/50 mt-0.5">Data penyewaan &mdash; semua data</p>
                 </div>
             </a>
         </div>

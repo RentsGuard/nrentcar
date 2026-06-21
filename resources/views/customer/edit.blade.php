@@ -123,7 +123,13 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Berlaku Hingga</label>
-                        <input type="date" name="berlaku_hingga" value="{{ old('berlaku_hingga', $customer->berlaku_hingga?->format('Y-m-d')) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('berlaku_hingga') border-red-500 @enderror">
+                        <div class="flex items-center gap-3">
+                            <input type="date" name="berlaku_hingga" value="{{ old('berlaku_hingga', $customer->berlaku_hingga?->format('Y-m-d')) }}" id="berlaku_hingga" class="flex-1 h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('berlaku_hingga') border-red-500 @enderror">
+                            <label class="flex items-center gap-1.5 text-sm text-white/60 cursor-pointer whitespace-nowrap">
+                                <input type="checkbox" name="seumur_hidup" value="1" {{ old('seumur_hidup', $customer->berlaku_hingga ? '' : 'checked') }} onchange="document.getElementById('berlaku_hingga').disabled=this.checked;if(this.checked)document.getElementById('berlaku_hingga').value=''" class="w-4 h-4 rounded border-white/20 bg-[#0D0D0D] text-[#C1121F] focus:ring-[#C1121F] focus:ring-offset-0">
+                                Seumur Hidup
+                            </label>
+                        </div>
                         @error('berlaku_hingga') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
@@ -220,3 +226,11 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+var cb = document.getElementById('seumur_hidup');
+var dp = document.getElementById('berlaku_hingga');
+if (cb && cb.checked) { dp.disabled = true; dp.value = ''; }
+</script>
+@endpush

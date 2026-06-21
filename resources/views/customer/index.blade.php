@@ -16,10 +16,28 @@
 
     <div class="glass-card overflow-hidden">
         <div class="p-4 border-b border-white/[0.05] bg-white/[0.01]">
-            <div class="relative w-full sm:w-72">
-                <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
-                <input type="text" id="searchInput" class="w-full h-10 pl-9 pr-3 rounded-lg border border-white/[0.1] bg-black/20 text-white text-sm outline-none placeholder:text-white/40 transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]" placeholder="Cari nama atau NIK...">
-            </div>
+            <form method="GET" action="/customer" class="flex flex-wrap items-end gap-3">
+                <div class="relative w-full sm:w-60">
+                    <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
+                    <input type="text" name="search" value="{{ request('search') }}" class="w-full h-10 pl-9 pr-3 rounded-lg border border-white/[0.1] bg-black/20 text-white text-sm outline-none placeholder:text-white/40 transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]" placeholder="Cari nama atau NIK...">
+                </div>
+                <div class="w-full sm:w-44">
+                    <select name="filter_verifikasi" class="w-full h-10 rounded-lg border border-white/[0.1] bg-black/20 text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
+                        <option value="">Semua Status</option>
+                        <option value="belum" {{ request('filter_verifikasi') === 'belum' ? 'selected' : '' }}>Belum diverifikasi</option>
+                        <option value="disetujui" {{ request('filter_verifikasi') === 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                        <option value="ditolak" {{ request('filter_verifikasi') === 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    </select>
+                </div>
+                <button type="submit" class="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-[#C1121F] text-white font-semibold text-xs hover:bg-[#a30f1a] transition-all">
+                    <i class="bi bi-funnel"></i> Filter
+                </button>
+                @if(request()->anyFilled(['search', 'filter_verifikasi']))
+                <a href="/customer" class="inline-flex items-center gap-2 h-10 px-4 rounded-lg border border-white/[0.1] text-white/70 hover:text-white hover:bg-white/[0.05] transition-all no-underline text-xs">
+                    <i class="bi bi-x-lg"></i> Reset
+                </a>
+                @endif
+            </form>
         </div>
 
         <div class="overflow-x-auto">
@@ -81,7 +99,21 @@
         </div>
 
         <div class="p-4 border-t border-white/[0.05] flex items-center justify-between text-sm text-white/50 bg-white/[0.01]">
-            <div>Menampilkan {{ count($customers) }} data</div>
+            <div>Menampilkan {{ $customers->firstItem() ?? 0 }}–{{ $customers->lastItem() ?? 0 }} dari {{ $customers->total() }} data</div>
+            @if($customers->hasPages())
+            <div class="flex gap-1">
+                @if($customers->onFirstPage())
+                <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] text-white/30 text-xs cursor-not-allowed">Sebelumnya</span>
+                @else
+                <a href="{{ $customers->previousPageUrl() }}" class="px-3 py-1.5 rounded-lg bg-white/[0.05] text-white/70 hover:bg-white/[0.1] text-xs no-underline transition-colors">Sebelumnya</a>
+                @endif
+                @if($customers->hasMorePages())
+                <a href="{{ $customers->nextPageUrl() }}" class="px-3 py-1.5 rounded-lg bg-white/[0.05] text-white/70 hover:bg-white/[0.1] text-xs no-underline transition-colors">Selanjutnya</a>
+                @else
+                <span class="px-3 py-1.5 rounded-lg bg-white/[0.03] text-white/30 text-xs cursor-not-allowed">Selanjutnya</span>
+                @endif
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -89,12 +121,6 @@
 
 @push('scripts')
 <script>
-document.getElementById('searchInput').addEventListener('keyup', function() {
-    var q = this.value.toLowerCase();
-    document.querySelectorAll('#customerTable tbody tr').forEach(function(r) {
-        r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
-    });
-});
 document.querySelectorAll('.btn-delete').forEach(function(btn) {
     btn.addEventListener('click', function() {
         var form = this.closest('form');

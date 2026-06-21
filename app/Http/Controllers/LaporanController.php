@@ -46,6 +46,111 @@ class LaporanController extends Controller
         ));
     }
 
+    public function awal()
+    {
+        $customers = Customer::withCount('penyewaan')
+            ->whereHas('penyewaan')
+            ->orderBy('nama_customer')
+            ->get();
+
+        $selectedCustomer = null;
+        $penyewaans = collect();
+
+        if (request('customer_id')) {
+            $selectedCustomer = Customer::findOrFail(request('customer_id'));
+            $penyewaans = Penyewaan::with('customer', 'mobil', 'pengembalian')
+                ->where('customer_id', $selectedCustomer->id)
+                ->latest()
+                ->get();
+        }
+
+        return view('laporan.awal.index', compact('customers', 'selectedCustomer', 'penyewaans'));
+    }
+
+    public function cetakAwal(Penyewaan $penyewaan)
+    {
+        $penyewaan->load('customer', 'mobil', 'pengembalian', 'user');
+
+        $pdf = Pdf::loadView('laporan.awal.cetak', compact('penyewaan'));
+        $pdf->setPaper('A4', 'portrait');
+
+        return $pdf->stream('tanda-terima-'.$penyewaan->id.'.pdf');
+    }
+
+    public function akhir()
+    {
+        $query = Penyewaan::with('customer', 'mobil', 'pengembalian');
+
+        if (request('filter_date')) {
+            $filterDate = request('filter_date');
+            $filterValue = request('filter_value');
+
+            if ($filterDate === 'rentang') {
+                $query->whereBetween('tanggal_sewa', [request('start_date'), request('end_date')]);
+            } elseif ($filterDate === 'bulan' && $filterValue) {
+                $query->whereYear('tanggal_sewa', substr($filterValue, 0, 4))
+                    ->whereMonth('tanggal_sewa', substr($filterValue, 5, 2));
+            } elseif ($filterDate === 'tahun' && $filterValue) {
+                $query->whereYear('tanggal_sewa', $filterValue);
+            } elseif ($filterValue) {
+                match ($filterDate) {
+                    'hari' => $query->whereDate('tanggal_sewa', $filterValue),
+                    'minggu' => $query->whereBetween('tanggal_sewa', [
+                        now()->parse($filterValue)->startOfWeek(),
+                        now()->parse($filterValue)->endOfWeek(),
+                    ]),
+                    default => null,
+                };
+            }
+        }
+
+        $penyewaans = $query->latest('tanggal_sewa')->get();
+
+        return view('laporan.akhir.index', compact('penyewaans'));
+    }
+
+    public function cetakAkhir()
+    {
+        $query = Penyewaan::with('customer', 'mobil', 'pengembalian');
+        $filterDate = request('filter_date');
+        $filterValue = request('filter_value');
+        $label = 'Semua';
+
+        if ($filterDate) {
+            match ($filterDate) {
+                'hari' => $query->whereDate('tanggal_sewa', $filterValue),
+                'minggu' => $query->whereBetween('tanggal_sewa', [
+                    now()->parse($filterValue)->startOfWeek(),
+                    now()->parse($filterValue)->endOfWeek(),
+                ]),
+                'bulan' => $query->whereYear('tanggal_sewa', substr($filterValue, 0, 4))
+                    ->whereMonth('tanggal_sewa', substr($filterValue, 5, 2)),
+                'tahun' => $query->whereYear('tanggal_sewa', $filterValue),
+                'rentang' => $query->whereBetween('tanggal_sewa', [
+                    request('start_date'),
+                    request('end_date'),
+                ]),
+                default => null,
+            };
+
+            $label = match ($filterDate) {
+                'hari' => \Carbon\Carbon::parse($filterValue)->format('d/m/Y'),
+                'minggu' => 'Minggu '.\Carbon\Carbon::parse($filterValue)->format('d/m/Y'),
+                'bulan' => \Carbon\Carbon::parse($filterValue.'-01')->format('F Y'),
+                'tahun' => $filterValue,
+                'rentang' => request('start_date').' s/d '.request('end_date'),
+                default => 'Semua',
+            };
+        }
+
+        $penyewaans = $query->latest('tanggal_sewa')->get();
+
+        $pdf = Pdf::loadView('laporan.akhir.cetak', compact('penyewaans', 'label'));
+        $pdf->setPaper('A4', 'landscape');
+
+        return $pdf->stream('laporan-akhir-'.date('Y-m-d').'.pdf');
+    }
+
     public function exportPdf()
     {
         $penyewaans = Penyewaan::with('customer', 'mobil', 'user')

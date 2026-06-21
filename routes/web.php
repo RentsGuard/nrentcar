@@ -83,6 +83,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/penyewaan/{id}/batalkan', [PenyewaanController::class, 'batalkan']);
 
     Route::get('/laporan', [LaporanController::class, 'index']);
+    Route::get('/laporan/ringkasan', [LaporanController::class, 'index']);
+    Route::get('/laporan/awal', [LaporanController::class, 'awal']);
+    Route::get('/laporan/awal/cetak/{penyewaan}', [LaporanController::class, 'cetakAwal']);
+    Route::get('/laporan/akhir', [LaporanController::class, 'akhir']);
+    Route::get('/laporan/akhir/cetak', [LaporanController::class, 'cetakAkhir']);
     Route::get('/laporan/export/pdf', [LaporanController::class, 'exportPdf']);
     Route::get('/laporan/export/excel', [LaporanController::class, 'exportExcel']);
 

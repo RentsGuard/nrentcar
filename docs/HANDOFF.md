@@ -20,7 +20,7 @@
 | Pengaturan | ✅ | Tampilan, Notifikasi, Role & Akses (admin only) |
 | Export (PDF/XLSX) | ✅ | DOMPDF + OpenSpout v5 |
 | Seeders | ✅ | 8 mobil, 5 customer, 6 penyewaan, verifikasi, pengembalian |
-| Testing | ✅ | **35 tests, 66 assertions** |
+| Testing | ✅ | **35 tests, 66 assertions** — dedicated `rentscar_testing` DB |
 
 > Views pake Tailwind v4 (no Bootstrap). Logo: `images/nrentcar.png`.
 
@@ -34,6 +34,8 @@
 - **Logo:** `public/images/nrentcar.png` (132KB, PNG)
 - **Session:** `SESSION_DRIVER=file` (changed from `database` — more reliable in dev)
 - **DB engine:** Laragon MySQL 8.4.3, port 3306
+- **Test DB:** `rentscar_testing` — isolated from production `rentscar`
+- **DB default guard:** `config/database.php` default `'mysql'` (was `'sqlite'`); `AppServiceProvider` blocks silent SQLite fallback
 
 ## Credentials
 
@@ -66,6 +68,13 @@ Alpine.js + morphdom reset `<select>` options when reactive data changed. All ap
 Removed unused packages: `laravel/breeze`, `laravel/sanctum`, `livewire/livewire`.
 Deleted `config/sanctum.php`.
 
+### 5. MySQL data loss on `php artisan test`
+Three root causes found and resolved:
+1. `phpunit.xml` `DB_DATABASE=rentscar` — `RefreshDatabase` runs `migrate:fresh`, wiping production data. → Changed to `rentscar_testing`.
+2. `config/database.php` default `'sqlite'` — silent fallback if `.env` fails to load (empty SQLite DB). → Changed to `'mysql'`.
+3. `composer.json` `post-create-project-cmd` auto-created `database/database.sqlite`. → Removed.
+- **Guard:** `AppServiceProvider::boot()` throws `RuntimeException` if `config('database.default') === 'sqlite'` when `.env` specifies otherwise.
+
 ## Current Session Context (21 Jun 2026)
 
 Key work done:
@@ -88,13 +97,42 @@ Key work done:
   - Price gradient box in admin mobil card simplified (drop-shadow instead of gradient overlay)
   - PNG image support: validation already allows PNG (`mimes:jpeg,png,jpg`), storage link verified working
 
+## Session 3 Context (22 Jun 2026)
+
+Critical fixes:
+- **MySQL data loss root causes resolved:**
+  1. `phpunit.xml` pointed `DB_DATABASE=rentscar` → `RefreshDatabase` trait ran `migrate:fresh` on production DB — changed to `rentscar_testing`
+  2. `config/database.php` default `sqlite` — Laravel silently fell back to empty SQLite if `.env` failed — changed to `mysql`
+  3. `composer.json` auto-created `database/database.sqlite` on fresh install — removed
+- **Guard:** `AppServiceProvider` throws `RuntimeException` if DB defaults to SQLite unexpectedly
+- **27 `<select>` elements audited & fixed** — all use `bg-[#0D0D0D] text-white` with dark native popup (`color-scheme: dark` in app.css)
+- **Public mobil filter:** kapasitas changed from `>=` to `=` exact match; options from DB dynamically
+- **All 35 tests pass** against `rentscar_testing`, production data intact
+
+UI/UX audit & fixes across all 42 views:
+| Issue | Fix |
+|-------|-----|
+| `mobil/index` action buttons hidden on mobile | Changed `opacity-0` → `opacity-100 sm:opacity-0 sm:group-hover:opacity-100` |
+| `admin/staff dashboard` card overflow (long Rp values) | Added `truncate max-w-full` + title tooltip |
+| `laporan/index` Pendapatan/Denda overflow | Added `max-w-full truncate` + tooltip |
+| `laporan/awal` alamat customer clipped | `max-w-[200px] xl:max-w-[260px]` |
+| `laporan/awal` total sum overflow | Added `shrink min-w-0 truncate max-w-[180px]` |
+| `laporan/akhir` date inputs bg inconsistent | `bg-white/[0.04]` → `bg-[#0D0D0D]` with focus shadow |
+| `laporan/akhir` Trouble column inconsistent rows | `break-words` → `truncate` + title tooltip |
+| `customer/index` pagination basic style | Replaced prev/next text with shared `partials.pagination` |
+| `penyewaan/index` total harga overflow | `whitespace-nowrap max-w-[150px] truncate` + tooltip |
+| `pengembalian/show` denda info overflow | Added `break-words` |
+| `public/mobil/index` search bg inconsistent | `bg-white/[0.04]` → `bg-[#0D0D0D]` with focus shadow |
+
 ## Next Session Priority
 
-1. ~~**Dashboard denda count** — `pengembalianHariIni` shows 0 when no returns today. Review if logic needs change.~~ ✅ Fixed — counts both `tanggal_pengembalian` today OR `denda_lunas_at` today.
+1. ~~**Dashboard denda count** — `pengembalianHariIni` shows 0 when no returns today. Review if logic needs change.~~ ✅ Fixed
 2. ~~**Manual test CRUD customer form** — verify all text inputs for provinsi/kota/kecamatan/kelurahan submit correctly.~~ 🔄 Still needed after wilayah text input changes.
 3. ~~**Review `.env.example`** — ensure `SESSION_DRIVER=file`, `CACHE_STORE=file`, `QUEUE_CONNECTION=sync` reflected.~~ ✅ Done
 4. **Consider deleting `docs/HANDOFF.md`** from git tracking (or keep as session handoff doc).
 5. **If duplicate MySQL returns** — only click MySQL → Start once in Laragon UI.
+6. (Optional) Run `sc.exe stop MySQL && sc.exe config MySQL start= disabled` as Admin to stop Windows MySQL service conflicting with Laragon.
+7. **Jika ada `<select>` baru di view yang akan datang** — sudah di-cover oleh global `select { color-scheme: dark; }` + `select option { background: #0D0D0D; color: #fff; }` di app.css. Tidak perlu per-file styling tambahan.
 
 ## Security
 

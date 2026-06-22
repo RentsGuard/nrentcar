@@ -53,7 +53,7 @@
                         </td>
                         <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_sewa ? $sewa->tanggal_sewa->format('d/m/Y') : '-' }}<br><span class="text-[11px] text-white/40">{{ $sewa->jam_sewa ?? '' }}</span></td>
                         <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_kembali ? $sewa->tanggal_kembali->format('d/m/Y') : '-' }}<br><span class="text-[11px] text-white/40">{{ $sewa->jam_kembali ?? '' }}</span></td>
-                        <td class="px-6 py-4 font-medium text-white">Rp {{ number_format($sewa->total_harga, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 font-medium text-white whitespace-nowrap max-w-[150px] truncate" title="Rp {{ number_format($sewa->total_harga, 0, ',', '.') }}">Rp {{ number_format($sewa->total_harga, 0, ',', '.') }}</td>
                         <td class="px-6 py-4">
                             @php
                             $sc = match($sewa->status) { 'aktif' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'selesai' => 'bg-white/[0.1] text-white', 'dibatalkan' => 'bg-red-500/10 text-red-400 border-red-500/20', default => 'bg-white/[0.1] text-white/80' };

@@ -80,6 +80,7 @@ class LaporanController extends Controller
     public function akhir()
     {
         $query = Penyewaan::with('customer', 'mobil', 'pengembalian');
+        $label = null;
 
         if (request('filter_date')) {
             $filterDate = request('filter_date');
@@ -87,11 +88,14 @@ class LaporanController extends Controller
 
             if ($filterDate === 'rentang') {
                 $query->whereBetween('tanggal_sewa', [request('start_date'), request('end_date')]);
+                $label = request('start_date').' s/d '.request('end_date');
             } elseif ($filterDate === 'bulan' && $filterValue) {
                 $query->whereYear('tanggal_sewa', substr($filterValue, 0, 4))
                     ->whereMonth('tanggal_sewa', substr($filterValue, 5, 2));
+                $label = \Carbon\Carbon::parse($filterValue.'-01')->format('F Y');
             } elseif ($filterDate === 'tahun' && $filterValue) {
                 $query->whereYear('tanggal_sewa', $filterValue);
+                $label = $filterValue;
             } elseif ($filterValue) {
                 match ($filterDate) {
                     'hari' => $query->whereDate('tanggal_sewa', $filterValue),
@@ -101,12 +105,17 @@ class LaporanController extends Controller
                     ]),
                     default => null,
                 };
+                $label = match ($filterDate) {
+                    'hari' => \Carbon\Carbon::parse($filterValue)->format('d/m/Y'),
+                    'minggu' => \Carbon\Carbon::parse($filterValue)->startOfWeek()->format('d/m').' - '.\Carbon\Carbon::parse($filterValue)->endOfWeek()->format('d/m/Y'),
+                    default => null,
+                };
             }
         }
 
         $penyewaans = $query->latest('tanggal_sewa')->get();
 
-        return view('laporan.akhir.index', compact('penyewaans'));
+        return view('laporan.akhir.index', compact('penyewaans', 'label'));
     }
 
     public function cetakAkhir()
@@ -135,7 +144,7 @@ class LaporanController extends Controller
 
             $label = match ($filterDate) {
                 'hari' => \Carbon\Carbon::parse($filterValue)->format('d/m/Y'),
-                'minggu' => 'Minggu '.\Carbon\Carbon::parse($filterValue)->format('d/m/Y'),
+                'minggu' => \Carbon\Carbon::parse($filterValue)->startOfWeek()->format('d/m').' - '.\Carbon\Carbon::parse($filterValue)->endOfWeek()->format('d/m/Y'),
                 'bulan' => \Carbon\Carbon::parse($filterValue.'-01')->format('F Y'),
                 'tahun' => $filterValue,
                 'rentang' => request('start_date').' s/d '.request('end_date'),

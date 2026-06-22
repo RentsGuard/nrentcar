@@ -117,7 +117,7 @@
                         @endif
                     </div>
                     @if($lunas && $pengembalian->dendaLunasBy)
-                    <div class="text-xs text-white/40 text-right pt-1">Dibayar oleh {{ $pengembalian->dendaLunasBy->nama_user }}, {{ $pengembalian->denda_lunas_at->format('d M Y H:i') }}</div>
+                    <div class="text-xs text-white/40 text-right pt-1 break-words">Dibayar oleh {{ $pengembalian->dendaLunasBy->nama_user }}, {{ $pengembalian->denda_lunas_at->format('d M Y H:i') }}</div>
                     @endif
                 </div>
             </div>

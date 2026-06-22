@@ -15,7 +15,7 @@
                     <div class="flex-1 min-w-[200px]">
                         <label class="text-xs text-white/50 block mb-1.5">Pilih Customer</label>
                         <select name="customer_id" onchange="this.form.submit()"
-                            class="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm appearance-none focus:border-[#C1121F]/50 focus:outline-none transition-colors"
+                            class="w-full px-3 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm appearance-none focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors"
                             style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2214%22 height=%2214%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                             <option value="">— Semua Customer —</option>
                             @foreach($customers as $c)
@@ -46,7 +46,7 @@
                         <span class="text-white/20 hidden sm:inline">&middot;</span>
                         <span>{{ $selectedCustomer->no_hp }}</span>
                         <span class="text-white/20 hidden sm:inline">&middot;</span>
-                        <span class="text-white/40 max-w-[260px] truncate" title="{{ $selectedCustomer->alamat_customer }}">{{ $selectedCustomer->alamat_customer }}</span>
+                        <span class="text-white/40 max-w-[200px] xl:max-w-[260px] truncate" title="{{ $selectedCustomer->alamat_customer }}">{{ $selectedCustomer->alamat_customer }}</span>
                     </div>
                 </div>
                 <div class="shrink-0 text-sm text-white/60 bg-white/[0.04] px-3.5 py-1.5 rounded-lg border border-white/[0.06] whitespace-nowrap">
@@ -122,8 +122,8 @@
         @if($penyewaans->isNotEmpty())
         <div class="px-5 py-3.5 border-t border-white/[0.05] bg-white/[0.015] flex flex-wrap items-center justify-between gap-3 text-sm">
             <span class="text-white/50">{{ $penyewaans->count() }} transaksi</span>
-            <span class="text-white/50">
-                Total: <strong class="text-white font-semibold">Rp{{ number_format($penyewaans->sum('total_harga'), 0, ',', '.') }}</strong>
+            <span class="text-white/50 shrink min-w-0">
+                Total: <strong class="text-white font-semibold truncate max-w-[180px] sm:max-w-none inline-block align-bottom">Rp{{ number_format($penyewaans->sum('total_harga'), 0, ',', '.') }}</strong>
             </span>
         </div>
         @endif

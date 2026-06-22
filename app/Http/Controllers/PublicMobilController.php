@@ -24,7 +24,7 @@ class PublicMobilController extends Controller
         }
 
         if ($kapasitas = $request->input('kapasitas')) {
-            $query->where('kapasitas_mobil', '>=', (int) $kapasitas);
+            $query->where('kapasitas_mobil', (int) $kapasitas);
         }
 
         $sort = $request->input('sort', 'terbaru');
@@ -38,9 +38,16 @@ class PublicMobilController extends Controller
         $bahanBakarList = Mobil::query()
             ->select('bahan_bakar')
             ->distinct()
+            ->whereNotNull('bahan_bakar')
             ->pluck('bahan_bakar');
+        $kapasitasList = Mobil::query()
+            ->select('kapasitas_mobil')
+            ->distinct()
+            ->whereNotNull('kapasitas_mobil')
+            ->orderBy('kapasitas_mobil')
+            ->pluck('kapasitas_mobil');
 
-        return view('public.mobil.index', compact('mobilList', 'bahanBakarList'));
+        return view('public.mobil.index', compact('mobilList', 'bahanBakarList', 'kapasitasList'));
     }
 
     public function show($id)

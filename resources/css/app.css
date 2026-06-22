@@ -26,8 +26,15 @@
 /* Alpine.js: hide until initialized */
 [x-cloak] { display: none !important; }
 
-/* Force dark dropdown popup so option text is visible (white text on dark bg) */
-select { color-scheme: dark; }
+/* Dark dropdown popup matching CRUD customer style (black bg, white text) */
+select {
+  color-scheme: dark;
+}
+select option,
+select optgroup {
+  background: #0D0D0D;
+  color: #fff;
+}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 8px; height: 8px; }

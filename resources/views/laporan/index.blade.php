@@ -23,7 +23,7 @@
                 <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] shrink-0"><i class="bi bi-cash-stack text-lg text-white/70"></i></div>
                 <div class="min-w-0">
                     <p class="text-[11px] font-medium text-white/50 uppercase tracking-wider">Pendapatan</p>
-                    <h3 class="text-xl font-bold text-white mt-0.5 truncate">Rp{{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
+                    <h3 class="text-xl lg:text-lg xl:text-xl font-bold text-white mt-0.5 break-words">Rp{{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                 <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 shrink-0"><i class="bi bi-exclamation-triangle text-lg text-amber-400"></i></div>
                 <div class="min-w-0">
                     <p class="text-[11px] font-medium text-white/50 uppercase tracking-wider">Denda</p>
-                    <h3 class="text-xl font-bold text-amber-400 mt-0.5 truncate">Rp{{ number_format($totalDenda, 0, ',', '.') }}</h3>
+                    <h3 class="text-xl lg:text-lg xl:text-xl font-bold text-amber-400 mt-0.5 break-words">Rp{{ number_format($totalDenda, 0, ',', '.') }}</h3>
                 </div>
             </div>
         </div>

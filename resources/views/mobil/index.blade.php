@@ -61,7 +61,7 @@
                     <span class="flex items-center gap-1"><i class="bi bi-grid-3x3-gap-fill"></i> {{ $mobil->kapasitas_mobil }} baris</span>
                     <span class="flex items-center gap-1"><i class="bi bi-fuel-pump"></i> {{ $mobil->bahan_bakar ?? '-' }}</span>
                 </div>
-                <div class="flex items-center gap-2 pt-2 border-t border-white/[0.05] opacity-0 group-hover:opacity-100 transition-opacity">
+                <div class="flex items-center gap-2 pt-2 border-t border-white/[0.05] opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                     <a href="/mobil/{{ $mobil->id }}" class="flex-1 inline-flex items-center justify-center gap-2 h-9 rounded-lg bg-white/[0.06] text-white/80 hover:bg-white/[0.1] text-sm transition-colors no-underline">
                         <i class="bi bi-eye"></i> Detail
                     </a>

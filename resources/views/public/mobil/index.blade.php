@@ -34,11 +34,11 @@
             <div class="flex flex-wrap gap-3 items-end">
                 <div class="flex-1 min-w-[200px]">
                     <label class="text-xs text-white/50 block mb-1.5">Cari Mobil</label>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama mobil, tipe, plat..." class="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm placeholder:text-white/30 focus:border-[#C1121F]/50 focus:outline-none transition-colors">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama mobil, tipe, plat..." class="w-full px-4 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm placeholder:text-white/30 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors">
                 </div>
                 <div class="w-36">
                     <label class="text-xs text-white/50 block mb-1.5">Bahan Bakar</label>
-                    <select name="bahan_bakar" class="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:border-[#C1121F]/50 focus:outline-none transition-colors">
+                    <select name="bahan_bakar" class="w-full px-3 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-all appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                         <option value="">Semua</option>
                         @foreach($bahanBakarList as $bb)
                         <option value="{{ $bb }}" @selected(request('bahan_bakar') === $bb)>{{ $bb }}</option>
@@ -47,16 +47,16 @@
                 </div>
                 <div class="w-36">
                     <label class="text-xs text-white/50 block mb-1.5">Min. Baris</label>
-                    <select name="kapasitas" class="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:border-[#C1121F]/50 focus:outline-none transition-colors">
+                    <select name="kapasitas" class="w-full px-3 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-all appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                         <option value="">Semua</option>
-                        @foreach([2,4,5,6,7,8] as $k)
+                        @foreach($kapasitasList as $k)
                         <option value="{{ $k }}" @selected((int)request('kapasitas') === $k)>{{ $k }} Baris</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="w-36">
                     <label class="text-xs text-white/50 block mb-1.5">Urutkan</label>
-                    <select name="sort" class="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:border-[#C1121F]/50 focus:outline-none transition-colors">
+                    <select name="sort" class="w-full px-3 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-all appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                         <option value="terbaru" @selected(request('sort', 'terbaru') === 'terbaru')>Terbaru</option>
                         <option value="termurah" @selected(request('sort') === 'termurah')>Termurah</option>
                         <option value="termahal" @selected(request('sort') === 'termahal')>Termahal</option>

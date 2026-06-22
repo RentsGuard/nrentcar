@@ -15,7 +15,7 @@
                     <div>
                         <label class="text-xs text-white/50 block mb-1.5">Periode</label>
                         <select name="filter_date" id="filter_date" onchange="toggleFilter()"
-                            class="w-full sm:w-40 px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm appearance-none focus:border-[#C1121F]/50 focus:outline-none transition-colors"
+                            class="w-full sm:w-40 px-3 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm appearance-none focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors"
                             style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2214%22 height=%2214%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                             <option value="">Semua</option>
                             <option value="hari" {{ request('filter_date') === 'hari' ? 'selected' : '' }}>Per Hari</option>
@@ -29,7 +29,7 @@
                     <div id="single_group">
                         <label class="text-xs text-white/50 block mb-1.5" id="single_label">Tanggal</label>
                         <input type="date" name="filter_value" id="filter_value" value="{{ request('filter_value') }}"
-                            class="w-full sm:w-44 px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:border-[#C1121F]/50 focus:outline-none transition-colors [color-scheme:dark]">
+                            class="w-full sm:w-44 px-3 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors [color-scheme:dark]">
                     </div>
 
                     <div id="rentang_group" class="{{ request('filter_date') === 'rentang' ? '' : 'hidden' }}">
@@ -37,12 +37,12 @@
                             <div>
                                 <label class="text-xs text-white/50 block mb-1.5">Dari</label>
                                 <input type="date" name="start_date" id="start_date" value="{{ request('start_date') }}"
-                                    class="w-full sm:w-44 px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:border-[#C1121F]/50 focus:outline-none transition-colors [color-scheme:dark]">
+                                    class="w-full sm:w-44 px-3 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors [color-scheme:dark]">
                             </div>
                             <div>
                                 <label class="text-xs text-white/50 block mb-1.5">Sampai</label>
                                 <input type="date" name="end_date" id="end_date" value="{{ request('end_date') }}"
-                                    class="w-full sm:w-44 px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:border-[#C1121F]/50 focus:outline-none transition-colors [color-scheme:dark]">
+                                    class="w-full sm:w-44 px-3 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors [color-scheme:dark]">
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         </td>
                         <td class="px-5 py-3.5 text-white/80 font-medium whitespace-nowrap">{{ $p->tanggal_sewa?->format('d/m/Y') }}</td>
                         <td class="px-5 py-3.5 text-white/80 text-right font-medium whitespace-nowrap">{{ $p->lama_sewa }}<span class="text-white/30 text-[11px] ml-0.5">hr</span></td>
-                        <td class="px-5 py-3.5 text-white/60 text-xs max-w-[240px] break-words">{{ $p->pengembalian?->catatan ?? $p->catatan ?? '-' }}</td>
+                        <td class="px-5 py-3.5 text-white/60 text-xs max-w-[240px] truncate" title="{{ $p->pengembalian?->catatan ?? $p->catatan ?? '-' }}">{{ $p->pengembalian?->catatan ?? $p->catatan ?? '-' }}</td>
                         <td class="px-5 py-3.5 text-center">
                             @if($p->status === 'selesai')
                             <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-500/15 text-emerald-400"><i class="bi bi-check-lg"></i></span>
@@ -143,12 +143,23 @@
 
 @push('scripts')
 <script>
+function getWeekStr(d) {
+    var dt = new Date(d.getTime());
+    var day = dt.getDay() || 7;
+    dt.setDate(dt.getDate() + 4 - day);
+    var y = dt.getFullYear();
+    var start = new Date(y, 0, 1);
+    var n = Math.ceil((((dt - start) / 86400000) + start.getDay() + 1) / 7);
+    return y + '-W' + String(n).padStart(2, '0');
+}
+
 function toggleFilter() {
     var v = document.getElementById('filter_date').value;
     var fv = document.getElementById('filter_value');
     var label = document.getElementById('single_label');
     var single = document.getElementById('single_group');
     var rentang = document.getElementById('rentang_group');
+    var now = new Date();
 
     single.classList.remove('hidden');
     rentang.classList.add('hidden');
@@ -156,19 +167,27 @@ function toggleFilter() {
     if (v === '' || v === 'hari') {
         fv.type = 'date';
         label.textContent = 'Tanggal';
+        if (!fv.value) fv.value = now.toISOString().slice(0,10);
     } else if (v === 'minggu') {
-        fv.type = 'date';
-        label.textContent = 'Minggu';
+        fv.type = 'week';
+        label.textContent = 'Minggu ke-';
+        if (!fv.value) fv.value = getWeekStr(now);
     } else if (v === 'bulan') {
         fv.type = 'month';
         label.textContent = 'Bulan';
+        if (!fv.value) fv.value = now.toISOString().slice(0,7);
     } else if (v === 'tahun') {
         fv.type = 'number';
         label.textContent = 'Tahun';
-        fv.placeholder = '2026';
+        fv.placeholder = now.getFullYear();
+        if (!fv.value) fv.value = now.getFullYear().toString();
     } else if (v === 'rentang') {
         single.classList.add('hidden');
         rentang.classList.remove('hidden');
+        if (!document.getElementById('start_date').value)
+            document.getElementById('start_date').value = now.toISOString().slice(0,10);
+        if (!document.getElementById('end_date').value)
+            document.getElementById('end_date').value = now.toISOString().slice(0,10);
     }
 }
 toggleFilter();

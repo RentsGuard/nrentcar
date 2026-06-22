@@ -71,7 +71,7 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Pendapatan</p>
-                <h3 class="text-2xl font-bold text-white">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
+                <h3 class="text-2xl xl:text-xl 2xl:text-2xl font-bold text-white break-words">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
             </div>
         </div>
 
@@ -81,7 +81,7 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Total Denda</p>
-                <h3 class="text-2xl font-bold text-amber-400">Rp {{ number_format($totalDenda, 0, ',', '.') }}</h3>
+                <h3 class="text-2xl xl:text-xl 2xl:text-2xl font-bold text-amber-400 break-words">Rp {{ number_format($totalDenda, 0, ',', '.') }}</h3>
                 <p class="text-xs text-white/40 mt-1">{{ $pengembalianHariIni }} pengembalian hari ini</p>
             </div>
         </div>

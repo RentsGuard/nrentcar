@@ -15,28 +15,18 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        if (App::runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             return;
         }
 
-        $connection = config('database.default');
-        if ($connection === 'sqlite') {
-            $dbConnection = env('DB_CONNECTION');
-            $dbDatabase = env('DB_DATABASE');
+        if ($this->app->configurationIsCached()) {
+            return;
+        }
 
-            if ($dbConnection !== 'sqlite') {
-                $message = 'Database connection fallback terdeteksi. ';
-                $message .= 'APP_ENV=' . env('APP_ENV') . ', ';
-                $message .= 'DB_CONNECTION=' . ($dbConnection ?: 'null') . ', ';
-                $message .= 'DB_DATABASE=' . ($dbDatabase ?: 'null') . '. ';
-                $message .= 'File .env mungkin tidak terbaca. Hapus bootstrap/cache/config.php jika ada.';
-
-                if ($this->app->hasDebugModeEnabled()) {
-                    throw new \RuntimeException($message);
-                }
-
-                abort(500, $message);
-            }
+        if (config('database.default') === 'sqlite') {
+            throw new \RuntimeException(
+                'Database default is SQLite. File .env mungkin tidak terbaca.'
+            );
         }
     }
 }

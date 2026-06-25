@@ -11,7 +11,7 @@ class PengembalianFactory extends Factory
     public function definition(): array
     {
         return [
-            'penyewaan_id' => 1,
+            'penyewaan_id' => Penyewaan::factory(),
             'tanggal_pengembalian' => now(),
             'telat_jam' => 0,
             'denda_per_jam' => 0,

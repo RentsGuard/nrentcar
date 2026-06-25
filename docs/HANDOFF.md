@@ -41,8 +41,8 @@
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@gmail.com | 123456 |
-| Staff | staff@gmail.com | 123456 |
+| Admin | admin@gmail.com | [redacted] |
+| Staff | staff@gmail.com | [redacted] |
 
 ## Stack
 

@@ -11,25 +11,41 @@ class WilayahController extends Controller
 
     public function provinces()
     {
-        $response = Http::withoutVerifying()->get("{$this->baseUrl}/provinces.json");
-        return response()->json($response->json());
+        try {
+            $response = Http::withoutVerifying()->timeout(10)->get("{$this->baseUrl}/provinces.json");
+            return response()->json($response->json());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mengambil data provinsi'], 500);
+        }
     }
 
     public function regencies($provinceId)
     {
-        $response = Http::withoutVerifying()->get("{$this->baseUrl}/regencies/{$provinceId}.json");
-        return response()->json($response->json());
+        try {
+            $response = Http::withoutVerifying()->timeout(10)->get("{$this->baseUrl}/regencies/{$provinceId}.json");
+            return response()->json($response->json());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mengambil data kabupaten/kota'], 500);
+        }
     }
 
     public function districts($regencyId)
     {
-        $response = Http::withoutVerifying()->get("{$this->baseUrl}/districts/{$regencyId}.json");
-        return response()->json($response->json());
+        try {
+            $response = Http::withoutVerifying()->timeout(10)->get("{$this->baseUrl}/districts/{$regencyId}.json");
+            return response()->json($response->json());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mengambil data kecamatan'], 500);
+        }
     }
 
     public function villages($districtId)
     {
-        $response = Http::withoutVerifying()->get("{$this->baseUrl}/villages/{$districtId}.json");
-        return response()->json($response->json());
+        try {
+            $response = Http::withoutVerifying()->timeout(10)->get("{$this->baseUrl}/villages/{$districtId}.json");
+            return response()->json($response->json());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mengambil data kelurahan'], 500);
+        }
     }
 }

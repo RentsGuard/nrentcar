@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('pengembalian', function (Blueprint $table) {
             $table->enum('status_denda', ['belum_dibayar', 'lunas'])->default('belum_dibayar')->after('status_pengembalian');
             $table->timestamp('denda_lunas_at')->nullable()->after('status_denda');
-            $table->foreignId('denda_lunas_by')->nullable()->constrained('users')->after('denda_lunas_at');
+            $table->foreignId('denda_lunas_by')->nullable()->constrained('users')->nullOnDelete()->after('denda_lunas_at');
         });
     }
 

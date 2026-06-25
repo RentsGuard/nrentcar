@@ -20,7 +20,7 @@ class PenyewaanController extends Controller
 
     public function create()
     {
-        $customers = Customer::orderBy('nama_customer')->get();
+        $customers = Customer::where('status_verifikasi', 'disetujui')->orderBy('nama_customer')->get();
         $mobils = Mobil::where('status_mobil', 'tersedia')->orderBy('nama_mobil')->get();
 
         return view('penyewaan.create', compact('customers', 'mobils'));
@@ -29,7 +29,16 @@ class PenyewaanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'customer_id' => 'required|exists:customers,id',
+            'customer_id' => [
+                'required',
+                'exists:customers,id',
+                function ($attribute, $value, $fail) {
+                    $customer = Customer::find($value);
+                    if ($customer && $customer->status_verifikasi !== 'disetujui') {
+                        $fail('Customer harus terverifikasi terlebih dahulu.');
+                    }
+                },
+            ],
             'mobil_id' => 'required|exists:mobil,id',
             'tanggal_sewa' => 'required|date',
             'jam_sewa' => 'nullable|date_format:H:i',

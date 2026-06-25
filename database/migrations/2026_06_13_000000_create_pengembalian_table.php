@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('denda_telat', 12, 2)->nullable();
             $table->decimal('denda_kerusakan', 12, 2)->nullable();
             $table->decimal('total_denda', 12, 2)->nullable();
-            $table->enum('status_pengembalian', ['tepat_waktu', 'telat', 'rusak', 'telat_dan_rusak'])->default('tepat_waktu');
+            $table->enum('status_pengembalian', ['tepat_waktu', 'telat', 'rusak', 'telat_dan_rusak'])->default('tepat_waktu')->index();
             $table->text('catatan')->nullable();
             $table->string('foto_kondisi')->nullable();
             $table->timestamps();

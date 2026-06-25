@@ -75,6 +75,8 @@
         </div>
     </form>
 </div>
+@endsection
+
 @push('scripts')
 <script>
 document.getElementById('penyewaanSelect').addEventListener('change', function() {
@@ -92,4 +94,3 @@ document.getElementById('penyewaanSelect').addEventListener('change', function()
 });
 </script>
 @endpush
-@endsection

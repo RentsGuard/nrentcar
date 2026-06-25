@@ -124,11 +124,6 @@
         <span>&copy; {{ date('Y') }} RentSCar.id &mdash; All Rights Reserved</span>
         <div class="flex gap-6">
             <a href="/" class="text-white/50 hover:text-white transition-colors no-underline">Beranda</a>
-            @auth
-            <a href="{{ url(auth()->user()->role === 'admin' ? '/admin/dashboard' : '/staff/dashboard') }}" class="text-white/50 hover:text-white transition-colors no-underline">Dashboard</a>
-            @else
-            <a href="/login" class="text-white/50 hover:text-white transition-colors no-underline">Admin</a>
-            @endauth
         </div>
     </div>
 </div>

@@ -18,7 +18,11 @@
             <a href="#fitur" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Fitur</a>
             <a href="/tentang-kami" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Tentang</a>
             <a href="https://wa.me/{{ config('app.admin_wa') }}" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-white px-4 py-2 rounded-lg transition-colors no-underline" style="background:#25D366"><i class="bi bi-whatsapp"></i> Hubungi</a>
+            @auth
+            <a href="{{ url(auth()->user()->role === 'admin' ? '/admin/dashboard' : '/staff/dashboard') }}" class="text-sm font-semibold text-white/60 px-4 py-2 rounded-lg hover:text-white transition-colors no-underline">Dashboard</a>
+            @else
             <a href="/login" class="text-sm font-semibold text-white/60 px-4 py-2 rounded-lg hover:text-white transition-colors no-underline">Login</a>
+            @endauth
         </div>
     </nav>
 

@@ -29,17 +29,6 @@ Route::prefix('api/wilayah')->group(function () {
 });
 
 Route::get('/', function () {
-    if (auth()->check()) {
-        $role = auth()->user()->role;
-        if ($role === 'admin') {
-            return redirect('/admin/dashboard');
-        }
-        if ($role === 'staff') {
-            return redirect('/staff/dashboard');
-        }
-
-        return redirect('/login');
-    }
     $mobilTersedia = Mobil::where('is_visible', true)->latest()->take(6)->get();
 
     return view('welcome', compact('mobilTersedia'));

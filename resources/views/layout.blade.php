@@ -14,6 +14,16 @@
 <body class="bg-[#080808] text-white font-[Inter] antialiased">
 
 @auth
+@php
+    $publicRoutes = ['/', 'cars*', 'tentang-kami', 'login'];
+    $isPublic = false;
+    foreach ($publicRoutes as $pattern) {
+        if (request()->is($pattern)) { $isPublic = true; break; }
+    }
+@endphp
+@if($isPublic)
+    @yield('content')
+@else
 <div x-data="{ sidebarOpen: window.innerWidth >= 768 }" class="flex min-h-screen overflow-hidden">
     <div x-show="sidebarOpen" x-cloak class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden" @click="sidebarOpen = false"></div>
     <aside x-cloak :class="sidebarOpen ? 'flex' : 'hidden'" class="md:flex md:flex-col w-64 min-w-64 h-screen fixed left-0 top-0 border-r border-white/[0.06] z-50 bg-gradient-to-b from-[#141414]/80 to-[#0c0c0c]/90 overflow-y-auto">
@@ -80,6 +90,11 @@
                 <i class="bi bi-gear text-lg {{ request()->is('pengaturan*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Pengaturan</span>
             </a>
+
+            <a href="{{ url('/') }}" target="_blank" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group text-white/60 hover:bg-white/[0.04] hover:text-white">
+                <i class="bi bi-globe text-lg group-hover:text-white/80"></i>
+                <span class="font-medium text-sm">Lihat Website</span>
+            </a>
         </nav>
 
         <div @click="sidebarOpen = false" class="p-4 border-t border-white/[0.06]">
@@ -136,6 +151,7 @@
         </div>
     </main>
 </div>
+@endif
 @else
     @yield('content')
 @endauth

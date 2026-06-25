@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Mobil;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,7 @@ class AuthorizationTest extends TestCase
     use RefreshDatabase;
 
     protected User $staff;
+    protected Mobil $mobil;
 
     protected function setUp(): void
     {
@@ -29,6 +31,17 @@ class AuthorizationTest extends TestCase
             'email' => 'staff@test.com',
             'password' => Hash::make('123456'),
             'role' => 'staff',
+        ]);
+
+        $this->mobil = Mobil::create([
+            'nama_mobil' => 'Test Car',
+            'plat_mobil' => 'B 9999 TST',
+            'tahun_mobil' => 2024,
+            'tipe_mobil' => 'Matic',
+            'kapasitas_mobil' => 3,
+            'bahan_bakar' => 'Bensin',
+            'harga_mobil' => 350000,
+            'status_mobil' => 'tersedia',
         ]);
     }
 
@@ -57,9 +70,15 @@ class AuthorizationTest extends TestCase
         $response->assertStatus(403);
     }
 
+    public function test_staff_can_toggle_visibility(): void
+    {
+        $response = $this->actingAs($this->staff)->put("/mobil/{$this->mobil->id}/toggle-visibility");
+        $response->assertStatus(302);
+    }
+
     public function test_staff_cannot_delete_mobil(): void
     {
-        $response = $this->actingAs($this->staff)->delete('/mobil/1');
+        $response = $this->actingAs($this->staff)->delete("/mobil/{$this->mobil->id}");
         $response->assertStatus(403);
     }
 

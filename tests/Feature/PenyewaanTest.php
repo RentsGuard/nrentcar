@@ -33,6 +33,7 @@ class PenyewaanTest extends TestCase
             'no_hp' => '081234567890',
             'nik' => '3174010101900001',
             'alamat_customer' => 'Jl. Merdeka No. 1',
+            'status_verifikasi' => 'disetujui',
         ]);
 
         $this->mobil = Mobil::create([

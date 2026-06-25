@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Mobil extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'mobil';
 
@@ -25,6 +24,7 @@ class Mobil extends Model
         'bahan_bakar',
         'status_mobil',
         'managed_by',
+        'is_visible',
     ];
 
     protected function casts(): array
@@ -33,6 +33,7 @@ class Mobil extends Model
             'tahun_mobil' => 'integer',
             'kapasitas_mobil' => 'integer',
             'harga_mobil' => 'decimal:2',
+            'is_visible' => 'boolean',
         ];
     }
 

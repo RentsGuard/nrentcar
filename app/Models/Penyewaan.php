@@ -48,7 +48,7 @@ class Penyewaan extends Model
 
     public function mobil(): BelongsTo
     {
-        return $this->belongsTo(Mobil::class)->withTrashed();
+        return $this->belongsTo(Mobil::class);
     }
 
     public function user(): BelongsTo

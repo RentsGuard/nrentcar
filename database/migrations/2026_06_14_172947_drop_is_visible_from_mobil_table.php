@@ -11,9 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('mobil', function (Blueprint $table) {
-            $table->dropColumn('is_visible');
-        });
+        // no-op — is_visible column kept
     }
 
     /**
@@ -21,8 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('mobil', function (Blueprint $table) {
-            $table->boolean('is_visible')->default(true)->after('status_mobil');
-        });
+        // no-op
     }
 };

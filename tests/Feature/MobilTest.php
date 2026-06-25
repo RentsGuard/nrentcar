@@ -98,7 +98,26 @@ class MobilTest extends TestCase
         $this->assertDatabaseHas('mobil', ['harga_mobil' => 400000]);
     }
 
-    public function test_delete_mobil(): void
+    public function test_hide_mobil(): void
+    {
+        $mobil = Mobil::create([
+            'nama_mobil' => 'Toyota Avanza',
+            'plat_mobil' => 'B 1234 XYZ',
+            'tahun_mobil' => 2023,
+            'tipe_mobil' => 'Matic',
+            'kapasitas_mobil' => 3,
+            'bahan_bakar' => 'Bensin',
+            'harga_mobil' => 350000,
+            'status_mobil' => 'tersedia',
+            'managed_by' => $this->admin->id,
+        ]);
+
+        $response = $this->actingAs($this->admin)->put("/mobil/{$mobil->id}/toggle-visibility");
+        $response->assertRedirect('/mobil');
+        $this->assertFalse($mobil->fresh()->is_visible);
+    }
+
+    public function test_delete_mobil_no_penyewaan(): void
     {
         $mobil = Mobil::create([
             'nama_mobil' => 'Toyota Avanza',
@@ -114,6 +133,6 @@ class MobilTest extends TestCase
 
         $response = $this->actingAs($this->admin)->delete("/mobil/{$mobil->id}");
         $response->assertRedirect('/mobil');
-        $this->assertNotNull($mobil->fresh()->deleted_at);
+        $this->assertNull($mobil->fresh());
     }
 }

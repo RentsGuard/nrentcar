@@ -122,7 +122,7 @@ class PenyewaanController extends Controller
 
         $penyewaan->update($validated);
 
-        $mobil = Mobil::withTrashed()->find($penyewaan->mobil_id);
+        $mobil = Mobil::find($penyewaan->mobil_id);
         if ($mobil && $penyewaan->status === 'aktif' && $mobil->status_mobil !== 'disewa') {
             $mobil->update(['status_mobil' => 'disewa']);
         }

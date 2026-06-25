@@ -32,7 +32,8 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Plat Nomor</label>
-                        <input type="text" name="plat_mobil" value="{{ old('plat_mobil') }}" required placeholder="B 1234 XYZ" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        <input type="text" name="plat_mobil" value="{{ old('plat_mobil') }}" required placeholder="B 1234 XYZ" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('plat_mobil') border-red-500 @enderror">
+                        @error('plat_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">

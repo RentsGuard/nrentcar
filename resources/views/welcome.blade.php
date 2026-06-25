@@ -38,9 +38,15 @@
             <a href="/cars" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#C1121F] text-white font-semibold text-base shadow-[0_8px_25px_rgba(193,18,31,0.3)] hover:bg-[#a30f1a] hover:-translate-y-0.5 transition-all no-underline">
                 <i class="bi bi-car-front"></i> Lihat Mobil
             </a>
+            @auth
+            <a href="{{ url(auth()->user()->role === 'admin' ? '/admin/dashboard' : '/staff/dashboard') }}" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white/[0.06] text-white font-semibold text-base border border-white/[0.1] hover:bg-white/[0.1] hover:-translate-y-0.5 transition-all no-underline">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+            @else
             <a href="/login" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white/[0.06] text-white font-semibold text-base border border-white/[0.1] hover:bg-white/[0.1] hover:-translate-y-0.5 transition-all no-underline">
                 <i class="bi bi-box-arrow-in-right"></i> Login
             </a>
+            @endauth
         </div>
     </div>
 </div>
@@ -117,7 +123,11 @@
 <div class="border-t border-white/[0.06] px-6 sm:px-10 py-8 flex flex-wrap justify-between items-center gap-4 text-sm text-white/40">
     <span>&copy; {{ date('Y') }} RentSCar.id &mdash; All Rights Reserved</span>
     <div class="flex gap-6">
+        @auth
+        <a href="{{ url(auth()->user()->role === 'admin' ? '/admin/dashboard' : '/staff/dashboard') }}" class="text-white/50 hover:text-white transition-colors no-underline">Dashboard</a>
+        @else
         <a href="/login" class="text-white/50 hover:text-white transition-colors no-underline">Login</a>
+        @endauth
     </div>
 </div>
 @endsection

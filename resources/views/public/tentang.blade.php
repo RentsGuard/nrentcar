@@ -20,7 +20,11 @@
             <a href="/" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Beranda</a>
             <a href="/cars" class="hidden sm:inline text-sm text-white/70 hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors no-underline">Mobil</a>
             <a href="https://wa.me/{{ config('app.admin_wa') }}" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-white px-4 py-2 rounded-lg transition-colors no-underline" style="background:#25D366"><i class="bi bi-whatsapp"></i> Hubungi</a>
+            @auth
+            <a href="{{ url(auth()->user()->role === 'admin' ? '/admin/dashboard' : '/staff/dashboard') }}" class="text-sm font-semibold text-white px-4 py-2 rounded-lg border border-white/20 hover:bg-white/[0.05] transition-colors no-underline">Dashboard</a>
+            @else
             <a href="/login" class="text-sm font-semibold text-white px-4 py-2 rounded-lg border border-white/20 hover:bg-white/[0.05] transition-colors no-underline">Admin</a>
+            @endauth
         </div>
     </nav>
 
@@ -100,7 +104,11 @@
         <div class="flex gap-6">
             <a href="/" class="text-white/50 hover:text-white transition-colors no-underline">Beranda</a>
             <a href="/cars" class="text-white/50 hover:text-white transition-colors no-underline">Mobil</a>
+            @auth
+            <a href="{{ url(auth()->user()->role === 'admin' ? '/admin/dashboard' : '/staff/dashboard') }}" class="text-white/50 hover:text-white transition-colors no-underline">Dashboard</a>
+            @else
             <a href="/login" class="text-white/50 hover:text-white transition-colors no-underline">Admin</a>
+            @endauth
         </div>
     </div>
 </div>

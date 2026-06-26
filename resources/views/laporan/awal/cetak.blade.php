@@ -23,8 +23,8 @@
         .signature .sig-col { text-align: center; width: 50%; vertical-align: top; padding: 0 20px 60px; }
         .signature .sig-title { font-size: 12px; font-weight: bold; margin-bottom: 6px; }
         .signature .sig-date { font-size: 11px; color: #333; }
-        .signature .sig-line { text-align: center; width: 50%; border-top: 2px solid #000; padding: 8px 20px 0; font-size: 12px; font-weight: bold; }
-        .materai { text-align: center; font-size: 11px; margin-top: 20px; font-weight: bold; }
+        .signature .sig-line { text-align: center; width: 50%; border-top: 2px solid #000; padding: 8px 60px 0; font-size: 12px; font-weight: bold; }
+        .materai { font-size: 11px; margin-top: 12px; font-weight: bold; font-style: italic; }
         hr { border: none; border-top: 1px solid #000; margin: 8px 0; }
         .company-logo { font-size: 24px; font-weight: bold; color: #C1121F; }
     </style>
@@ -109,6 +109,7 @@
                 <td class="sig-col">
                     <div class="sig-title">Penyewa Kendaraan</div>
                     <div class="sig-date">Menyetujui ketentuan tersebut di atas</div>
+                    <div class="materai">Materai 10.000</div>
                 </td>
             </tr>
             <tr>
@@ -116,7 +117,6 @@
                 <td class="sig-line">{{ $cust->nama_customer }}</td>
             </tr>
         </table>
-        <div class="materai">Materai 10.000</div>
     </div>
 </body>
 </html>

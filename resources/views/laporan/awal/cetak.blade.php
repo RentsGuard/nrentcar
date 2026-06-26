@@ -90,13 +90,12 @@
     <div class="terms">
         <p><strong>PENTING DIKETAHUI KETENTUAN - KETENTUAN DIBAWAH INI:</strong></p>
         <ol>
-            <li>Kendaraan (Mobil) yang tersebut di atas (yang disewakan) tidak dapat dipindah tangankan kepada pihak lain / kedua tanpa seizin pemilik kendaraan (Mobil).</li>
-            <li>Kendaraan (Mobil) tersebut diatas tidak dapat dijadikan jaminan/digadaikan dengan tujuan apapun kepada siapapun.</li>
-            <li>Pelanggaran No. 1 &amp; 2 akan diproses melalui jalur pidana dan pemilik kendaraan (Mobil) berhak untuk mengambil kembali kendaraan (Mobil) apabila terjadi pelanggaran No. 1 &amp; 2 atau terdapat kejanggalan lainnya mengenai pemakaian kendaraan (Mobil) dimana hal ini dirasakan oleh pemilik kendaraan (Mobil).</li>
-            <li>Pengembalian kendaraan (Mobil) harus dalam keadaan seperti pada saat tanda tanganinya surat tanda terima ini.</li>
-            <li>Jika ada body tabrakan adalah tanggung jawab penyewa.</li>
-            <li>Jika ada keterlambatan pengembalian kendaraan (Mobil) akan dikenakan denda perjam sebesar Rp {{ number_format($penyewaan->denda_per_jam ?? 40000, 0, ',', '.') }},- dst.</li>
-            <li>Keterangan body: {{ $penyewaan->pengembalian?->catatan ?? '____________' }}</li>
+            <li>Kendaraan (Mobil) yang disewakan tidak dapat dipindahtangankan kepada pihak lain tanpa izin pemilik kendaraan.</li>
+            <li>Kendaraan tidak dapat dijadikan jaminan atau digadaikan. Pelanggaran akan diproses sesuai ketentuan hukum dan pemilik berhak mengambil kembali kendaraan.</li>
+            <li>Pemilik kendaraan berhak mengambil kembali kendaraan apabila ditemukan pelanggaran atau kejanggalan dalam penggunaannya.</li>
+            <li>Kendaraan harus dikembalikan dalam kondisi yang sama seperti saat diterima.</li>
+            <li>Kerusakan body kendaraan menjadi tanggung jawab penyewa.</li>
+            <li>Keterlambatan pengembalian dikenakan denda sebesar Rp {{ number_format($penyewaan->denda_per_jam ?? 40000, 0, ',', '.') }} per jam.</li>
         </ol>
     </div>
 

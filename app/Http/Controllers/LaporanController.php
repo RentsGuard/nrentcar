@@ -80,37 +80,29 @@ class LaporanController extends Controller
     public function akhir()
     {
         $query = Penyewaan::with('customer', 'mobil', 'pengembalian');
-        $label = null;
+        $label = 'Semua';
 
-        if (request('filter_date')) {
-            $filterDate = request('filter_date');
-            $filterValue = request('filter_value');
+        $filterDate = request('filter_date');
+        $filterValue = request('filter_value');
 
-            if ($filterDate === 'rentang') {
-                $query->whereBetween('tanggal_sewa', [request('start_date'), request('end_date')]);
-                $label = request('start_date').' s/d '.request('end_date');
-            } elseif ($filterDate === 'bulan' && $filterValue) {
-                $query->whereYear('tanggal_sewa', substr($filterValue, 0, 4))
-                    ->whereMonth('tanggal_sewa', substr($filterValue, 5, 2));
-                $label = \Carbon\Carbon::parse($filterValue.'-01')->format('F Y');
-            } elseif ($filterDate === 'tahun' && $filterValue) {
-                $query->whereYear('tanggal_sewa', $filterValue);
-                $label = $filterValue;
-            } elseif ($filterValue) {
-                match ($filterDate) {
-                    'hari' => $query->whereDate('tanggal_sewa', $filterValue),
-                    'minggu' => $query->whereBetween('tanggal_sewa', [
-                        now()->parse($filterValue)->startOfWeek(),
-                        now()->parse($filterValue)->endOfWeek(),
-                    ]),
-                    default => null,
-                };
-                $label = match ($filterDate) {
-                    'hari' => \Carbon\Carbon::parse($filterValue)->format('d/m/Y'),
-                    'minggu' => \Carbon\Carbon::parse($filterValue)->startOfWeek()->format('d/m').' - '.\Carbon\Carbon::parse($filterValue)->endOfWeek()->format('d/m/Y'),
-                    default => null,
-                };
-            }
+        if ($filterDate === 'rentang' && request('start_date') && request('end_date')) {
+            $query->whereBetween('tanggal_sewa', [request('start_date'), request('end_date')]);
+            $label = request('start_date').' s/d '.request('end_date');
+        } elseif ($filterDate === 'bulan' && $filterValue) {
+            $query->whereYear('tanggal_sewa', substr($filterValue, 0, 4))
+                ->whereMonth('tanggal_sewa', substr($filterValue, 5, 2));
+            $label = \Carbon\Carbon::parse($filterValue.'-01')->format('F Y');
+        } elseif ($filterDate === 'tahun' && $filterValue) {
+            $query->whereYear('tanggal_sewa', $filterValue);
+            $label = $filterValue;
+        } elseif ($filterDate === 'hari' && $filterValue) {
+            $query->whereDate('tanggal_sewa', $filterValue);
+            $label = \Carbon\Carbon::parse($filterValue)->format('d/m/Y');
+        } elseif ($filterDate === 'minggu' && $filterValue) {
+            $startOfWeek = \Carbon\Carbon::parse($filterValue)->startOfWeek();
+            $endOfWeek = \Carbon\Carbon::parse($filterValue)->endOfWeek();
+            $query->whereBetween('tanggal_sewa', [$startOfWeek, $endOfWeek]);
+            $label = $startOfWeek->format('d/m').' - '.$endOfWeek->format('d/m/Y');
         }
 
         $penyewaans = $query->latest('tanggal_sewa')->get();
@@ -125,31 +117,24 @@ class LaporanController extends Controller
         $filterValue = request('filter_value');
         $label = 'Semua';
 
-        if ($filterDate) {
-            match ($filterDate) {
-                'hari' => $query->whereDate('tanggal_sewa', $filterValue),
-                'minggu' => $query->whereBetween('tanggal_sewa', [
-                    now()->parse($filterValue)->startOfWeek(),
-                    now()->parse($filterValue)->endOfWeek(),
-                ]),
-                'bulan' => $query->whereYear('tanggal_sewa', substr($filterValue, 0, 4))
-                    ->whereMonth('tanggal_sewa', substr($filterValue, 5, 2)),
-                'tahun' => $query->whereYear('tanggal_sewa', $filterValue),
-                'rentang' => $query->whereBetween('tanggal_sewa', [
-                    request('start_date'),
-                    request('end_date'),
-                ]),
-                default => null,
-            };
-
-            $label = match ($filterDate) {
-                'hari' => \Carbon\Carbon::parse($filterValue)->format('d/m/Y'),
-                'minggu' => \Carbon\Carbon::parse($filterValue)->startOfWeek()->format('d/m').' - '.\Carbon\Carbon::parse($filterValue)->endOfWeek()->format('d/m/Y'),
-                'bulan' => \Carbon\Carbon::parse($filterValue.'-01')->format('F Y'),
-                'tahun' => $filterValue,
-                'rentang' => request('start_date').' s/d '.request('end_date'),
-                default => 'Semua',
-            };
+        if ($filterDate === 'rentang' && request('start_date') && request('end_date')) {
+            $query->whereBetween('tanggal_sewa', [request('start_date'), request('end_date')]);
+            $label = request('start_date').' s/d '.request('end_date');
+        } elseif ($filterDate === 'bulan' && $filterValue) {
+            $query->whereYear('tanggal_sewa', substr($filterValue, 0, 4))
+                ->whereMonth('tanggal_sewa', substr($filterValue, 5, 2));
+            $label = \Carbon\Carbon::parse($filterValue.'-01')->format('F Y');
+        } elseif ($filterDate === 'tahun' && $filterValue) {
+            $query->whereYear('tanggal_sewa', $filterValue);
+            $label = $filterValue;
+        } elseif ($filterDate === 'hari' && $filterValue) {
+            $query->whereDate('tanggal_sewa', $filterValue);
+            $label = \Carbon\Carbon::parse($filterValue)->format('d/m/Y');
+        } elseif ($filterDate === 'minggu' && $filterValue) {
+            $startOfWeek = \Carbon\Carbon::parse($filterValue)->startOfWeek();
+            $endOfWeek = \Carbon\Carbon::parse($filterValue)->endOfWeek();
+            $query->whereBetween('tanggal_sewa', [$startOfWeek, $endOfWeek]);
+            $label = $startOfWeek->format('d/m').' - '.$endOfWeek->format('d/m/Y');
         }
 
         $penyewaans = $query->latest('tanggal_sewa')->get();

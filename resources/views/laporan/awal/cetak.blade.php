@@ -18,11 +18,13 @@
         .terms { font-size: 10px; margin-top: 10px; }
         .terms ol { padding-left: 20px; margin: 5px 0; }
         .terms li { margin-bottom: 2px; line-height: 1.4; }
-        .signature { margin-top: 30px; }
-        .signature table { width: 100%; }
-        .signature td { text-align: center; width: 50%; vertical-align: top; }
-        .signature .line { margin-top: 40px; border-top: 1px solid #000; padding-top: 5px; font-size: 11px; }
-        .materai { text-align: center; font-size: 10px; margin-top: 5px; }
+        .signature { margin-top: 40px; }
+        .signature table { width: 100%; border-collapse: collapse; }
+        .signature td { text-align: center; width: 50%; vertical-align: top; padding: 0 20px; }
+        .signature .sig-title { font-size: 12px; font-weight: bold; margin-bottom: 5px; }
+        .signature .sig-date { font-size: 11px; margin-bottom: 50px; color: #333; }
+        .signature .sig-line { border-top: 1px solid #000; padding-top: 5px; font-size: 11px; font-weight: bold; }
+        .materai { text-align: center; font-size: 10px; margin-top: 15px; }
         hr { border: none; border-top: 1px solid #000; margin: 8px 0; }
         .company-logo { font-size: 24px; font-weight: bold; color: #C1121F; }
     </style>
@@ -102,13 +104,14 @@
         <table>
             <tr>
                 <td>
-                    <p>Pemilik Kendaraan atau<br>yang diberi kuasa</p>
-                    <p>Padang, {{ now()->format('d F Y') }}</p>
-                    <div class="line">&nbsp;</div>
+                    <div class="sig-title">Pemilik Kendaraan atau<br>yang diberi kuasa</div>
+                    <div class="sig-date">Padang, {{ now()->format('d F Y') }}</div>
+                    <div class="sig-line">&nbsp;</div>
                 </td>
                 <td>
-                    <p>Penyewa Kendaraan menyetujui<br>ketentuan tersebut di atas</p>
-                    <div class="line">{{ $cust->nama_customer }}</div>
+                    <div class="sig-title">Penyewa Kendaraan</div>
+                    <div class="sig-date">Menyetujui ketentuan tersebut di atas</div>
+                    <div class="sig-line">{{ $cust->nama_customer }}</div>
                 </td>
             </tr>
         </table>

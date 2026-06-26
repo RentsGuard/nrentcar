@@ -12,7 +12,23 @@ class PengembalianController extends Controller
 {
     public function index()
     {
-        $pengembalians = Pengembalian::with('penyewaan.customer', 'penyewaan.mobil')->latest()->get();
+        $query = Pengembalian::with('penyewaan.customer', 'penyewaan.mobil');
+
+        if ($search = request('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('penyewaan.customer', function ($q2) use ($search) {
+                    $q2->where('nama_customer', 'like', "%{$search}%");
+                })->orWhereHas('penyewaan.mobil', function ($q2) use ($search) {
+                    $q2->where('nama_mobil', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        if ($status = request('status')) {
+            $query->where('status_pengembalian', $status);
+        }
+
+        $pengembalians = $query->latest()->get();
 
         return view('pengembalian.index', compact('pengembalians'));
     }

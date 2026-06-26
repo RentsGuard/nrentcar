@@ -17,6 +17,31 @@
     </div>
 
     <div class="glass-card">
+        <div class="p-4 border-b border-white/[0.05] bg-white/[0.01]">
+            <form method="GET" action="/pengembalian" class="flex flex-wrap items-end gap-3">
+                <div class="relative w-full sm:w-60">
+                    <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
+                    <input type="text" name="search" value="{{ request('search') }}" class="w-full h-10 pl-9 pr-3 rounded-lg border border-white/[0.1] bg-black/20 text-white text-sm outline-none placeholder:text-white/40 transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]" placeholder="Cari customer atau mobil...">
+                </div>
+                <div class="w-full sm:w-44">
+                    <select name="status" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
+                        <option value="">Semua Status</option>
+                        <option value="tepat_waktu" {{ request('status') === 'tepat_waktu' ? 'selected' : '' }}>Tepat Waktu</option>
+                        <option value="telat" {{ request('status') === 'telat' ? 'selected' : '' }}>Telat</option>
+                        <option value="rusak" {{ request('status') === 'rusak' ? 'selected' : '' }}>Rusak</option>
+                        <option value="telat_dan_rusak" {{ request('status') === 'telat_dan_rusak' ? 'selected' : '' }}>Telat & Rusak</option>
+                    </select>
+                </div>
+                <button type="submit" class="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-[#C1121F] text-white font-semibold text-xs hover:bg-[#a30f1a] transition-all">
+                    <i class="bi bi-funnel"></i> Filter
+                </button>
+                @if(request()->anyFilled(['search', 'status']))
+                <a href="/pengembalian" class="inline-flex items-center gap-2 h-10 px-4 rounded-lg border border-white/[0.1] text-white/70 hover:text-white hover:bg-white/[0.05] transition-all no-underline text-xs">
+                    <i class="bi bi-x-lg"></i> Reset
+                </a>
+                @endif
+            </form>
+        </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left">
                 <thead class="text-xs text-white/50 uppercase bg-white/[0.02] border-b border-white/[0.05]">

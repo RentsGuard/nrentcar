@@ -98,6 +98,10 @@ class PenyewaanController extends Controller
     {
         $penyewaan = Penyewaan::findOrFail($id);
 
+        if (!in_array($penyewaan->status, ['aktif', 'menunggu'])) {
+            return back()->with('error', 'Hanya penyewaan aktif atau menunggu yang dapat diedit.');
+        }
+
         $validated = $request->validate([
             'tanggal_sewa' => 'required|date',
             'jam_sewa' => 'nullable|date_format:H:i',

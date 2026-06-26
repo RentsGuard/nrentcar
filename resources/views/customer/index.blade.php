@@ -47,7 +47,7 @@
                         <th class="px-6 py-4 font-medium">NIK</th>
                         <th class="px-6 py-4 font-medium">Nama Customer</th>
                         <th class="px-6 py-4 font-medium">No. HP</th>
-                        <th class="px-6 py-4 font-medium">Kota/Kab</th>
+                        <th class="px-6 py-4 font-medium">Kota</th>
                         <th class="px-6 py-4 font-medium">Verifikasi</th>
                         <th class="px-6 py-4 font-medium text-right">Aksi</th>
                     </tr>
@@ -66,7 +66,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 text-white/80">{{ $customer->no_hp }}</td>
-                        <td class="px-6 py-4 text-white/60">{{ $customer->kota_kabupaten ?? '-' }}</td>
+                        <td class="px-6 py-4 text-white/60">{{ $customer->kota_kabupaten ?? '-' }}{{ $customer->provinsi ? ', '.$customer->provinsi : '' }}</td>
                         <td class="px-6 py-4">
                             @php $vc = match($customer->status_verifikasi) { 'disetujui' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'ditolak' => 'bg-red-500/10 text-red-400 border-red-500/20', default => 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' }; @endphp
                             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border {{ $vc }}">{{ ucfirst($customer->status_verifikasi ?? 'Belum') }}</span>

@@ -8,7 +8,7 @@
 <div class="space-y-6">
     @include('laporan.tabs')
 
-    <div class="glass-card overflow-hidden">
+    <div class="glass-card overflow-visible">
         <div class="p-5 border-b border-white/[0.05] bg-white/[0.015]">
             <form method="GET" action="/laporan/akhir">
                 <div class="flex flex-wrap gap-3 items-end">

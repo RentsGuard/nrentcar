@@ -28,6 +28,11 @@ class PenyewaanController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'jam_sewa' => $request->jam_sewa ? substr($request->jam_sewa, 0, 5) : null,
+            'jam_kembali' => $request->jam_kembali ? substr($request->jam_kembali, 0, 5) : null,
+        ]);
+
         $validated = $request->validate([
             'customer_id' => [
                 'required',
@@ -101,6 +106,11 @@ class PenyewaanController extends Controller
         if (!in_array($penyewaan->status, ['aktif', 'menunggu'])) {
             return back()->with('error', 'Hanya penyewaan aktif atau menunggu yang dapat diedit.');
         }
+
+        $request->merge([
+            'jam_sewa' => $request->jam_sewa ? substr($request->jam_sewa, 0, 5) : null,
+            'jam_kembali' => $request->jam_kembali ? substr($request->jam_kembali, 0, 5) : null,
+        ]);
 
         $validated = $request->validate([
             'tanggal_sewa' => 'required|date',

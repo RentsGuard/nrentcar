@@ -29,7 +29,7 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Jam Sewa</label>
-                        <input type="time" name="jam_sewa" id="jam_sewa" value="{{ old('jam_sewa', $penyewaan->jam_sewa ?? '08:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        <input type="time" name="jam_sewa" id="jam_sewa" value="{{ old('jam_sewa', $penyewaan->jam_sewa ? \Carbon\Carbon::parse($penyewaan->jam_sewa)->format('H:i') : '08:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                     </div>
 
                     <div class="space-y-2">
@@ -39,7 +39,7 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Jam Kembali</label>
-                        <input type="time" name="jam_kembali" id="jam_kembali" value="{{ old('jam_kembali', $penyewaan->jam_kembali ?? '17:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        <input type="time" name="jam_kembali" id="jam_kembali" value="{{ old('jam_kembali', $penyewaan->jam_kembali ? \Carbon\Carbon::parse($penyewaan->jam_kembali)->format('H:i') : '17:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                     </div>
 
                     <div class="space-y-2">

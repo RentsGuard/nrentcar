@@ -48,23 +48,24 @@ class LaporanController extends Controller
 
     public function awal()
     {
-        $customers = Customer::withCount('penyewaan')
-            ->whereHas('penyewaan')
-            ->orderBy('nama_customer')
-            ->get();
+        $query = Penyewaan::with('customer', 'mobil', 'pengembalian');
 
-        $selectedCustomer = null;
-        $penyewaans = collect();
-
-        if (request('customer_id')) {
-            $selectedCustomer = Customer::findOrFail(request('customer_id'));
-            $penyewaans = Penyewaan::with('customer', 'mobil', 'pengembalian')
-                ->where('customer_id', $selectedCustomer->id)
-                ->latest()
-                ->get();
+        if ($search = request('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('customer', function ($q) use ($search) {
+                    $q->where('nama_customer', 'like', "%{$search}%")
+                        ->orWhere('nik', 'like', "%{$search}%")
+                        ->orWhere('no_hp', 'like', "%{$search}%");
+                })->orWhereHas('mobil', function ($q) use ($search) {
+                    $q->where('plat_mobil', 'like', "%{$search}%")
+                        ->orWhere('nama_mobil', 'like', "%{$search}%");
+                })->orWhere('id', 'like', "%{$search}%");
+            });
         }
 
-        return view('laporan.awal.index', compact('customers', 'selectedCustomer', 'penyewaans'));
+        $penyewaans = $query->latest()->get();
+
+        return view('laporan.awal.index', compact('penyewaans'));
     }
 
     public function cetakAwal(Penyewaan $penyewaan)
@@ -81,6 +82,19 @@ class LaporanController extends Controller
     {
         $query = Penyewaan::with('customer', 'mobil', 'pengembalian');
         $label = 'Semua';
+
+        if ($search = request('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('customer', function ($q) use ($search) {
+                    $q->where('nama_customer', 'like', "%{$search}%")
+                        ->orWhere('nik', 'like', "%{$search}%")
+                        ->orWhere('no_hp', 'like', "%{$search}%");
+                })->orWhereHas('mobil', function ($q) use ($search) {
+                    $q->where('plat_mobil', 'like', "%{$search}%")
+                        ->orWhere('nama_mobil', 'like', "%{$search}%");
+                })->orWhere('id', 'like', "%{$search}%");
+            });
+        }
 
         $filterDate = request('filter_date');
         $filterValue = request('filter_value');
@@ -113,6 +127,20 @@ class LaporanController extends Controller
     public function cetakAkhir()
     {
         $query = Penyewaan::with('customer', 'mobil', 'pengembalian');
+
+        if ($search = request('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('customer', function ($q) use ($search) {
+                    $q->where('nama_customer', 'like', "%{$search}%")
+                        ->orWhere('nik', 'like', "%{$search}%")
+                        ->orWhere('no_hp', 'like', "%{$search}%");
+                })->orWhereHas('mobil', function ($q) use ($search) {
+                    $q->where('plat_mobil', 'like', "%{$search}%")
+                        ->orWhere('nama_mobil', 'like', "%{$search}%");
+                })->orWhere('id', 'like', "%{$search}%");
+            });
+        }
+
         $filterDate = request('filter_date');
         $filterValue = request('filter_value');
         $label = 'Semua';

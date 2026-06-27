@@ -12,6 +12,15 @@
         <div class="p-5 border-b border-white/[0.05] bg-white/[0.015]">
             <form method="GET" action="/laporan/akhir">
                 <div class="flex flex-wrap gap-3 items-end">
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="text-xs text-white/50 block mb-1.5">Cari</label>
+                        <div class="relative">
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Cari customer, mobil, plat..."
+                                class="w-full px-3 py-2.5 pl-10 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors">
+                            <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
+                        </div>
+                    </div>
                     <div>
                         <label class="text-xs text-white/50 block mb-1.5">Periode</label>
                         <select name="filter_date" id="filter_date" onchange="toggleFilter()"

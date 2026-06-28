@@ -83,9 +83,29 @@ class CustomerController extends Controller
 
     public function show($id)
     {
-        $customer = Customer::findOrFail($id);
+        $customer = Customer::with([
+            'verifikator',
+            'penyewaan' => function ($q) {
+                $q->with(['mobil', 'pengembalian'])->latest('tanggal_sewa');
+            },
+        ])->findOrFail($id);
 
-        return view('customer.show', compact('customer'));
+        // Statistik ringkasan
+        $totalSewa       = $customer->penyewaan->count();
+        $totalDenda      = $customer->penyewaan->sum(fn ($p) => optional($p->pengembalian)->total_denda ?? 0);
+        $penyewaanAktif  = $customer->penyewaan->where('status', 'aktif')->count();
+        $riwayatKesalahan = $customer->penyewaan
+            ->filter(fn ($p) => $p->pengembalian &&
+                in_array($p->pengembalian->status_pengembalian, ['telat', 'rusak', 'telat_dan_rusak']))
+            ->values();
+
+        return view('customer.show', compact(
+            'customer',
+            'totalSewa',
+            'totalDenda',
+            'penyewaanAktif',
+            'riwayatKesalahan'
+        ));
     }
 
     public function edit($id)

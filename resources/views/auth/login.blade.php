@@ -19,7 +19,7 @@
         <div class="relative z-10">
             <a href="/" class="flex items-center gap-3 mb-8 no-underline">
                 <img src="{{ asset('images/nrentcar.png') }}" alt="RentSCar" class="w-20 h-20">
-                <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
+                <span class="font-bold text-2xl tracking-tight text-white">RentsCar<span class="text-white/50 font-normal">.id</span></span>
             </a>
         </div>
 
@@ -59,13 +59,12 @@
                     <div class="space-y-5">
                         <div class="space-y-1.5">
                             <label class="text-sm font-medium text-white/80">Email</label>
-                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="admin@rentscar.id" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="admin@gmail.com" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                         </div>
 
                         <div class="space-y-1.5">
                             <div class="flex items-center justify-between">
                                 <label class="text-sm font-medium text-white/80">Password</label>
-                                <span class="text-xs text-white/30 cursor-default" title="Hubungi admin untuk reset password">Lupa Password?</span>
                             </div>
                             <input type="password" name="password" required placeholder="••••••••" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                         </div>
@@ -75,10 +74,6 @@
                         </button>
                     </div>
                 </form>
-
-                <div class="mt-6 p-4 rounded-lg bg-white/[0.03] border border-white/[0.05] text-xs text-white/50 text-center">
-                    Gunakan kredensial default untuk masuk ke prototype.
-                </div>
             </div>
         </div>
     </div>

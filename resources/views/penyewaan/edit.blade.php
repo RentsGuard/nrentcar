@@ -24,17 +24,28 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tanggal Sewa</label>
-                        <input type="date" name="tanggal_sewa" value="{{ old('tanggal_sewa', $penyewaan->tanggal_sewa?->format('Y-m-d')) }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        <input type="date" name="tanggal_sewa" id="tanggal_sewa" value="{{ old('tanggal_sewa', $penyewaan->tanggal_sewa?->format('Y-m-d')) }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Jam Sewa</label>
+                        <input type="time" name="jam_sewa" id="jam_sewa" value="{{ old('jam_sewa', $penyewaan->jam_sewa ? \Carbon\Carbon::parse($penyewaan->jam_sewa)->format('H:i') : '08:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tanggal Kembali</label>
-                        <input type="date" name="tanggal_kembali" value="{{ old('tanggal_kembali', $penyewaan->tanggal_kembali?->format('Y-m-d')) }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        <input type="date" name="tanggal_kembali" id="tanggal_kembali" value="{{ old('tanggal_kembali', $penyewaan->tanggal_kembali?->format('Y-m-d')) }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Jam Kembali</label>
+                        <input type="time" name="jam_kembali" id="jam_kembali" value="{{ old('jam_kembali', $penyewaan->jam_kembali ? \Carbon\Carbon::parse($penyewaan->jam_kembali)->format('H:i') : '17:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Lama Sewa (Hari)</label>
-                        <input type="number" name="lama_sewa" value="{{ old('lama_sewa', $penyewaan->lama_sewa) }}" required min="1" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        <div class="h-10 flex items-center text-white/80 text-sm" id="lama_sewa_display">{{ $penyewaan->lama_sewa }} hari</div>
+                        <input type="hidden" name="lama_sewa" id="lama_sewa" value="{{ old('lama_sewa', $penyewaan->lama_sewa) }}">
                     </div>
 
                     <div class="space-y-2">
@@ -46,19 +57,21 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Status</label>
-                        <select name="status" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
-                            <option value="aktif" {{ old('status', $penyewaan->status) == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="menunggu" {{ old('status', $penyewaan->status) == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
-                            <option value="selesai" {{ old('status', $penyewaan->status) == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                            <option value="dibatalkan" {{ old('status', $penyewaan->status) == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
-                        </select>
+                        <label class="text-sm font-medium text-white/80">Denda / Jam</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">Rp</span>
+                            <input type="number" name="denda_per_jam" value="{{ old('denda_per_jam', $penyewaan->denda_per_jam ?? 50000) }}" required min="0" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        </div>
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Catatan</label>
                         <textarea name="catatan" rows="2" class="w-full rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 py-2 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">{{ old('catatan', $penyewaan->catatan) }}</textarea>
                     </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 text-amber-400 text-xs">
+                    <i class="bi bi-info-circle"></i> Lama sewa & total denda telat dihitung otomatis.
                 </div>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">
@@ -71,3 +84,29 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+function calcLamaSewa() {
+    const tglSewa = document.getElementById('tanggal_sewa').value;
+    const jamSewa = document.getElementById('jam_sewa').value || '08:00';
+    const tglKembali = document.getElementById('tanggal_kembali').value;
+    const jamKembali = document.getElementById('jam_kembali').value || '17:00';
+    const display = document.getElementById('lama_sewa_display');
+    const hidden = document.getElementById('lama_sewa');
+    if (!tglSewa || !tglKembali) { return; }
+    const mulai = new Date(tglSewa + 'T' + jamSewa);
+    const selesai = new Date(tglKembali + 'T' + jamKembali);
+    if (selesai <= mulai) { display.textContent = '0 (cek tanggal)'; hidden.value = 1; return; }
+    const diffMs = selesai - mulai;
+    const diffJam = diffMs / (1000 * 60 * 60);
+    const hari = Math.ceil(diffJam / 24);
+    display.textContent = hari + ' hari';
+    hidden.value = hari;
+}
+document.getElementById('tanggal_sewa').addEventListener('change', calcLamaSewa);
+document.getElementById('jam_sewa').addEventListener('change', calcLamaSewa);
+document.getElementById('tanggal_kembali').addEventListener('change', calcLamaSewa);
+document.getElementById('jam_kembali').addEventListener('change', calcLamaSewa);
+</script>
+@endpush

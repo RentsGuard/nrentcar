@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mobil;
 use App\Models\Customer;
+use App\Models\Mobil;
+use App\Models\Pengembalian;
 use App\Models\Penyewaan;
-use App\Models\Verifikasi;
 
 class DashboardController extends Controller
 {
@@ -14,18 +14,26 @@ class DashboardController extends Controller
         $totalMobil = Mobil::count();
         $mobilTersedia = Mobil::where('status_mobil', 'tersedia')->count();
         $totalCustomer = Customer::count();
-        $customerTerverifikasi = Verifikasi::where('status_verifikasi', 'approve')->distinct('customer_id')->count('customer_id');
+        $customerTerverifikasi = Customer::where('status_verifikasi', 'disetujui')->count();
         $totalPenyewaan = Penyewaan::count();
         $totalPendapatan = Penyewaan::whereIn('status', ['aktif', 'selesai'])->sum('total_harga');
         $penyewaanAktif = Penyewaan::where('status', 'aktif')->with('customer', 'mobil')->latest()->take(5)->get();
         $pelangganBaru = Customer::latest()->take(6)->get();
+
+        $totalDenda = Pengembalian::where('status_denda', '!=', 'lunas')->sum('total_denda');
+        $pengembalianHariIni = Pengembalian::where(function ($q) {
+                $q->whereDate('tanggal_pengembalian', today())
+                  ->orWhereDate('denda_lunas_at', today());
+            })
+            ->count();
 
         $view = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'staff.dashboard';
 
         return view($view, compact(
             'totalMobil', 'mobilTersedia', 'totalCustomer',
             'customerTerverifikasi', 'totalPenyewaan', 'totalPendapatan',
-            'penyewaanAktif', 'pelangganBaru'
+            'penyewaanAktif', 'pelangganBaru',
+            'totalDenda', 'pengembalianHariIni'
         ));
     }
 }

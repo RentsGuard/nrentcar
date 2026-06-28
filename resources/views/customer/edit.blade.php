@@ -123,50 +123,14 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Berlaku Hingga</label>
-                        <input type="date" name="berlaku_hingga" value="{{ old('berlaku_hingga', $customer->berlaku_hingga?->format('Y-m-d')) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('berlaku_hingga') border-red-500 @enderror">
+                        <div class="flex items-center gap-3">
+                            <input type="date" name="berlaku_hingga" value="{{ old('berlaku_hingga', $customer->berlaku_hingga?->format('Y-m-d')) }}" id="berlaku_hingga" class="flex-1 h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('berlaku_hingga') border-red-500 @enderror">
+                            <label class="flex items-center gap-1.5 text-sm text-white/60 cursor-pointer whitespace-nowrap">
+                                <input type="checkbox" name="seumur_hidup" value="1" {{ old('seumur_hidup', $customer->berlaku_hingga ? '' : 'checked') }} onchange="document.getElementById('berlaku_hingga').disabled=this.checked;if(this.checked)document.getElementById('berlaku_hingga').value=''" class="w-4 h-4 rounded border-white/20 bg-[#0D0D0D] text-[#C1121F] focus:ring-[#C1121F] focus:ring-offset-0">
+                                Seumur Hidup
+                            </label>
+                        </div>
                         @error('berlaku_hingga') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
-                    </div>
-                </div>
-
-                <div class="pb-4 border-b border-white/[0.05]">
-                    <h3 class="text-base font-semibold text-white">Alamat</h3>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2 md:col-span-2">
-                        <label class="text-sm font-medium text-white/80">Alamat</label>
-                        <textarea name="alamat_customer" rows="2" required class="w-full rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 py-2 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('alamat_customer') border-red-500 @enderror">{{ old('alamat_customer', $customer->alamat_customer) }}</textarea>
-                        @error('alamat_customer') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">RT/RW</label>
-                        <input type="text" name="rt_rw" value="{{ old('rt_rw', $customer->rt_rw) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('rt_rw') border-red-500 @enderror">
-                        @error('rt_rw') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Kelurahan</label>
-                        <input type="text" name="kelurahan" value="{{ old('kelurahan', $customer->kelurahan) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kelurahan') border-red-500 @enderror">
-                        @error('kelurahan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Kecamatan</label>
-                        <input type="text" name="kecamatan" value="{{ old('kecamatan', $customer->kecamatan) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kecamatan') border-red-500 @enderror">
-                        @error('kecamatan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Kota/Kabupaten</label>
-                        <input type="text" name="kota_kabupaten" value="{{ old('kota_kabupaten', $customer->kota_kabupaten) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kota_kabupaten') border-red-500 @enderror">
-                        @error('kota_kabupaten') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Provinsi</label>
-                        <input type="text" name="provinsi" value="{{ old('provinsi', $customer->provinsi) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('provinsi') border-red-500 @enderror">
-                        @error('provinsi') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
@@ -186,6 +150,72 @@
                     @error('foto_ktp') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                 </div>
 
+                @if(auth()->user()->role === 'admin')
+                <div class="pb-4 border-b border-white/[0.05]">
+                    <h3 class="text-base font-semibold text-white">Verifikasi</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Status Verifikasi</label>
+                        <select name="status_verifikasi" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
+                            <option value="">-- Pilih --</option>
+                            <option value="disetujui" {{ old('status_verifikasi', $customer->status_verifikasi) == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                            <option value="ditolak" {{ old('status_verifikasi', $customer->status_verifikasi) == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Diverifikasi Oleh</label>
+                        <input type="text" value="{{ $customer->verifikator?->nama_user ?? 'Otomatis' }}" disabled class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D]/50 text-white/60 px-3 text-sm cursor-not-allowed">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Tanggal Verifikasi</label>
+                        <input type="text" value="{{ $customer->tanggal_verifikasi ? $customer->tanggal_verifikasi->format('d/m/Y H:i') : '-' }}" disabled class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D]/50 text-white/60 px-3 text-sm cursor-not-allowed">
+                    </div>
+                </div>
+                @endif
+
+                <div class="pb-4 border-b border-white/[0.05]">
+                    <h3 class="text-base font-semibold text-white">Alamat</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2 md:col-span-2">
+                        <label class="text-sm font-medium text-white/80">Alamat</label>
+                        <textarea name="alamat_customer" rows="2" required class="w-full rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 py-2 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('alamat_customer') border-red-500 @enderror">{{ old('alamat_customer', $customer->alamat_customer) }}</textarea>
+                        @error('alamat_customer') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">RT/RW</label>
+                        <input type="text" name="rt_rw" value="{{ old('rt_rw', $customer->rt_rw) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('rt_rw') border-red-500 @enderror">
+                        @error('rt_rw') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Provinsi</label>
+                        <input type="text" name="provinsi" value="{{ old('provinsi', $customer->provinsi) }}" placeholder="Contoh: JAWA BARAT" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('provinsi') border-red-500 @enderror">
+                        @error('provinsi') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Kota/Kabupaten</label>
+                        <input type="text" name="kota_kabupaten" value="{{ old('kota_kabupaten', $customer->kota_kabupaten) }}" placeholder="Contoh: KABUPATEN BANDUNG" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kota_kabupaten') border-red-500 @enderror">
+                        @error('kota_kabupaten') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Kecamatan</label>
+                        <input type="text" name="kecamatan" value="{{ old('kecamatan', $customer->kecamatan) }}" placeholder="Contoh: CICENDO" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kecamatan') border-red-500 @enderror">
+                        @error('kecamatan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Kelurahan</label>
+                        <input type="text" name="kelurahan" value="{{ old('kelurahan', $customer->kelurahan) }}" placeholder="Contoh: PASIRKALIKI" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kelurahan') border-red-500 @enderror">
+                        @error('kelurahan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">
                     <button type="submit" class="inline-flex items-center gap-2 h-10 px-6 rounded-lg bg-[#C1121F] text-white font-semibold text-sm shadow-[0_0_24px_-6px_rgba(193,18,31,0.6)] hover:bg-[#a30f1a] transition-all">
                         <i class="bi bi-check-lg"></i> Simpan
@@ -196,3 +226,11 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+var cb = document.getElementById('seumur_hidup');
+var dp = document.getElementById('berlaku_hingga');
+if (cb && cb.checked) { dp.disabled = true; dp.value = ''; }
+</script>
+@endpush

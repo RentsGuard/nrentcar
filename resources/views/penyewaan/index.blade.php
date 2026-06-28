@@ -51,13 +51,13 @@
                                 <span class="text-white/80">{{ $sewa->mobil->nama_mobil ?? '-' }}</span>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_sewa ? $sewa->tanggal_sewa->format('d/m/Y') : '-' }}</td>
-                        <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_kembali ? $sewa->tanggal_kembali->format('d/m/Y') : '-' }}</td>
-                        <td class="px-6 py-4 font-medium text-white">Rp {{ number_format($sewa->total_harga, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_sewa ? $sewa->tanggal_sewa->format('d/m/Y') : '-' }}<br><span class="text-[11px] text-white/40">{{ $sewa->jam_sewa ?? '' }}</span></td>
+                        <td class="px-6 py-4 text-white/60">{{ $sewa->tanggal_kembali ? $sewa->tanggal_kembali->format('d/m/Y') : '-' }}<br><span class="text-[11px] text-white/40">{{ $sewa->jam_kembali ?? '' }}</span></td>
+                        <td class="px-6 py-4 font-medium text-white whitespace-nowrap max-w-[150px] truncate" title="Rp {{ number_format($sewa->total_harga, 0, ',', '.') }}">Rp {{ number_format($sewa->total_harga, 0, ',', '.') }}</td>
                         <td class="px-6 py-4">
                             @php
-                            $sc = match($sewa->status) { 'aktif' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'selesai' => 'bg-white/[0.1] text-white', 'dibatalkan' => 'bg-red-500/10 text-red-400 border-red-500/20', 'menunggu' => 'bg-amber-500/10 text-amber-400 border-amber-500/20', default => 'bg-white/[0.1] text-white/80' };
-                            $sl = match($sewa->status) { 'aktif' => 'Aktif', 'selesai' => 'Selesai', 'dibatalkan' => 'Dibatalkan', 'menunggu' => 'Menunggu', default => $sewa->status };
+                            $sc = match($sewa->status) { 'aktif' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'selesai' => 'bg-white/[0.1] text-white', 'dibatalkan' => 'bg-red-500/10 text-red-400 border-red-500/20', default => 'bg-white/[0.1] text-white/80' };
+                            $sl = match($sewa->status) { 'aktif' => 'Aktif', 'selesai' => 'Selesai', 'dibatalkan' => 'Dibatalkan', default => $sewa->status };
                             @endphp
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $sc }}">{{ $sl }}</span>
                         </td>
@@ -69,6 +69,14 @@
                                 <a href="/penyewaan/{{ $sewa->id }}/edit" class="w-8 h-8 flex items-center justify-center rounded-lg text-white/70 hover:bg-white/[0.08] transition-colors" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
+                                @if($sewa->status === 'aktif')
+                                <form action="/penyewaan/{{ $sewa->id }}/batalkan" method="POST" onsubmit="return confirm('Yakin batalkan penyewaan ini? Mobil akan kembali tersedia.')">
+                                    @csrf @method('PUT')
+                                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-500/10 transition-colors" title="Batalkan">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                </form>
+                                @endif
                             </div>
                         </td>
                     </tr>

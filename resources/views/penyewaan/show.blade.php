@@ -31,21 +31,25 @@
                     </div>
                     <div>
                         <span class="text-white/50">Tanggal Sewa</span>
-                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->tanggal_sewa ? $penyewaan->tanggal_sewa->format('d M Y') : '-' }}</p>
+                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->tanggal_sewa ? $penyewaan->tanggal_sewa->format('d M Y') : '-' }} {{ $penyewaan->jam_sewa ?? '' }}</p>
                     </div>
                     <div>
                         <span class="text-white/50">Tanggal Kembali</span>
-                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->tanggal_kembali ? $penyewaan->tanggal_kembali->format('d M Y') : '-' }}</p>
+                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->tanggal_kembali ? $penyewaan->tanggal_kembali->format('d M Y') : '-' }} {{ $penyewaan->jam_kembali ?? '' }}</p>
                     </div>
                     <div>
                         <span class="text-white/50">Lama Sewa</span>
                         <p class="text-white font-medium mt-0.5">{{ $penyewaan->lama_sewa }} Hari</p>
                     </div>
                     <div>
+                        <span class="text-white/50">Denda / Jam</span>
+                        <p class="text-white font-medium mt-0.5">{{ $penyewaan->denda_per_jam ? 'Rp '.number_format($penyewaan->denda_per_jam, 0, ',', '.') : 'Rp 0' }}</p>
+                    </div>
+                    <div>
                         <span class="text-white/50">Status</span>
                         @php
-                        $sc = match($penyewaan->status) { 'aktif' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'selesai' => 'bg-white/[0.1] text-white', 'dibatalkan' => 'bg-red-500/10 text-red-400 border-red-500/20', 'menunggu' => 'bg-amber-500/10 text-amber-400 border-amber-500/20', default => 'bg-white/[0.1] text-white/80' };
-                        $sl = match($penyewaan->status) { 'aktif' => 'Aktif', 'selesai' => 'Selesai', 'dibatalkan' => 'Dibatalkan', 'menunggu' => 'Menunggu', default => $penyewaan->status };
+                        $sc = match($penyewaan->status) { 'aktif' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', 'selesai' => 'bg-white/[0.1] text-white', 'dibatalkan' => 'bg-red-500/10 text-red-400 border-red-500/20', default => 'bg-white/[0.1] text-white/80' };
+                        $sl = match($penyewaan->status) { 'aktif' => 'Aktif', 'selesai' => 'Selesai', 'dibatalkan' => 'Dibatalkan', default => $penyewaan->status };
                         @endphp
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border mt-1 {{ $sc }}">{{ $sl }}</span>
                     </div>
@@ -82,6 +86,14 @@
                 <a href="/penyewaan/{{ $penyewaan->id }}/edit" class="flex-1 inline-flex items-center justify-center gap-2 h-10 rounded-lg bg-white/[0.08] text-white hover:bg-white/[0.12] text-sm transition-colors no-underline">
                     <i class="bi bi-pencil"></i> Edit
                 </a>
+                @if($penyewaan->status === 'aktif')
+                <form action="/penyewaan/{{ $penyewaan->id }}/batalkan" method="POST" class="flex-1" onsubmit="return confirm('Yakin batalkan penyewaan ini? Mobil akan kembali tersedia.')">
+                    @csrf @method('PUT')
+                    <button type="submit" class="w-full h-10 inline-flex items-center justify-center gap-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 text-sm transition-colors border-0 cursor-pointer">
+                        <i class="bi bi-x-circle"></i> Batalkan
+                    </button>
+                </form>
+                @endif
             </div>
         </div>
     </div>

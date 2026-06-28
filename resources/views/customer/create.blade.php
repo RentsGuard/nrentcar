@@ -124,9 +124,26 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Berlaku Hingga</label>
-                        <input type="date" name="berlaku_hingga" value="{{ old('berlaku_hingga') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('berlaku_hingga') border-red-500 @enderror">
+                        <div class="flex items-center gap-3">
+                            <input type="date" name="berlaku_hingga" value="{{ old('berlaku_hingga') }}" id="berlaku_hingga" class="flex-1 h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('berlaku_hingga') border-red-500 @enderror">
+                            <label class="flex items-center gap-1.5 text-sm text-white/60 cursor-pointer whitespace-nowrap">
+                                <input type="checkbox" name="seumur_hidup" value="1" id="seumur_hidup" {{ old('seumur_hidup') ? 'checked' : '' }} onchange="document.getElementById('berlaku_hingga').disabled=this.checked;if(this.checked)document.getElementById('berlaku_hingga').value=''" class="w-4 h-4 rounded border-white/20 bg-[#0D0D0D] text-[#C1121F] focus:ring-[#C1121F] focus:ring-offset-0">
+                                Seumur Hidup
+                            </label>
+                        </div>
                         @error('berlaku_hingga') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
+                </div>
+
+                <div class="pb-4 border-b border-white/[0.05]">
+                    <h3 class="text-base font-semibold text-white">Foto KTP</h3>
+                    <p class="text-xs text-white/50 mt-1">Upload foto KTP (max 2MB, format JPG/PNG).</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-white/80">Foto KTP</label>
+                    <input type="file" name="foto_ktp" accept="image/jpeg,image/png" class="w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/20 file:bg-[#C1121F] file:text-white file:font-semibold file:text-sm hover:file:bg-[#a30f1a] transition-all @error('foto_ktp') border-red-500 @enderror">
+                    @error('foto_ktp') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="pb-4 border-b border-white/[0.05]">
@@ -148,39 +165,28 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Kelurahan</label>
-                        <input type="text" name="kelurahan" value="{{ old('kelurahan') }}" placeholder="Kelurahan" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kelurahan') border-red-500 @enderror">
-                        @error('kelurahan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Kecamatan</label>
-                        <input type="text" name="kecamatan" value="{{ old('kecamatan') }}" placeholder="Kecamatan" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kecamatan') border-red-500 @enderror">
-                        @error('kecamatan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                        <label class="text-sm font-medium text-white/80">Provinsi</label>
+                        <input type="text" name="provinsi" value="{{ old('provinsi') }}" placeholder="Contoh: JAWA BARAT" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('provinsi') border-red-500 @enderror">
+                        @error('provinsi') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Kota/Kabupaten</label>
-                        <input type="text" name="kota_kabupaten" value="{{ old('kota_kabupaten') }}" placeholder="Kota atau kabupaten" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kota_kabupaten') border-red-500 @enderror">
+                        <input type="text" name="kota_kabupaten" value="{{ old('kota_kabupaten') }}" placeholder="Contoh: KABUPATEN BANDUNG" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kota_kabupaten') border-red-500 @enderror">
                         @error('kota_kabupaten') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Provinsi</label>
-                        <input type="text" name="provinsi" value="{{ old('provinsi') }}" placeholder="Provinsi" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('provinsi') border-red-500 @enderror">
-                        @error('provinsi') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                        <label class="text-sm font-medium text-white/80">Kecamatan</label>
+                        <input type="text" name="kecamatan" value="{{ old('kecamatan') }}" placeholder="Contoh: CICENDO" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kecamatan') border-red-500 @enderror">
+                        @error('kecamatan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
-                </div>
 
-                <div class="pb-4 border-b border-white/[0.05]">
-                    <h3 class="text-base font-semibold text-white">Foto KTP</h3>
-                    <p class="text-xs text-white/50 mt-1">Upload foto KTP (max 2MB, format JPG/PNG).</p>
-                </div>
-
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-white/80">Foto KTP</label>
-                    <input type="file" name="foto_ktp" accept="image/jpeg,image/png" class="w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/20 file:bg-[#C1121F] file:text-white file:font-semibold file:text-sm hover:file:bg-[#a30f1a] transition-all @error('foto_ktp') border-red-500 @enderror">
-                    @error('foto_ktp') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-white/80">Kelurahan</label>
+                        <input type="text" name="kelurahan" value="{{ old('kelurahan') }}" placeholder="Contoh: PASIRKALIKI" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('kelurahan') border-red-500 @enderror">
+                        @error('kelurahan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
+                    </div>
                 </div>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">
@@ -193,3 +199,11 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+var cb = document.getElementById('seumur_hidup');
+var dp = document.getElementById('berlaku_hingga');
+if (cb && cb.checked) { dp.disabled = true; dp.value = ''; }
+</script>
+@endpush

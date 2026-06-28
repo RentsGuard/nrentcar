@@ -77,7 +77,7 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Pendapatan</p>
-                <h3 class="text-2xl font-bold text-white">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
+                <h3 class="text-2xl xl:text-xl 2xl:text-2xl font-bold text-white break-words">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
             </div>
         </div>
     </div>
@@ -153,6 +153,7 @@
 </div>
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];

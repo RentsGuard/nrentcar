@@ -75,6 +75,8 @@
     </form>
 </div>
 
+@endsection
+
 @push('scripts')
 <script>
 document.getElementById('fotoProfilInput')?.addEventListener('change', function(e) {
@@ -89,4 +91,3 @@ document.getElementById('fotoProfilInput')?.addEventListener('change', function(
 });
 </script>
 @endpush
-@endsection

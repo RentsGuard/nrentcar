@@ -17,12 +17,10 @@
         <div class="absolute bottom-[-10%] right-[-10%] w-1/2 h-1/2 bg-red-900 rounded-full mix-blend-screen filter blur-[150px] opacity-20"></div>
 
         <div class="relative z-10">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-10 h-10 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(193,18,31,0.6)]">
-                    <i class="bi bi-car-front text-xl"></i>
-                </div>
+            <a href="/" class="flex items-center gap-3 mb-8 no-underline">
+                <img src="{{ asset('images/nrentcar.png') }}" alt="RentSCar" class="w-20 h-20">
                 <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
-            </div>
+            </a>
         </div>
 
         <div class="relative z-10 max-w-xl">
@@ -41,10 +39,10 @@
         <div class="lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#C1121F] rounded-full mix-blend-screen filter blur-[150px] opacity-10"></div>
 
         <div class="w-full max-w-md">
-            <div class="lg:hidden flex items-center justify-center gap-3 mb-10">
-                <div class="w-10 h-10 rounded-lg bg-[#C1121F] flex items-center justify-center font-bold text-white shadow-[0_0_20px_rgba(193,18,31,0.6)]">R</div>
+            <a href="/" class="lg:hidden flex items-center justify-center gap-3 mb-10 no-underline">
+                <img src="{{ asset('images/nrentcar.png') }}" alt="RentSCar" class="w-20 h-20">
                 <span class="font-bold text-2xl tracking-tight text-white">RentSCar<span class="text-white/50 font-normal">.id</span></span>
-            </div>
+            </a>
 
             <div class="p-8 rounded-xl border border-white/[0.08] bg-[#141414]/80 shadow-2xl backdrop-blur-2xl">
                 <div class="mb-8">

@@ -32,7 +32,8 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Plat Nomor</label>
-                        <input type="text" name="plat_mobil" value="{{ old('plat_mobil') }}" required placeholder="B 1234 XYZ" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        <input type="text" name="plat_mobil" value="{{ old('plat_mobil') }}" required placeholder="B 1234 XYZ" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('plat_mobil') border-red-500 @enderror">
+                        @error('plat_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
@@ -44,14 +45,14 @@
                         <label class="text-sm font-medium text-white/80">Tipe Mobil</label>
                         <select name="tipe_mobil" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                             <option value="">-- Pilih --</option>
-                            @foreach(['SUV', 'MPV', 'Sedan', 'Hatchback', 'LCGC', 'Pickup', 'Sport', 'Lainnya'] as $t)
+                            @foreach(['Matic', 'Manual'] as $t)
                             <option value="{{ $t }}" {{ old('tipe_mobil') == $t ? 'selected' : '' }}>{{ $t }}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Kapasitas Kursi</label>
+                        <label class="text-sm font-medium text-white/80">Baris</label>
                         <input type="number" name="kapasitas_mobil" value="{{ old('kapasitas_mobil', 4) }}" required min="1" max="20" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                     </div>
 
@@ -68,7 +69,7 @@
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Harga Sewa / Hari</label>
                         <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">Rp</span>
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></span>
                             <input type="number" name="harga_mobil" value="{{ old('harga_mobil') }}" required min="0" placeholder="500000" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                         </div>
                     </div>

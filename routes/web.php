@@ -1,39 +1,40 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\StaffController;
-use App\Http\Controllers\DashboardController;
-use App\Models\Mobil;
-use App\Models\Customer;
-use App\Models\Penyewaan;
-use App\Models\Verifikasi;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\MobilController;
-use App\Http\Controllers\PenyewaanController;
-use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\MobilController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\ProfileController;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use OpenSpout\Writer\XLSX\Writer;
-use OpenSpout\Common\Entity\Row;
+use App\Http\Controllers\PublicMobilController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\WilayahController;
+use App\Models\Mobil;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/cars', [PublicMobilController::class, 'index'])->name('public.mobil.index');
+Route::get('/cars/{id}', [PublicMobilController::class, 'show'])->name('public.mobil.show');
+Route::get('/tentang-kami', function () {
+    return view('public.tentang');
+});
+
+Route::prefix('api/wilayah')->group(function () {
+    Route::get('/provinsi', [WilayahController::class, 'provinces']);
+    Route::get('/kabupaten/{provinceId}', [WilayahController::class, 'regencies']);
+    Route::get('/kecamatan/{regencyId}', [WilayahController::class, 'districts']);
+    Route::get('/kelurahan/{districtId}', [WilayahController::class, 'villages']);
+});
 
 Route::get('/', function () {
-    if (auth()->check()) {
-        $role = auth()->user()->role;
-        if ($role === 'admin') return redirect('/admin/dashboard');
-        if ($role === 'staff') return redirect('/staff/dashboard');
-        return redirect('/login');
-    }
-    $mobilTersedia = Mobil::where('status_mobil', 'tersedia')->latest()->take(6)->get();
+    $mobilTersedia = Mobil::where('is_visible', true)->latest()->take(6)->get();
+
     return view('welcome', compact('mobilTersedia'));
 });
 
-Route::get('/login', [AuthController::class, 'showLogin']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -59,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mobil/{id}', [MobilController::class, 'show']);
     Route::get('/mobil/{id}/edit', [MobilController::class, 'edit']);
     Route::put('/mobil/{id}', [MobilController::class, 'update']);
+    Route::put('/mobil/{id}/toggle-visibility', [MobilController::class, 'toggleVisibility']);
     Route::delete('/mobil/{id}', [MobilController::class, 'destroy']);
 
     Route::get('/penyewaan', [PenyewaanController::class, 'index']);
@@ -68,17 +70,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/penyewaan/{id}/edit', [PenyewaanController::class, 'edit']);
     Route::put('/penyewaan/{id}', [PenyewaanController::class, 'update']);
     Route::delete('/penyewaan/{id}', [PenyewaanController::class, 'destroy']);
-
-    Route::get('/verifikasi', [VerifikasiController::class, 'index']);
-    Route::get('/verifikasi/create', [VerifikasiController::class, 'create']);
-    Route::post('/verifikasi', [VerifikasiController::class, 'store']);
-    Route::get('/verifikasi/{id}', [VerifikasiController::class, 'show']);
-    Route::get('/verifikasi/{id}/edit', [VerifikasiController::class, 'edit']);
-    Route::put('/verifikasi/{id}', [VerifikasiController::class, 'update']);
-    Route::delete('/verifikasi/{id}', [VerifikasiController::class, 'destroy']);
+    Route::put('/penyewaan/{id}/batalkan', [PenyewaanController::class, 'batalkan']);
 
     Route::get('/laporan', [LaporanController::class, 'index']);
+    Route::get('/laporan/ringkasan', [LaporanController::class, 'index']);
+    Route::get('/laporan/awal', [LaporanController::class, 'awal']);
+    Route::get('/laporan/awal/cetak/{penyewaan}', [LaporanController::class, 'cetakAwal']);
+    Route::get('/laporan/akhir', [LaporanController::class, 'akhir']);
+    Route::get('/laporan/akhir/cetak', [LaporanController::class, 'cetakAkhir']);
+    Route::get('/laporan/export/pdf', [LaporanController::class, 'exportPdf']);
+    Route::get('/laporan/export/excel', [LaporanController::class, 'exportExcel']);
+
     Route::get('/pengaturan', [PengaturanController::class, 'index']);
+    Route::get('/pengaturan/tampilan', [PengaturanController::class, 'tampilan']);
+    Route::put('/pengaturan/tampilan', [PengaturanController::class, 'tampilanUpdate']);
+    Route::get('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasi']);
+    Route::put('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasiUpdate']);
 
     Route::get('/pengembalian', [PengembalianController::class, 'index']);
     Route::get('/pengembalian/create', [PengembalianController::class, 'create']);
@@ -87,44 +94,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengembalian/{id}/edit', [PengembalianController::class, 'edit']);
     Route::put('/pengembalian/{id}', [PengembalianController::class, 'update']);
     Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy']);
+    Route::put('/pengembalian/{id}/lunas', [PengembalianController::class, 'tandaiLunas'])->name('pengembalian.lunas');
+    Route::put('/pengembalian/{id}/batal-lunas', [PengembalianController::class, 'batalkanLunas'])->name('pengembalian.batal-lunas');
 
     Route::middleware('role:admin')->group(function () {
-        Route::get('/staff', [StaffController::class,'index'])->name('staff.index');
-        Route::get('/staff/create', [StaffController::class,'create'])->name('staff.create');
-        Route::post('/staff', [StaffController::class,'store'])->name('staff.store');
-        Route::get('/staff/{id}/edit', [StaffController::class,'edit'])->name('staff.edit');
-        Route::put('/staff/{id}', [StaffController::class,'update'])->name('staff.update');
-        Route::delete('/staff/{id}', [StaffController::class,'destroy'])->name('staff.destroy');
+        Route::post('/customer/{id}/verify', [CustomerController::class, 'verify']);
+        Route::get('/pengaturan/role-akses', [PengaturanController::class, 'roleAkses']);
+
+        Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
+        Route::get('/staff/create', [StaffController::class, 'create'])->name('staff.create');
+        Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');
+        Route::get('/staff/{id}/edit', [StaffController::class, 'edit'])->name('staff.edit');
+        Route::put('/staff/{id}', [StaffController::class, 'update'])->name('staff.update');
+        Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
 
         Route::post('/staff/{id}/reset-password', [StaffController::class, 'resetPassword'])->name('staff.reset-password');
-        Route::get('/demo/pdf', function () {
-            $pdf = Pdf::loadHTML('<h1>RentSCar Invoice</h1><p>Demo PDF generated with DOMPDF.</p>');
-            $pdf->setPaper('A4', 'portrait');
-            return $pdf->download('demo-invoice.pdf');
-        });
-
-        // Intervention Image demo
-        Route::get('/demo/image', function () {
-            $manager = new \Intervention\Image\ImageManager(\Intervention\Image\Drivers\Gd\Driver::class);
-            $img = $manager->createImage(200, 200);
-            $img->fill('#C1121F');
-            $encoded = $img->encodeUsingMediaType('image/png');
-            return response($encoded->toString(), 200, ['Content-Type' => 'image/png']);
-        });
-
-        // OpenSpout demo
-        Route::get('/demo/excel', function () {
-            $writer = new Writer();
-            $writer->openToBrowser('demo-export.xlsx');
-            $writer->addRow(Row::fromValues(['Nama', 'Email', 'Role']));
-            $writer->addRow(Row::fromValues(['Admin', 'admin@rentscar.id', 'admin']));
-            $writer->addRow(Row::fromValues(['Staff', 'staff@rentscar.id', 'staff']));
-            $writer->close();
-        });
-
-        // Livewire demo
-        Route::get('/demo/livewire', function () {
-            return view('livewire.health-check');
-        });
     });
 });

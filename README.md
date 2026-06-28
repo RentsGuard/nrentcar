@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # RentsCar
 
 Sistem manajemen rental mobil berbasis web. Kelola mobil, pelanggan, penyewaan, verifikasi, pengembalian, denda, dan laporan secara terpusat.
@@ -22,6 +23,17 @@ Sistem manajemen rental mobil berbasis web. Kelola mobil, pelanggan, sewa, verif
 | Frontend | Blade, Tailwind CSS v4, Alpine.js |
 | Build | Vite, Node.js |
 >>>>>>> feature/tambah-data-denda
+=======
+# RentsCar — Sistem Informasi Rental Mobil
+
+Sistem manajemen rental mobil berbasis web. Kelola mobil, pelanggan, penyewaan, verifikasi, pengembalian, denda, dan laporan secara terpusat.
+
+## Tech Stack
+
+**Backend:** Laravel 12 · PHP 8.3+ · MySQL/MariaDB
+**Frontend:** Blade · Tailwind CSS v4 · Alpine.js · Chart.js
+**Build:** Vite · Node.js
+>>>>>>> aqsha
 
 ## Quick Start
 
@@ -34,7 +46,11 @@ php artisan migrate && npm run build && php artisan serve
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 > 📖 [Panduan instalasi lengkap](docs/installation.md) · [Daftar dependency](docs/dependency.md)
+=======
+> [Panduan instalasi lengkap](docs/installation.md) · [Daftar dependency](docs/dependency.md)
+>>>>>>> aqsha
 
 ## Documentation
 
@@ -48,6 +64,14 @@ php artisan migrate && npm run build && php artisan serve
 | [docs/HANDOFF.md](docs/HANDOFF.md) | Handoff dan pembagian tugas tim |
 | [CHANGELOG.md](CHANGELOG.md) | Riwayat perubahan |
 
+<<<<<<< HEAD
+=======
+## Target Pengguna
+
+- **Staff** — kelola pelanggan, verifikasi, sewa, pengembalian
+- **Owner/Admin** — monitor seluruh operasi, laporan, pengaturan
+
+>>>>>>> aqsha
 ## Team
 
 | Nama | NIM | Peran |
@@ -58,6 +82,7 @@ php artisan migrate && npm run build && php artisan serve
 | Haikal Pratama | 2411081042 | AI Specialist |
 | Muhammad Gibran Pangestu | 2411083021 | Quality Assurance |
 
+<<<<<<< HEAD
 =======
 > 📖 Panduan lengkap: [docs/installation.md](docs/installation.md)
 
@@ -89,4 +114,6 @@ php artisan migrate && npm run build && php artisan serve
 | Muhammad Gibran Pangestu | 2411083021 | Quality Assurance |
 
 >>>>>>> feature/tambah-data-denda
+=======
+>>>>>>> aqsha
 **Repo:** [github.com/RentsGuard/nrentcar](https://github.com/RentsGuard/nrentcar)

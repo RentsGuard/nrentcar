@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengembalian;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -98,16 +97,6 @@ class StaffController extends Controller
     public function destroy($id)
     {
         $user = User::where('role', 'staff')->findOrFail($id);
-
-        if ($user->penyewaan()->exists()) {
-            return redirect('/staff')
-                ->with('error', 'Staff tidak bisa dihapus karena memiliki data penyewaan. Nonaktifkan akun dengan mereset password atau ubah emailnya.');
-        }
-
-        if (Pengembalian::where('user_id', $user->id)->exists()) {
-            return redirect('/staff')
-                ->with('error', 'Staff tidak bisa dihapus karena memiliki data pengembalian. Nonaktifkan akun dengan mereset password atau ubah emailnya.');
-        }
 
         if ($user->foto_profil) {
             Storage::disk('public')->delete($user->foto_profil);

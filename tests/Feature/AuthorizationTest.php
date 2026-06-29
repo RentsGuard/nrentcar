@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Customer;
 use App\Models\Mobil;
+use App\Models\Penyewaan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -99,5 +101,29 @@ class AuthorizationTest extends TestCase
     {
         $response = $this->get('/tentang-kami');
         $response->assertStatus(200);
+    }
+
+    public function test_admin_can_delete_staff_with_penyewaan(): void
+    {
+        $admin = User::where('email', 'admin@test.com')->first();
+        $customer = Customer::factory()->create(['status_verifikasi' => 'disetujui']);
+
+        $penyewaan = Penyewaan::create([
+            'customer_id' => $customer->id,
+            'mobil_id' => $this->mobil->id,
+            'user_id' => $this->staff->id,
+            'tanggal_sewa' => now(),
+            'tanggal_kembali' => now()->addDay(),
+            'lama_sewa' => 1,
+            'total_harga' => 350000,
+            'status' => 'aktif',
+        ]);
+
+        $response = $this->actingAs($admin)->delete("/staff/{$this->staff->id}");
+        $response->assertStatus(302);
+        $response->assertSessionHas('success');
+
+        $this->assertDatabaseMissing('users', ['id' => $this->staff->id]);
+        $this->assertDatabaseHas('penyewaan', ['id' => $penyewaan->id, 'user_id' => null]);
     }
 }

@@ -61,15 +61,13 @@
                                 <a href="/staff/{{ $user->id }}/edit" class="w-8 h-8 flex items-center justify-center rounded-lg text-white/70 hover:bg-white/[0.08] transition-colors" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                @if($user->role !== 'admin')
-                                <form action="/staff/{{ $user->id }}" method="POST" style="display:inline;" class="delete-form">
+                                <form action="/staff/{{ $user->id }}" method="POST" class="delete-form" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="btn-delete w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-500/10 transition-colors" title="Hapus" data-name="{{ $user->nama_user }}">
+                                    <button type="submit" class="btn-delete w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-500/10 transition-colors" title="Hapus" data-name="{{ $user->nama_user }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
-                                @endif
                             </div>
                         </td>
                     </tr>
@@ -97,10 +95,11 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
         r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
     });
 });
-document.querySelectorAll('.btn-delete').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        var form = this.closest('form');
-        var name = this.dataset.name;
+document.querySelectorAll('.delete-form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = this.querySelector('.btn-delete');
+        var name = btn.dataset.name;
         Swal.fire({
             titleText: 'Hapus ' + name + '?',
             text: 'Tindakan ini tidak dapat dibatalkan.',

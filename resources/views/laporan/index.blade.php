@@ -91,28 +91,6 @@
             </div>
         </div>
     </div>
-
-    <div class="glass-card">
-        <div class="px-5 pt-5 pb-3">
-            <h3 class="text-sm font-semibold text-white tracking-tight">Export Laporan</h3>
-        </div>
-        <div class="px-5 pb-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <a href="/laporan/export/pdf" target="_blank" class="flex items-center gap-3 p-4 rounded-xl border border-white/[0.06] hover:bg-white/[0.03] transition-all no-underline group">
-                <div class="p-2.5 rounded-xl bg-[#C1121F]/10 text-[#C1121F] shrink-0"><i class="bi bi-filetype-pdf text-xl"></i></div>
-                <div class="min-w-0">
-                    <p class="text-sm font-semibold text-white group-hover:text-[#C1121F] transition-colors">Export PDF</p>
-                    <p class="text-xs text-white/50 mt-0.5">Laporan penyewaan &mdash; semua data</p>
-                </div>
-            </a>
-            <a href="/laporan/export/excel" target="_blank" class="flex items-center gap-3 p-4 rounded-xl border border-white/[0.06] hover:bg-white/[0.03] transition-all no-underline group">
-                <div class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0"><i class="bi bi-file-earmark-spreadsheet text-xl"></i></div>
-                <div class="min-w-0">
-                    <p class="text-sm font-semibold text-white group-hover:text-emerald-400 transition-colors">Export Excel</p>
-                    <p class="text-xs text-white/50 mt-0.5">Data penyewaan &mdash; semua data</p>
-                </div>
-            </a>
-        </div>
-    </div>
 </div>
 @endsection
 

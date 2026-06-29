@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Laporan Penyewaan - {{ $label ?? '' }}</title>
+    <title>Laporan Akhir Penyewaan - {{ $label ?? '' }}</title>
     <style>
         body { font-family: sans-serif; font-size: 11px; color: #333; }
         h1 { color: #C1121F; border-bottom: 2px solid #C1121F; padding-bottom: 8px; font-size: 18px; }
@@ -28,7 +28,7 @@
 <body>
     <div class="header">
         <div>
-            <h1>Laporan Penyewaan</h1>
+            <h1>Laporan Akhir Penyewaan</h1>
             <p class="subtitle">RentSCar.id - Premium Car Rental</p>
         </div>
         <div style="text-align:right;">
@@ -54,17 +54,16 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Customer</th>
-                <th>No. HP</th>
+                <th>Customer</th>                
                 <th>Mobil</th>
+                <th>No. HP</th>
                 <th>Plat</th>
                 <th>Tgl Sewa</th>
                 <th>Tgl Kembali</th>
                 <th>Lama</th>
                 <th>Total Harga</th>
-                <th>Trouble / Ket</th>
                 <th>Status</th>
-                <th>Selesai</th>
+                <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
@@ -72,22 +71,15 @@
             <tr>
                 <td>RNT-{{ str_pad($p->id, 3, '0', STR_PAD_LEFT) }}</td>
                 <td>{{ $p->customer->nama_customer ?? '-' }}</td>
-                <td>{{ $p->customer->no_hp ?? '-' }}</td>
                 <td>{{ $p->mobil->nama_mobil ?? '-' }}</td>
+                <td>{{ $p->customer->no_hp ?? '-' }}</td>
                 <td>{{ $p->mobil->plat_mobil ?? '-' }}</td>
                 <td>{{ $p->tanggal_sewa ? $p->tanggal_sewa->format('d/m/Y') : '-' }}</td>
                 <td>{{ $p->tanggal_kembali ? $p->tanggal_kembali->format('d/m/Y') : '-' }}</td>
                 <td>{{ $p->lama_sewa }} Hari</td>
                 <td>Rp {{ number_format($p->total_harga, 0, ',', '.') }}</td>
-                <td>{{ $p->pengembalian->catatan ?? $p->catatan ?? '-' }}</td>
                 <td><span class="status {{ $p->status }}">{{ ucfirst($p->status) }}</span></td>
-                <td style="text-align:center;">
-                    @if($p->status === 'selesai')
-                        <span class="check">&#10003;</span>
-                    @else
-                        -
-                    @endif
-                </td>
+                <td>{{ $p->pengembalian->catatan ?? $p->catatan ?? '-' }}</td>
             </tr>
             @empty
             <tr><td colspan="12" style="text-align:center;color:#888;">Tidak ada data penyewaan</td></tr>

@@ -37,10 +37,10 @@
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Mobil</label>
-                            <select name="mobil_id" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
+                            <select name="mobil_id" id="mobilSelect" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] appearance-none" style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%222%22%3E%3Cpath d=%22M6 9l6 6 6-6%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
                                 <option value="">-- Pilih Mobil --</option>
                                 @foreach($mobils as $m)
-                                <option value="{{ $m->id }}" {{ old('mobil_id') == $m->id ? 'selected' : '' }}>{{ $m->nama_mobil }} - {{ $m->plat_mobil }} (Rp{{ number_format($m->harga_mobil, 0, ',', '.') }})</option>
+                                <option value="{{ $m->id }}" data-harga-mobil="{{ $m->harga_mobil }}" {{ old('mobil_id') == $m->id ? 'selected' : '' }}>{{ $m->nama_mobil }} - {{ $m->plat_mobil }} (Rp{{ number_format($m->harga_mobil, 0, ',', '.') }}/hari)</option>
                                 @endforeach
                             </select>
                     </div>
@@ -72,11 +72,9 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Total Harga</label>
-                        <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></span>
-                            <input type="number" name="total_harga" value="{{ old('total_harga') }}" required min="0" placeholder="Rp 0" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
-                        </div>
+                        <label class="text-sm font-medium text-white/80">Total Harga <span class="text-white/40 font-normal">(otomatis)</span></label>
+                        <div class="h-10 flex items-center px-3 rounded-lg border border-white/[0.06] bg-white/[0.02] text-white font-semibold text-sm" id="total_harga_display">Rp 0</div>
+                        <p class="text-[11px] text-white/30">Lama sewa &times; harga sewa/hari mobil terpilih.</p>
                     </div>
 
                     <div class="space-y-2">
@@ -94,7 +92,7 @@
                 </div>
 
                 <div class="p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 text-amber-400 text-xs">
-                    <i class="bi bi-info-circle"></i> Lama sewa & total denda telat dihitung otomatis. Denda per jam disesuaikan dengan harga mobil.
+                    <i class="bi bi-info-circle"></i> Lama sewa & total harga dihitung otomatis dari tanggal/jam dan harga sewa mobil. Total denda telat dihitung otomatis saat pengembalian. Denda per jam disesuaikan dengan harga mobil.
                 </div>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">
@@ -110,6 +108,10 @@
 
 @push('scripts')
 <script>
+function formatRupiah(num) {
+    return 'Rp ' + Math.round(num).toLocaleString('id-ID');
+}
+
 function calcLamaSewa() {
     const tglSewa = document.getElementById('tanggal_sewa').value;
     const jamSewa = document.getElementById('jam_sewa').value || '08:00';
@@ -117,20 +119,47 @@ function calcLamaSewa() {
     const jamKembali = document.getElementById('jam_kembali').value || '17:00';
     const display = document.getElementById('lama_sewa_display');
     const hidden = document.getElementById('lama_sewa');
-    if (!tglSewa || !tglKembali) { display.textContent = '-'; hidden.value = 1; return; }
-    const mulai = new Date(tglSewa + 'T' + jamSewa);
-    const selesai = new Date(tglKembali + 'T' + jamKembali);
-    if (selesai <= mulai) { display.textContent = '0 (cek tanggal)'; hidden.value = 1; return; }
-    const diffMs = selesai - mulai;
-    const diffJam = diffMs / (1000 * 60 * 60);
-    const hari = Math.ceil(diffJam / 24);
-    display.textContent = hari + ' hari';
-    hidden.value = hari;
+
+    let hari = 1;
+    if (!tglSewa || !tglKembali) {
+        display.textContent = '-';
+        hidden.value = 1;
+    } else {
+        const mulai = new Date(tglSewa + 'T' + jamSewa);
+        const selesai = new Date(tglKembali + 'T' + jamKembali);
+        if (selesai <= mulai) {
+            display.textContent = '0 (cek tanggal)';
+            hidden.value = 1;
+            hari = 0;
+        } else {
+            const diffMs = selesai - mulai;
+            const diffJam = diffMs / (1000 * 60 * 60);
+            hari = Math.ceil(diffJam / 24);
+            display.textContent = hari + ' hari';
+            hidden.value = hari;
+        }
+    }
+
+    calcTotalHarga(hari);
 }
+
+function calcTotalHarga(lamaSewa) {
+    const select = document.getElementById('mobilSelect');
+    const opt = select.options[select.selectedIndex];
+    const totalDisplay = document.getElementById('total_harga_display');
+
+    const hargaPerHari = (opt && opt.value) ? parseFloat(opt.dataset.hargaMobil) || 0 : 0;
+    const totalHarga = lamaSewa * hargaPerHari;
+
+    totalDisplay.textContent = formatRupiah(totalHarga);
+}
+
 document.getElementById('tanggal_sewa').addEventListener('change', calcLamaSewa);
 document.getElementById('jam_sewa').addEventListener('change', calcLamaSewa);
 document.getElementById('tanggal_kembali').addEventListener('change', calcLamaSewa);
 document.getElementById('jam_kembali').addEventListener('change', calcLamaSewa);
+document.getElementById('mobilSelect').addEventListener('change', calcLamaSewa);
+
 calcLamaSewa();
 </script>
 @endpush

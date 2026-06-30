@@ -36,7 +36,7 @@ class PengembalianFactory extends Factory
         ]);
     }
 
-    public function rusak(int nominal): static
+    public function rusak(int $nominal): static
     {
         return $this->state(fn(array $attr) => [
             'denda_kerusakan' => $nominal,

@@ -81,54 +81,120 @@
             <table class="w-full text-sm text-left">
                 <thead>
                     <tr class="text-xs text-white/50 uppercase tracking-wider border-b border-white/[0.05]">
-                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">User</th>
-                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Unit</th>
-                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Tanggal</th>
-                        <th class="px-5 py-3.5 font-semibold text-right whitespace-nowrap">Hari</th>
-                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Trouble</th>
-                        <th class="px-5 py-3.5 font-semibold text-center whitespace-nowrap">Ket</th>
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">ID</th>
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Customer</th>                
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Mobil</th>
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">No. HP</th>
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Plat</th>
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Tgl Sewa</th>
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Tgl Kembali</th>
+                        <th class="px-5 py-3.5 font-semibold text-right whitespace-nowrap">Lama</th>
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Total Harga</th>
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Status</th>
+                        <th class="px-5 py-3.5 font-semibold whitespace-nowrap">Keterangan</th>
                     </tr>
-                </thead>
-                <tbody class="divide-y divide-white/[0.04]">
-                    @forelse($penyewaans as $p)
-                    <tr class="hover:bg-white/[0.02] transition-colors even:bg-white/[0.015]">
-                        <td class="px-5 py-3.5 whitespace-nowrap">
-                            <div class="text-white font-medium">{{ $p->customer->nama_customer ?? '-' }}</div>
-                            <div class="text-[11px] text-white/40 mt-0.5">{{ $p->customer->no_hp ?? '-' }}</div>
-                        </td>
-                        <td class="px-5 py-3.5 whitespace-nowrap">
-                            <div class="text-white font-medium">{{ $p->mobil->nama_mobil ?? '-' }}</div>
-                            <div class="text-[11px] text-white/40 mt-0.5 font-mono">{{ $p->mobil->plat_mobil ?? '-' }}</div>
-                        </td>
-                        <td class="px-5 py-3.5 text-white/80 font-medium whitespace-nowrap">{{ $p->tanggal_sewa?->format('d/m/Y') }}</td>
-                        <td class="px-5 py-3.5 text-white/80 text-right font-medium whitespace-nowrap">{{ $p->lama_sewa }}<span class="text-white/30 text-[11px] ml-0.5">hr</span></td>
-                        <td class="px-5 py-3.5 text-white/60 text-xs max-w-[240px] truncate" title="{{ $p->pengembalian?->catatan ?? $p->catatan ?? '-' }}">{{ $p->pengembalian?->catatan ?? $p->catatan ?? '-' }}</td>
-                        <td class="px-5 py-3.5 text-center">
-                            @if($p->status === 'selesai')
-                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-500/15 text-emerald-400"><i class="bi bi-check-lg"></i></span>
-                            @else
-                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-red-500/15 text-red-400"><i class="bi bi-x-lg"></i></span>
-                            @endif
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="px-5 py-16 text-center">
-                            <div class="flex flex-col items-center gap-3 text-white/40">
-                                <div class="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
-                                    <i class="bi bi-inbox text-2xl"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium text-white/60">Tidak ada data penyewaan</p>
-                                    <p class="text-xs text-white/40 mt-1">Belum ada transaksi pada periode ini.</p>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                 </thead>
+
+        <tbody class="divide-y divide-white/[0.04]">
+            @forelse($penyewaans as $p)
+            <tr class="hover:bg-white/[0.02] transition-colors even:bg-white/[0.015]">
+
+                {{-- ID --}}
+                <td class="px-5 py-3.5 whitespace-nowrap text-white font-medium">
+                    RNT-{{ str_pad($p->id, 3, '0', STR_PAD_LEFT) }}
+                </td>
+
+                {{-- Customer --}}
+                <td class="px-5 py-3.5 whitespace-nowrap">
+                    <div class="text-white font-medium">
+                        {{ $p->customer->nama_customer ?? '-' }}
+                    </div>
+                </td>
+
+                {{-- Mobil --}}
+                <td class="px-5 py-3.5 whitespace-nowrap">
+                    <div class="text-white font-medium">
+                        {{ $p->mobil->nama_mobil ?? '-' }}
+                    </div>
+                </td>
+
+                {{-- No HP --}}
+                <td class="px-5 py-3.5 whitespace-nowrap text-white/70">
+                    {{ $p->customer->no_hp ?? '-' }}
+                </td>
+
+                {{-- Plat --}}
+                <td class="px-5 py-3.5 whitespace-nowrap text-white/70 font-mono">
+                    {{ $p->mobil->plat_mobil ?? '-' }}
+                </td>
+
+                {{-- Tanggal Sewa --}}
+                <td class="px-5 py-3.5 whitespace-nowrap text-white/80">
+                    {{ $p->tanggal_sewa?->format('d/m/Y') ?? '-' }}
+                </td>
+
+                {{-- Tanggal Kembali --}}
+                <td class="px-5 py-3.5 whitespace-nowrap text-white/80">
+                    {{ $p->tanggal_kembali?->format('d/m/Y') ?? '-' }}
+                </td>
+
+                {{-- Lama --}}
+                <td class="px-5 py-3.5 text-center whitespace-nowrap text-white">
+                    {{ $p->lama_sewa }} Hari
+                </td>
+
+                {{-- Total Harga --}}
+                <td class="px-5 py-3.5 text-right whitespace-nowrap font-semibold text-[#C1121F]">
+                    Rp {{ number_format($p->total_harga, 0, ',', '.') }}
+                </td>
+
+                {{-- Status --}}
+                <td class="px-5 py-3.5 text-center">
+                    @if($p->status === 'selesai')
+                        <span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-400 text-xs font-semibold">
+                            Selesai
+                        </span>
+                    @elseif($p->status === 'aktif')
+                        <span class="inline-flex items-center px-3 py-1 rounded-full bg-amber-500/15 text-amber-400 text-xs font-semibold">
+                            Aktif
+                        </span>
+                    @else
+                        <span class="inline-flex items-center px-3 py-1 rounded-full bg-red-500/15 text-red-400 text-xs font-semibold">
+                            Dibatalkan
+                        </span>
+                    @endif
+                </td>
+
+                {{-- Keterangan --}}
+                <td class="px-5 py-3.5 text-white/60 text-xs">
+                    {{ $p->pengembalian->catatan ?? $p->catatan ?? '-' }}
+                </td>
+
+            </tr>
+
+            @empty
+            <tr>
+                <td colspan="11" class="px-5 py-16 text-center">
+                    <div class="flex flex-col items-center gap-3 text-white/40">
+                        <div class="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
+                            <i class="bi bi-inbox text-2xl"></i>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-medium text-white/60">
+                                Tidak ada data penyewaan
+                            </p>
+                            <p class="text-xs text-white/40 mt-1">
+                                Belum ada transaksi pada periode ini.
+                            </p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 
         <div class="px-5 py-3 border-t border-white/[0.05]">
             {{ $penyewaans->links('partials.pagination') }}

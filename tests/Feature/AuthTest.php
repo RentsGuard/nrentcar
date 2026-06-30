@@ -64,6 +64,38 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertSessionHas('error');
+        $response->assertSessionHas('attempts_left');
+    }
+
+    public function test_login_rate_limit_blocks_after_5_attempts(): void
+    {
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/login', [
+                'email' => 'spam@test.com',
+                'password' => 'wrongpass',
+            ]);
+        }
+
+        $response = $this->post('/login', [
+            'email' => 'spam@test.com',
+            'password' => 'wrongpass',
+        ]);
+
+        $response->assertSessionHas('error');
+        $this->assertStringContainsString('Terlalu banyak', session('error'));
+    }
+
+    public function test_login_shows_attempts_left_after_failure(): void
+    {
+        $this->get('/login');
+
+        $response = $this->followingRedirects()->post('/login', [
+            'email' => 'user@test.com',
+            'password' => 'wrongpass',
+        ]);
+
+        $response->assertSee('Sisa percobaan');
+        $response->assertSee('4');
     }
 
     public function test_logout(): void

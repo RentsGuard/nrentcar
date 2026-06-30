@@ -67,6 +67,9 @@
                                 <label class="text-sm font-medium text-white/80">Password</label>
                             </div>
                             <input type="password" name="password" required placeholder="••••••••" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                            @if(session()->has('attempts_left'))
+                            <p class="text-xs text-yellow-400/80 mt-1">Sisa percobaan: {{ session('attempts_left') }}</p>
+                            @endif
                         </div>
 
                         <div class="flex items-center gap-2">

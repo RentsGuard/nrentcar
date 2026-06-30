@@ -142,6 +142,8 @@ class PenyewaanController extends Controller
             unset($validated['total_harga']);
         }
 
+        $mobil = $penyewaan->mobil;
+
         $penyewaan->update($validated);
 
         if ($mobil && $penyewaan->status === 'aktif' && $mobil->status_mobil !== 'disewa') {

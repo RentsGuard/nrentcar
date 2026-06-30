@@ -16,11 +16,13 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:6',
         ]);
 
-        if (! Auth::attempt($credentials)) {
-            return back()->with('error', 'Login gagal');
+        $remember = $request->boolean('remember_me');
+
+        if (! Auth::attempt($credentials, $remember)) {
+            return back()->with('error', 'Login gagal')->withInput($request->only('email'));
         }
 
         $request->session()->regenerate();

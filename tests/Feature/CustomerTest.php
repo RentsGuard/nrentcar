@@ -55,7 +55,6 @@ class CustomerTest extends TestCase
             'status_perkawinan' => 'Belum Kawin',
             'pekerjaan' => 'Karyawan Swasta',
             'kewarganegaraan' => 'WNI',
-            'berlaku_hingga' => '2032-02-02',
         ]);
 
         $response->assertRedirect('/customer');

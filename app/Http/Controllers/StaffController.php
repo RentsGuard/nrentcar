@@ -26,7 +26,7 @@ class StaffController extends Controller
         $validated = $request->validate([
             'nama_user' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:6'],
+            'password' => ['required', 'string', 'min:8'],
             'foto_profil' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ]);
 
@@ -63,7 +63,7 @@ class StaffController extends Controller
         $validated = $request->validate([
             'nama_user' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
-            'password' => ['nullable', 'string', 'min:6'],
+            'password' => ['nullable', 'string', 'min:8'],
             'foto_profil' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ]);
 
@@ -114,7 +114,7 @@ class StaffController extends Controller
         $user = User::where('role', 'staff')->findOrFail($id);
 
         $validated = $request->validate([
-            'new_password' => ['required', 'string', 'min:6'],
+            'new_password' => ['required', 'string', 'min:8'],
         ]);
 
         $user->update([

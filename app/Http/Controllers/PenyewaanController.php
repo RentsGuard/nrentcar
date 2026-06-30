@@ -50,7 +50,7 @@ class PenyewaanController extends Controller
             'tanggal_kembali' => 'required|date',
             'jam_kembali' => 'nullable|date_format:H:i',
             'denda_per_jam' => 'required|numeric|min:0',
-            'catatan' => 'nullable|string',
+            'catatan' => 'nullable|string|max:1000',
         ]);
 
         $validated['jam_sewa'] = $validated['jam_sewa'] ?? '08:00';
@@ -120,7 +120,7 @@ class PenyewaanController extends Controller
             'tanggal_kembali' => 'required|date',
             'jam_kembali' => 'nullable|date_format:H:i',
             'denda_per_jam' => 'required|numeric|min:0',
-            'catatan' => 'nullable|string',
+            'catatan' => 'nullable|string|max:1000',
         ]);
 
         $validated['jam_sewa'] = $validated['jam_sewa'] ?? '08:00';
@@ -135,9 +135,12 @@ class PenyewaanController extends Controller
 
         $validated['lama_sewa'] = (int) ceil($mulai->diffInMinutes($selesai) / (60 * 24));
 
-        // Total harga dihitung ulang otomatis berdasarkan lama_sewa terbaru x harga_mobil (harga sewa per hari) saat ini.
-        $mobil = Mobil::findOrFail($penyewaan->mobil_id);
-        $validated['total_harga'] = $validated['lama_sewa'] * $mobil->harga_mobil;
+        if ($validated['lama_sewa'] !== $penyewaan->lama_sewa) {
+            $hargaPerHari = $penyewaan->total_harga / max($penyewaan->lama_sewa, 1);
+            $validated['total_harga'] = $validated['lama_sewa'] * $hargaPerHari;
+        } else {
+            unset($validated['total_harga']);
+        }
 
         $penyewaan->update($validated);
 

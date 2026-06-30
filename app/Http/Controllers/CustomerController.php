@@ -61,16 +61,13 @@ class CustomerController extends Controller
             'status_perkawinan' => 'nullable|in:Kawin,Belum Kawin,Cerai',
             'pekerjaan' => 'nullable|string|max:255',
             'kewarganegaraan' => 'nullable|string|max:10',
-            'berlaku_hingga' => 'nullable|date',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        $validated['berlaku_hingga'] = null;
+
         if ($request->hasFile('foto_ktp')) {
             $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp', 'public');
-        }
-
-        if ($request->has('seumur_hidup')) {
-            $validated['berlaku_hingga'] = null;
         }
 
         $customer = Customer::create($validated);
@@ -138,7 +135,6 @@ class CustomerController extends Controller
             'status_perkawinan' => 'nullable|in:Kawin,Belum Kawin,Cerai',
             'pekerjaan' => 'nullable|string|max:255',
             'kewarganegaraan' => 'nullable|string|max:10',
-            'berlaku_hingga' => 'nullable|date',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'status_verifikasi' => 'nullable|in:disetujui,ditolak',
             'catatan_verifikasi' => ['nullable', 'string', 'max:500'],
@@ -157,10 +153,7 @@ class CustomerController extends Controller
         }
 
         $validated['catatan_verifikasi'] = $request->catatan_verifikasi;
-
-        if ($request->has('seumur_hidup')) {
-            $validated['berlaku_hingga'] = null;
-        }
+        $validated['berlaku_hingga'] = null;
 
         if ($request->hasFile('foto_ktp')) {
             if ($customer->foto_ktp) {

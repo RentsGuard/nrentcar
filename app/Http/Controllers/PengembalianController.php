@@ -47,7 +47,7 @@ class PengembalianController extends Controller
             'tanggal_pengembalian' => 'required|date',
             'kondisi_mobil' => 'nullable|string|max:255',
             'denda_kerusakan' => 'nullable|numeric|min:0',
-            'catatan' => 'nullable|string',
+            'catatan' => 'nullable|string|max:1000',
         ]);
 
         $penyewaan = Penyewaan::where('id', $validated['penyewaan_id'])
@@ -65,7 +65,7 @@ class PengembalianController extends Controller
             return back()->withErrors(['tanggal_pengembalian' => 'Tanggal pengembalian harus setelah tanggal sewa.'])->withInput();
         }
 
-        $denda = $this->calculateDenda($penyewaan, $tanggalPengembalian, $request->jam_kembali);
+        $denda = $this->calculateDenda($penyewaan, $tanggalPengembalian, $request->jam_kembali, $validated['denda_kerusakan'] ?? null, $validated['kondisi_mobil'] ?? null);
 
         $data = [
             'penyewaan_id' => $validated['penyewaan_id'],
@@ -116,7 +116,7 @@ class PengembalianController extends Controller
             'tanggal_pengembalian' => 'required|date',
             'kondisi_mobil' => 'nullable|string|max:255',
             'denda_kerusakan' => 'nullable|numeric|min:0',
-            'catatan' => 'nullable|string',
+            'catatan' => 'nullable|string|max:1000',
         ]);
 
         $penyewaan = $pengembalian->penyewaan;
@@ -128,11 +128,11 @@ class PengembalianController extends Controller
             return back()->withErrors(['tanggal_pengembalian' => 'Tanggal pengembalian harus setelah tanggal sewa.'])->withInput();
         }
 
-        $denda = $this->calculateDenda($penyewaan, $tglKembali, $request->jam_kembali);
+        $dendaKerusakan = $validated['denda_kerusakan'] ?? 0;
+        $denda = $this->calculateDenda($penyewaan, $tglKembali, $request->jam_kembali, $dendaKerusakan, $validated['kondisi_mobil']);
 
         $existingDendaPerJam = (int) ($pengembalian->denda_per_jam ?? $denda['denda_per_jam']);
         $dendaTelatRecalc = $denda['telat_jam'] * $existingDendaPerJam;
-        $dendaKerusakan = $request->denda_kerusakan ? (int) $request->denda_kerusakan : 0;
         $totalDendaRecalc = $dendaTelatRecalc + $dendaKerusakan;
 
         $data = [
@@ -221,7 +221,7 @@ class PengembalianController extends Controller
             ->with('success', 'Status denda dikembalikan ke belum dibayar');
     }
 
-    private function calculateDenda($penyewaan, $tanggalPengembalian, $jamKembali = null)
+    private function calculateDenda($penyewaan, $tanggalPengembalian, $jamKembali = null, $dendaKerusakan = null, $kondisiMobil = null)
     {
         $expectedDate = $penyewaan->tanggal_kembali;
         $expectedJam = $penyewaan->jam_kembali ?? '17:00';
@@ -245,10 +245,10 @@ class PengembalianController extends Controller
             $dendaTelat = $telatJam * $dendaPerJam;
         }
 
-        $dendaKerusakan = request('denda_kerusakan') ? (int) request('denda_kerusakan') : 0;
+        $dendaKerusakan = $dendaKerusakan ?? 0;
         $totalDenda = $dendaTelat + $dendaKerusakan;
 
-        $kondisi = request('kondisi_mobil');
+        $kondisi = $kondisiMobil;
         if ($kondisi === 'rusak' && $isLate) {
             $status = 'telat_dan_rusak';
         } elseif ($kondisi === 'rusak') {

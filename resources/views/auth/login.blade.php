@@ -69,6 +69,11 @@
                             <input type="password" name="password" required placeholder="••••••••" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                         </div>
 
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" name="remember_me" id="remember_me" class="w-4 h-4 rounded border-white/[0.1] bg-[#0D0D0D] text-[#C1121F] focus:ring-[#C1121F]/50">
+                            <label for="remember_me" class="text-sm text-white/60">Ingat saya</label>
+                        </div>
+
                         <button type="submit" class="w-full h-12 rounded-lg bg-[#C1121F] text-white font-medium text-base flex items-center justify-center gap-2 transition-all hover:bg-[#a30f1a] shadow-[0_0_24px_-6px_rgba(193,18,31,0.6)]">
                             Masuk <i class="bi bi-arrow-right"></i>
                         </button>

@@ -122,20 +122,9 @@
                         @error('kewarganegaraan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="text-sm font-medium text-white/80 mb-1.5 block">Berlaku Hingga <span class="text-red-400">*</span></label>
-                            <input type="date" name="berlaku_hingga" value="{{ old('berlaku_hingga') }}"
-                                class="w-full px-4 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors [color-scheme:dark]">
-                            @error('berlaku_hingga') <p class="text-red-400 text-xs mt-1">{{ $message }}</p> @enderror
-                        </div>
-                        <div class="flex items-end pb-3">
-                            <label class="flex items-center gap-2.5 cursor-pointer group">
-                                <input type="checkbox" name="seumur_hidup" value="1" {{ old('seumur_hidup') ? 'checked' : '' }}
-                                    class="w-4 h-4 rounded border-white/20 bg-[#0D0D0D] text-[#C1121F] focus:ring-[#C1121F]/50">
-                                <span class="text-sm text-white/70 group-hover:text-white transition-colors">Seumur Hidup</span>
-                            </label>
-                        </div>
+                    <div>
+                        <label class="text-sm font-medium text-white/80 mb-1.5 block">Berlaku Hingga</label>
+                        <p class="text-sm text-white/70 px-1">Seumur Hidup</p>
                     </div>
                 </div>
 

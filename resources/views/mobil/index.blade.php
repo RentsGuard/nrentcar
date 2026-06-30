@@ -121,7 +121,7 @@
                         </button>
                     </form>
                     @if(auth()->user()->role === 'admin' && $mobil->penyewaan_count === 0)
-                    <form action="/mobil/{{ $mobil->id }}" method="POST" onsubmit="return confirm('Yakin hapus mobil {{ $mobil->nama_mobil }}? Data tidak bisa dikembalikan.')">
+                    <form action="/mobil/{{ $mobil->id }}" method="POST" onsubmit="return confirm('Yakin hapus mobil ' + @json($mobil->nama_mobil) + '? Data tidak bisa dikembalikan.')">
                         @csrf @method('DELETE')
                         <button type="submit" class="inline-flex items-center justify-center gap-2 h-9 px-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 text-sm transition-colors" title="Hapus permanen">
                             <i class="bi bi-trash"></i>

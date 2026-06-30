@@ -46,4 +46,9 @@ class Mobil extends Model
     {
         return $this->hasMany(Penyewaan::class);
     }
+
+    public function getFotoMobilUrlAttribute(): ?string
+    {
+        return $this->foto_mobil ? asset('storage/'.$this->foto_mobil) : null;
+    }
 }

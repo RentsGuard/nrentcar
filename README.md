@@ -1,119 +1,199 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# RentsCar
+# NrentCar — Car Rental Management System
 
-Sistem manajemen rental mobil berbasis web. Kelola mobil, pelanggan, penyewaan, verifikasi, pengembalian, denda, dan laporan secara terpusat.
+A full-featured car rental management system built with Laravel 12. Manage cars, customers, rentals, returns, fines, and reports — all in one place.
 
-## Tech Stack
+## Features
 
-**Backend:** Laravel 12 · PHP 8.3+ · MySQL/MariaDB  
-**Frontend:** Blade · Tailwind CSS v4 · Alpine.js · Chart.js  
-**Build:** Vite · Node.js
-=======
-# RentsCar — Sistem Informasi Rental Mobil
-
-Sistem manajemen rental mobil berbasis web. Kelola mobil, pelanggan, sewa, verifikasi, pengembalian, denda, dan laporan — semua terpusat.
-
-## Tech Stack
-
-| Lapisan | Teknologi |
-|---------|-----------|
-| Backend | Laravel 12, PHP 8.3+ |
-| Database | MySQL / MariaDB |
-| Frontend | Blade, Tailwind CSS v4, Alpine.js |
-| Build | Vite, Node.js |
->>>>>>> feature/tambah-data-denda
-=======
-# RentsCar — Sistem Informasi Rental Mobil
-
-Sistem manajemen rental mobil berbasis web. Kelola mobil, pelanggan, penyewaan, verifikasi, pengembalian, denda, dan laporan secara terpusat.
+- **Auth & Roles** — Admin/Staff login with role-based redirect (throttle: 5/min)
+- **Dashboard** — 7 stat cards + real Chart.js charts (revenue, rentals)
+- **Staff Management** — Admin-only CRUD, password reset, foto profil
+- **Customer Management** — Full KTP fields (18 fields), foto_ktp upload, verification workflow
+- **Car Management** — CRUD with foto upload, tipe_mobil (Matic/Manual), visibility toggle
+- **Rental (Penyewaan)** — Customer/mobil dropdowns, auto-calc duration & price, status sync
+- **Returns (Pengembalian)** — Manual fine input, auto-calc late fees, marks rental complete
+- **Reports** — Stat cards, real Chart.js charts, PDF export (DOMPDF), date filtering
+- **Settings** — Appearance (name, description, accent color), notifications, role access (admin)
+- **Activity Log** — Spatie Activitylog tracks all actions
+- **Public Pages** — Car listing + detail with WhatsApp booking link
+- **Responsive** — Dark theme with Tailwind CSS v4 + Alpine.js
 
 ## Tech Stack
 
-**Backend:** Laravel 12 · PHP 8.3+ · MySQL/MariaDB
-**Frontend:** Blade · Tailwind CSS v4 · Alpine.js · Chart.js
-**Build:** Vite · Node.js
->>>>>>> aqsha
+| Layer | Technology |
+|-------|-----------|
+| Backend | Laravel 12, PHP 8.4.2 |
+| Frontend | Blade, Tailwind CSS v4, Alpine.js, Chart.js |
+| Database | MySQL 8.4 (Laragon) |
+| Build | Vite 7, Node 22 |
+| Auth | Session-based, custom RoleMiddleware |
+| PDF | DOMPDF |
+| Activity Log | Spatie Activitylog |
+| Icons | Bootstrap Icons + Blade Heroicons |
+| Notifications | SweetAlert2 |
 
-## Quick Start
+## Project Structure
 
-```bash
-git clone https://github.com/RentsGuard/nrentcar.git
-cd nrentcar
-composer install && npm install
-cp .env.example .env && php artisan key:generate
-php artisan migrate && npm run build && php artisan serve
+```
+app/
+├── Http/
+│   ├── Controllers/    # 13 controllers
+│   └── Middleware/      # RoleMiddleware
+├── Models/              # 6 models (User, Customer, Mobil, Penyewaan, Pengembalian, Setting)
+├── Providers/           # AppServiceProvider
+bootstrap/
+├── app.php              # Middleware registration
+├── providers.php
+config/                  # 11 config files
+database/
+├── migrations/          # 18 migration files
+├── seeders/             # 7 seeders
+├── factories/           # 5 factories
+resources/
+├── views/               # 41 Blade views
+├── css/                 # app.css (Tailwind v4 theme)
+├── js/                  # app.js (Alpine, SweetAlert2, Fontsource)
+routes/
+└── web.php              # All routes
+tests/
+├── Feature/             # 7 feature test files
+├── Unit/                # 1 unit test
 ```
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-> 📖 [Panduan instalasi lengkap](docs/installation.md) · [Daftar dependency](docs/dependency.md)
-=======
-> [Panduan instalasi lengkap](docs/installation.md) · [Daftar dependency](docs/dependency.md)
->>>>>>> aqsha
+## Installation
 
-## Documentation
+### Prerequisites
 
-| File | Description |
-|------|-------------|
-| [docs/installation.md](docs/installation.md) | Instalasi, konfigurasi, troubleshooting |
-| [docs/features.md](docs/features.md) | Fitur dan status pengerjaan |
-| [docs/dependency.md](docs/dependency.md) | Dependency backend & frontend |
-| [docs/refactoring.md](docs/refactoring.md) | Catatan refactoring kode |
-| [docs/github-actions.md](docs/github-actions.md) | CI/CD pipeline |
-| [docs/HANDOFF.md](docs/HANDOFF.md) | Handoff dan pembagian tugas tim |
-| [CHANGELOG.md](CHANGELOG.md) | Riwayat perubahan |
+- PHP 8.2+
+- Composer
+- Node.js 20+
+- MySQL 8+
+- Laragon (recommended on Windows)
 
-<<<<<<< HEAD
-=======
-## Target Pengguna
+### Setup
 
-- **Staff** — kelola pelanggan, verifikasi, sewa, pengembalian
-- **Owner/Admin** — monitor seluruh operasi, laporan, pengaturan
+```bash
+# Clone
+git clone https://github.com/your-org/nrentcar.git
+cd nrentcar
 
->>>>>>> aqsha
-## Team
+# Install PHP dependencies
+composer install
 
-| Nama | NIM | Peran |
-|------|-----|-------|
-| Muhammad Sharif Al Aqsha | 2411081035 | Project Manager |
-| Nisrina Nur'aini Yurizal | 2411082037 | Lead Programmer |
-| Zahra' Cyurisma Hanena | 2411082041 | System Analyst |
-| Haikal Pratama | 2411081042 | AI Specialist |
-| Muhammad Gibran Pangestu | 2411083021 | Quality Assurance |
+# Install Node dependencies
+npm install
 
-<<<<<<< HEAD
-=======
-> 📖 Panduan lengkap: [docs/installation.md](docs/installation.md)
+# Environment
+cp .env.example .env
+php artisan key:generate
 
-## Dokumentasi
+# Database
+# Create MySQL database 'nrentcar'
+# Update .env: DB_DATABASE=nrentcar, DB_USERNAME=root, DB_PASSWORD=
 
-| Dokumen | Isi |
-|---------|-----|
-| [docs/installation.md](docs/installation.md) | Instalasi lokal detail + troubleshooting |
-| [docs/features.md](docs/features.md) | Daftar fitur & status |
-| [docs/dependency.md](docs/dependency.md) | Dependency backend & frontend |
-| [docs/refactoring.md](docs/refactoring.md) | Catatan refactoring |
-| [docs/github-actions.md](docs/github-actions.md) | CI/CD pipeline |
-| [CHANGELOG.md](CHANGELOG.md) | Riwayat perubahan |
-| [docs/HANDOFF.md](docs/HANDOFF.md) | Handoff tim pengembang |
+# Migrate & seed
+php artisan migrate:fresh --seed
 
-## Target Pengguna
+# Build frontend
+npm run build
 
-- **Staff** — kelola pelanggan, verifikasi, sewa, pengembalian
-- **Owner/Admin** — monitor seluruh operasi, laporan, pengaturan
+# Create storage link
+php artisan storage:link
 
-## Tim Pengembang
+# Start
+php artisan serve
+```
 
-| Nama | NIM | Peran |
-|------|-----|-------|
-| Muhammad Sharif Al Aqsha | 2411081035 | Project Manager |
-| Nisrina Nur'aini Yurizal | 2411082037 | Lead Programmer |
-| Zahra' Cyurisma Hanena | 2411082041 | System Analyst |
-| Haikal Pratama | 2411081042 | AI Specialist |
-| Muhammad Gibran Pangestu | 2411083021 | Quality Assurance |
+## Environment Variables
 
->>>>>>> feature/tambah-data-denda
-=======
->>>>>>> aqsha
-**Repo:** [github.com/RentsGuard/nrentcar](https://github.com/RentsGuard/nrentcar)
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `APP_NAME` | NrentCar | Application name |
+| `APP_ENV` | production | Environment (local/production) |
+| `APP_DEBUG` | false | Debug mode |
+| `APP_URL` | http://nrentcar.test | App URL |
+| `DB_DATABASE` | nrentcar | Database name |
+| `DB_USERNAME` | root | Database user |
+| `DB_PASSWORD` | (empty) | Database password |
+| `SESSION_DRIVER` | file | Session storage |
+| `ADMIN_WA_NUMBER` | 6282284611795 | WhatsApp number for booking |
+
+## Database
+
+Run fresh seed:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+Seed data:
+- **Users**: Admin (admin@gmail.com / 123456), Staff (staff@gmail.com / 123456)
+- **Mobil**: 8 cars (various types)
+- **Customers**: 5 verified customers
+- **Penyewaan**: 6 rental records
+- **Pengembalian**: Matching returns
+
+## Running Locally
+
+```bash
+# Dev server with Vite
+composer run dev
+
+# Or separately
+php artisan serve
+npm run dev
+```
+
+## Build Commands
+
+```bash
+npm run build    # Production build
+npm run dev      # Dev build with HMR
+```
+
+## Testing
+
+```bash
+# Run all tests
+php artisan test
+
+# Specific test suite
+php artisan test --filter=MobilTest
+
+# Tests use isolated 'rentscar_testing' database
+```
+
+**39 tests, 77 assertions** — Auth, Authorization, Customer, Mobil, Penyewaan, Pengembalian, Cetak.
+
+## Deployment
+
+### Production Checklist
+
+1. Set `APP_ENV=production`, `APP_DEBUG=false` in `.env`
+2. Set `SESSION_DRIVER=file` (or `database` with encrypted sessions)
+3. Set `APP_URL` to your domain
+4. Run `php artisan route:cache`, `php artisan config:cache`
+5. Run `php artisan storage:link`
+6. Set up cron for `php artisan schedule:run`
+7. Use HTTPS (set `SESSION_SECURE_COOKIE=true`)
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Login session lost on restart | `SESSION_DRIVER=file` (not `database`) |
+| Duplicate MySQL processes | Click MySQL → Start once in Laragon |
+| Wilayah API not loading | API fallback: type address manually |
+| Tests wipe production DB | Tests use `rentscar_testing` database |
+
+## GitHub Actions
+
+`.github/workflows/laravel-check.yml` runs on push/PR to `main`:
+
+- `composer install`
+- `npm install && npm run build`
+- Laravel Pint (PSR-12 lint)
+- PHPUnit tests
+
+## License
+
+MIT

@@ -12,7 +12,7 @@ class WilayahController extends Controller
     public function provinces()
     {
         try {
-            $response = Http::withoutVerifying()->timeout(10)->get("{$this->baseUrl}/provinces.json");
+            $response = Http::timeout(5)->get("{$this->baseUrl}/provinces.json");
             return response()->json($response->json());
         } catch (\Exception $e) {
             return response()->json(['error' => 'Gagal mengambil data provinsi'], 500);
@@ -22,7 +22,7 @@ class WilayahController extends Controller
     public function regencies($provinceId)
     {
         try {
-            $response = Http::withoutVerifying()->timeout(10)->get("{$this->baseUrl}/regencies/{$provinceId}.json");
+            $response = Http::timeout(5)->get("{$this->baseUrl}/regencies/{$provinceId}.json");
             return response()->json($response->json());
         } catch (\Exception $e) {
             return response()->json(['error' => 'Gagal mengambil data kabupaten/kota'], 500);
@@ -32,7 +32,7 @@ class WilayahController extends Controller
     public function districts($regencyId)
     {
         try {
-            $response = Http::withoutVerifying()->timeout(10)->get("{$this->baseUrl}/districts/{$regencyId}.json");
+            $response = Http::timeout(5)->get("{$this->baseUrl}/districts/{$regencyId}.json");
             return response()->json($response->json());
         } catch (\Exception $e) {
             return response()->json(['error' => 'Gagal mengambil data kecamatan'], 500);
@@ -42,7 +42,7 @@ class WilayahController extends Controller
     public function villages($districtId)
     {
         try {
-            $response = Http::withoutVerifying()->timeout(10)->get("{$this->baseUrl}/villages/{$districtId}.json");
+            $response = Http::timeout(5)->get("{$this->baseUrl}/villages/{$districtId}.json");
             return response()->json($response->json());
         } catch (\Exception $e) {
             return response()->json(['error' => 'Gagal mengambil data kelurahan'], 500);

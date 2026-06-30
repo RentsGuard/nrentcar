@@ -59,4 +59,19 @@ class Customer extends Model
     {
         return $this->belongsTo(User::class, 'verified_by');
     }
+
+    public function scopeVerified($query)
+    {
+        return $query->where('status_verifikasi', 'disetujui');
+    }
+
+    public function scopeUnverified($query)
+    {
+        return $query->whereNull('status_verifikasi');
+    }
+
+    public function scopeStatusVerifikasi($query, $status)
+    {
+        return $query->where('status_verifikasi', $status);
+    }
 }

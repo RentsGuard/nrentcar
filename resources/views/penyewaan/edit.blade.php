@@ -25,21 +25,25 @@
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tanggal Sewa</label>
                         <input type="date" name="tanggal_sewa" id="tanggal_sewa" value="{{ old('tanggal_sewa', $penyewaan->tanggal_sewa?->format('Y-m-d')) }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('tanggal_sewa') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Jam Sewa</label>
                         <input type="time" name="jam_sewa" id="jam_sewa" value="{{ old('jam_sewa', $penyewaan->jam_sewa ? \Carbon\Carbon::parse($penyewaan->jam_sewa)->format('H:i') : '08:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('jam_sewa') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tanggal Kembali</label>
                         <input type="date" name="tanggal_kembali" id="tanggal_kembali" value="{{ old('tanggal_kembali', $penyewaan->tanggal_kembali?->format('Y-m-d')) }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('tanggal_kembali') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Jam Kembali</label>
                         <input type="time" name="jam_kembali" id="jam_kembali" value="{{ old('jam_kembali', $penyewaan->jam_kembali ? \Carbon\Carbon::parse($penyewaan->jam_kembali)->format('H:i') : '17:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('jam_kembali') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
@@ -51,17 +55,19 @@
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Total Harga</label>
                         <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></span>
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">Rp</span>
                             <input type="number" name="total_harga" value="{{ old('total_harga', $penyewaan->total_harga) }}" required min="0" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                         </div>
+                        @error('total_harga') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Denda / Jam</label>
                         <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></span>
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">Rp</span>
                             <input type="number" name="denda_per_jam" value="{{ old('denda_per_jam', $penyewaan->denda_per_jam ?? 50000) }}" required min="0" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                         </div>
+                        @error('denda_per_jam') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">

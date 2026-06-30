@@ -37,7 +37,6 @@ class Penyewaan extends Model
             'jam_kembali' => 'string',
             'lama_sewa' => 'integer',
             'total_harga' => 'decimal:2',
-            'denda_per_jam' => 'decimal:2',
         ];
     }
 

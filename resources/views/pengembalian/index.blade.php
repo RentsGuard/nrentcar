@@ -101,13 +101,6 @@
                                 <a href="/pengembalian/{{ $p->id }}/edit" class="w-8 h-8 flex items-center justify-center rounded-lg border border-white/[0.06] text-white/60 hover:text-white hover:bg-white/[0.06] transition-all no-underline" title="Edit">
                                     <i class="bi bi-pencil text-sm"></i>
                                 </a>
-                                <form action="/pengembalian/{{ $p->id }}" method="POST" onsubmit="return confirm('Hapus data pengembalian ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-lg border border-white/[0.06] text-red-400/60 hover:text-red-400 hover:bg-red-500/10 transition-all" title="Hapus">
-                                        <i class="bi bi-trash text-sm"></i>
-                                    </button>
-                                </form>
                             </div>
                         </td>
                     </tr>
@@ -121,6 +114,10 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <div class="px-5 py-3 border-t border-white/[0.05]">
+            {{ $pengembalians->links('partials.pagination') }}
         </div>
     </div>
 </div>

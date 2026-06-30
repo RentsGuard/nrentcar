@@ -36,7 +36,7 @@ Route::get('/', function () {
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::middleware('auth')->group(function () {
 
@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/{id}', [CustomerController::class, 'show']);
     Route::get('/customer/{id}/edit', [CustomerController::class, 'edit']);
     Route::put('/customer/{id}', [CustomerController::class, 'update']);
-    Route::delete('/customer/{id}', [CustomerController::class, 'destroy']);
+    Route::delete('/customer/{id}', [CustomerController::class, 'destroy'])->middleware('role:admin');
 
     Route::get('/mobil', [MobilController::class, 'index']);
     Route::get('/mobil/create', [MobilController::class, 'create']);
@@ -60,8 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mobil/{id}', [MobilController::class, 'show']);
     Route::get('/mobil/{id}/edit', [MobilController::class, 'edit']);
     Route::put('/mobil/{id}', [MobilController::class, 'update']);
-    Route::put('/mobil/{id}/toggle-visibility', [MobilController::class, 'toggleVisibility']);
-    Route::delete('/mobil/{id}', [MobilController::class, 'destroy']);
+    Route::put('/mobil/{id}/toggle-visibility', [MobilController::class, 'toggleVisibility'])->middleware('role:admin');
 
     Route::get('/penyewaan', [PenyewaanController::class, 'index']);
     Route::get('/penyewaan/create', [PenyewaanController::class, 'create']);
@@ -69,7 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/penyewaan/{id}', [PenyewaanController::class, 'show']);
     Route::get('/penyewaan/{id}/edit', [PenyewaanController::class, 'edit']);
     Route::put('/penyewaan/{id}', [PenyewaanController::class, 'update']);
-    Route::delete('/penyewaan/{id}', [PenyewaanController::class, 'destroy']);
+    Route::delete('/penyewaan/{id}', [PenyewaanController::class, 'destroy'])->middleware('role:admin');
     Route::put('/penyewaan/{id}/batalkan', [PenyewaanController::class, 'batalkan']);
 
     Route::get('/laporan', [LaporanController::class, 'index']);
@@ -78,8 +77,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/awal/cetak/{penyewaan}', [LaporanController::class, 'cetakAwal']);
     Route::get('/laporan/akhir', [LaporanController::class, 'akhir']);
     Route::get('/laporan/akhir/cetak', [LaporanController::class, 'cetakAkhir']);
-    Route::get('/laporan/export/pdf', [LaporanController::class, 'exportPdf']);
-    Route::get('/laporan/export/excel', [LaporanController::class, 'exportExcel']);
 
     Route::get('/pengaturan', [PengaturanController::class, 'index']);
     Route::get('/pengaturan/tampilan', [PengaturanController::class, 'tampilan']);
@@ -93,7 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengembalian/{id}', [PengembalianController::class, 'show']);
     Route::get('/pengembalian/{id}/edit', [PengembalianController::class, 'edit']);
     Route::put('/pengembalian/{id}', [PengembalianController::class, 'update']);
-    Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy']);
+    Route::delete('/pengembalian/{id}', [PengembalianController::class, 'destroy'])->middleware('role:admin');
     Route::put('/pengembalian/{id}/lunas', [PengembalianController::class, 'tandaiLunas'])->name('pengembalian.lunas');
     Route::put('/pengembalian/{id}/batal-lunas', [PengembalianController::class, 'batalkanLunas'])->name('pengembalian.batal-lunas');
 
@@ -107,6 +104,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/staff/{id}/edit', [StaffController::class, 'edit'])->name('staff.edit');
         Route::put('/staff/{id}', [StaffController::class, 'update'])->name('staff.update');
         Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
+        Route::delete('/mobil/{id}', [MobilController::class, 'destroy']);
 
         Route::post('/staff/{id}/reset-password', [StaffController::class, 'resetPassword'])->name('staff.reset-password');
     });

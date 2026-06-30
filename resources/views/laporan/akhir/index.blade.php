@@ -106,10 +106,8 @@
                         <td class="px-5 py-3.5 text-center">
                             @if($p->status === 'selesai')
                             <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-500/15 text-emerald-400"><i class="bi bi-check-lg"></i></span>
-                            @elseif($p->status === 'aktif')
-                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/15 text-amber-400" title="Aktif"><i class="bi bi-arrow-right"></i></span>
                             @else
-                            <span class="text-white/20 text-lg">—</span>
+                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-red-500/15 text-red-400"><i class="bi bi-x-lg"></i></span>
                             @endif
                         </td>
                     </tr>
@@ -132,11 +130,15 @@
             </table>
         </div>
 
+        <div class="px-5 py-3 border-t border-white/[0.05]">
+            {{ $penyewaans->links('partials.pagination') }}
+        </div>
+
         @if($penyewaans->isNotEmpty())
         <div class="px-5 py-3.5 border-t border-white/[0.05] bg-white/[0.015] flex flex-wrap items-center justify-between gap-3 text-sm">
             <span class="text-white/50">{{ $penyewaans->count() }} data</span>
-            @if(request('filter_date'))
-            <span class="text-white/50">Periode: <strong class="text-white font-semibold">{{ $label ?? '—' }}</strong></span>
+            @if(request('filter_date') && $label)
+            <span class="text-white/50">Periode: <strong class="text-white font-semibold">{{ $label }}</strong></span>
             @endif
             <div class="flex gap-3">
                 <a href="/laporan/akhir/cetak?{{ http_build_query(request()->query()) }}" target="_blank"
@@ -144,6 +146,12 @@
                     <i class="bi bi-printer text-xs"></i> Cetak
                 </a>
             </div>
+        </div>
+        @endif
+
+        @if($penyewaans->hasPages())
+        <div class="px-5 py-3 border-t border-white/[0.05]">
+            {{ $penyewaans->links('partials.pagination') }}
         </div>
         @endif
     </div>
@@ -173,7 +181,9 @@ function toggleFilter() {
     single.classList.remove('hidden');
     rentang.classList.add('hidden');
 
-    if (v === '' || v === 'hari') {
+    if (v === '' || v === 'semua') {
+        single.classList.add('hidden');
+    } else if (v === 'hari') {
         fv.type = 'date';
         label.textContent = 'Tanggal';
         if (!fv.value) fv.value = now.toISOString().slice(0,10);

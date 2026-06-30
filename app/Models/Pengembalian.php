@@ -26,7 +26,6 @@ class Pengembalian extends Model
         'denda_lunas_at',
         'denda_lunas_by',
         'catatan',
-        'foto_kondisi',
     ];
 
     protected function casts(): array
@@ -50,5 +49,10 @@ class Pengembalian extends Model
     public function dendaLunasBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'denda_lunas_by');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

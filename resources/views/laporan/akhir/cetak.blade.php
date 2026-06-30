@@ -32,7 +32,7 @@
             <p class="subtitle">RentSCar.id - Premium Car Rental</p>
         </div>
         <div style="text-align:right;">
-            @if(isset($label))
+            @if(isset($label) && $label)
             <p style="font-size:11px;color:#888;">Periode: {{ $label }}</p>
             @endif
             <p style="font-size:11px;color:#888;">Tanggal Cetak: {{ date('d/m/Y') }}</p>
@@ -91,7 +91,7 @@
         <p>Dicetak pada {{ date('d F Y H:i:s') }} | &copy; {{ date('Y') }} RentSCar.id</p>
     </div>
 
-    @if(isset($label))
+    @if(isset($label) && $label)
     <div class="watermark">SELESAI</div>
     @endif
 </body>

@@ -90,7 +90,11 @@
         </div>
 
         <div class="p-4 border-t border-white/[0.05] flex items-center justify-between text-sm text-white/50 bg-white/[0.01]">
-            <div>Menampilkan {{ count($penyewaans) }} data</div>
+            <div>Menampilkan {{ $penyewaans->count() }} data</div>
+        </div>
+
+        <div class="px-5 py-3 border-t border-white/[0.05]">
+            {{ $penyewaans->links('partials.pagination') }}
         </div>
     </div>
 </div>

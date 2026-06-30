@@ -121,15 +121,20 @@
                         @error('kewarganegaraan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Berlaku Hingga</label>
-                        <div class="flex items-center gap-3">
-                            <label class="flex items-center gap-1.5 text-sm text-white/60 cursor-pointer whitespace-nowrap">
-                                <input type="checkbox" name="seumur_hidup" value="1" id="seumur_hidup" {{ old('seumur_hidup') ? 'checked' : '' }} onchange="document.getElementById('berlaku_hingga').disabled=this.checked;if(this.checked)document.getElementById('berlaku_hingga').value=''" class="w-4 h-4 rounded border-white/20 bg-[#0D0D0D] text-[#C1121F] focus:ring-[#C1121F] focus:ring-offset-0">
-                                Seumur Hidup
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-sm font-medium text-white/80 mb-1.5 block">Berlaku Hingga <span class="text-red-400">*</span></label>
+                            <input type="date" name="berlaku_hingga" value="{{ old('berlaku_hingga', $customer->berlaku_hingga?->format('Y-m-d')) }}"
+                                class="w-full px-4 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors [color-scheme:dark]">
+                            @error('berlaku_hingga') <p class="text-red-400 text-xs mt-1">{{ $message }}</p> @enderror
+                        </div>
+                        <div class="flex items-end pb-3">
+                            <label class="flex items-center gap-2.5 cursor-pointer group">
+                                <input type="checkbox" name="seumur_hidup" value="1" {{ old('seumur_hidup', $customer->berlaku_hingga ? false : true) ? 'checked' : '' }}
+                                    class="w-4 h-4 rounded border-white/20 bg-[#0D0D0D] text-[#C1121F] focus:ring-[#C1121F]/50">
+                                <span class="text-sm text-white/70 group-hover:text-white transition-colors">Seumur Hidup</span>
                             </label>
                         </div>
-                        @error('berlaku_hingga') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
@@ -144,12 +149,9 @@
                         <p class="text-xs text-white/50 mt-1">KTP saat ini. Upload baru untuk mengganti.</p>
                     </div>
                     @endif
-                    <div class="pb-4 border-b border-white/[0.05]">
-                        <h3 class="text-base font-semibold text-white">Foto KTP</h3>
-                        <p class="text-xs text-white/50 mt-1">Upload foto KTP (max 2MB, format JPG/PNG).</p>
-                        <input type="file" name="foto_ktp" accept="image/jpeg,image/png" class="w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/20 file:bg-[#C1121F] file:text-white file:font-semibold file:text-sm hover:file:bg-[#a30f1a] transition-all @error('foto_ktp') border-red-500 @enderror">
-                        @error('foto_ktp') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
-                    </div>
+                    <p class="text-xs text-white/50 mt-1">Upload foto KTP (max 2MB, format JPG/PNG).</p>
+                    <input type="file" name="foto_ktp" accept="image/jpeg,image/png" class="w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/20 file:bg-[#C1121F] file:text-white file:font-semibold file:text-sm hover:file:bg-[#a30f1a] transition-all @error('foto_ktp') border-red-500 @enderror">
+                    @error('foto_ktp') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 @if(auth()->user()->role === 'admin')
@@ -229,10 +231,4 @@
 </div>
 @endsection
 
-@push('scripts')
-<script>
-var cb = document.getElementById('seumur_hidup');
-var dp = document.getElementById('berlaku_hingga');
-if (cb && cb.checked) { dp.disabled = true; dp.value = ''; }
-</script>
-@endpush
+

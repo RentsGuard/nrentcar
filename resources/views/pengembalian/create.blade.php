@@ -35,6 +35,7 @@
                             </option>
                             @endforeach
                         </select>
+                        @error('penyewaan_id') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                         <div id="expectedReturn" class="hidden text-xs text-white/50 mt-2 p-2 rounded-lg bg-white/[0.03] border border-white/[0.05]">
                             <span class="text-white/70">Jatuh tempo:</span>
                             <span id="expectedReturnText" class="text-white font-medium"></span>
@@ -49,16 +50,19 @@
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Denda Kerusakan (Rp)</label>
                         <input type="number" name="denda_kerusakan" value="{{ old('denda_kerusakan', 0) }}" min="0" placeholder="0" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('denda_kerusakan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Kondisi Mobil</label>
                         <input type="text" name="kondisi_mobil" value="{{ old('kondisi_mobil') }}" placeholder="Baik, LECET, dll" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('kondisi_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2 md:col-span-2">
                         <label class="text-sm font-medium text-white/80">Catatan</label>
                         <textarea name="catatan" rows="2" class="w-full rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 py-2 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">{{ old('catatan') }}</textarea>
+                        @error('catatan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 

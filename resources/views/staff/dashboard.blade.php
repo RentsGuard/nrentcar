@@ -14,11 +14,10 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4">
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
                 <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-car-front text-xl text-white/70"></i></div>
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><i class="bi bi-arrow-up-short"></i>12%</span>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Total Mobil</p>
@@ -29,7 +28,6 @@
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
                 <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-check-circle text-xl text-white/70"></i></div>
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><i class="bi bi-arrow-up-short"></i>5%</span>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Mobil Tersedia</p>
@@ -40,7 +38,6 @@
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
                 <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-people text-xl text-white/70"></i></div>
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><i class="bi bi-arrow-up-short"></i>18%</span>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Total Customer</p>
@@ -51,7 +48,6 @@
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
                 <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-shield-check text-xl text-white/70"></i></div>
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><i class="bi bi-arrow-up-short"></i>22%</span>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Terverifikasi</p>
@@ -62,7 +58,6 @@
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
                 <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-journal-text text-xl text-white/70"></i></div>
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><i class="bi bi-arrow-up-short"></i>8%</span>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Penyewaan</p>
@@ -73,11 +68,21 @@
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
                 <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-cash-stack text-xl text-white/70"></i></div>
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><i class="bi bi-arrow-up-short"></i>15%</span>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Pendapatan</p>
                 <h3 class="text-2xl xl:text-xl 2xl:text-2xl font-bold text-white break-words">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 flex flex-col justify-between h-full">
+            <div class="flex justify-between items-start mb-4">
+                <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20"><i class="bi bi-exclamation-triangle text-xl text-amber-400"></i></div>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-white/50 mb-1">Total Denda</p>
+                <h3 class="text-2xl xl:text-xl 2xl:text-2xl font-bold text-amber-400 break-words">Rp {{ number_format($totalDenda, 0, ',', '.') }}</h3>
+                <p class="text-xs text-white/40 mt-1">Rp {{ number_format($dendaLunas, 0, ',', '.') }} sudah dilunasi</p>
             </div>
         </div>
     </div>
@@ -156,11 +161,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const revData = @json($monthlyRevenue);
+    const renData = @json($monthlyRentals);
+
+    const allKeys = [...new Set([...Object.keys(revData), ...Object.keys(renData)])].sort();
+    const labels = allKeys.map(k => { const p = k.split('-'); const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return months[parseInt(p[1])-1] + ' ' + p[0]; });
+    const revenueValues = allKeys.map(k => revData[k] ? Math.round(parseFloat(revData[k]) / 1000000) : 0);
+    const rentalValues = allKeys.map(k => renData[k] ? parseInt(renData[k]) : 0);
 
     new Chart(document.getElementById('revenueChart'), {
         type: 'line',
-        data: { labels: m, datasets: [{ label: 'Pendapatan', data: [25,28,26,45,55,38,60,52,48,42,46,85], borderColor: '#C1121F', backgroundColor: 'rgba(193,18,31,0.1)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 0 }] },
+        data: { labels: labels, datasets: [{ label: 'Pendapatan', data: revenueValues, borderColor: '#C1121F', backgroundColor: 'rgba(193,18,31,0.1)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 0 }] },
         options: {
             responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8, callbacks: { label: function(ctx) { return 'Rp ' + ctx.parsed.y + 'Jt'; } } } },
@@ -170,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     new Chart(document.getElementById('customerChart'), {
         type: 'bar',
-        data: { labels: m, datasets: [{ label: 'Customer Baru', data: [12,15,10,25,30,18,35,22,20,15,19,45], backgroundColor: '#C1121F', borderRadius: 4, barPercentage: 0.6 }] },
+        data: { labels: labels, datasets: [{ label: 'Penyewaan', data: rentalValues, backgroundColor: '#C1121F', borderRadius: 4, barPercentage: 0.6 }] },
         options: {
             responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8 } },

@@ -29,16 +29,19 @@
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tanggal Pengembalian</label>
                         <input type="datetime-local" name="tanggal_pengembalian" value="{{ old('tanggal_pengembalian', $pengembalian->tanggal_pengembalian?->format('Y-m-d\TH:i')) }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('tanggal_pengembalian') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Denda Kerusakan (Rp)</label>
                         <input type="number" name="denda_kerusakan" value="{{ old('denda_kerusakan', $pengembalian->denda_kerusakan ?? 0) }}" min="0" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('denda_kerusakan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Kondisi Mobil</label>
                         <input type="text" name="kondisi_mobil" value="{{ old('kondisi_mobil', $pengembalian->kondisi_mobil) }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('kondisi_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
@@ -87,6 +90,7 @@
                     <div class="space-y-2 md:col-span-2">
                         <label class="text-sm font-medium text-white/80">Catatan</label>
                         <textarea name="catatan" rows="2" class="w-full rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 py-2 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">{{ old('catatan', $pengembalian->catatan) }}</textarea>
+                        @error('catatan') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 

@@ -82,7 +82,7 @@
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Total Denda</p>
                 <h3 class="text-2xl xl:text-xl 2xl:text-2xl font-bold text-amber-400 break-words">Rp {{ number_format($totalDenda, 0, ',', '.') }}</h3>
-                <p class="text-xs text-white/40 mt-1">{{ $pengembalianHariIni }} pengembalian hari ini</p>
+                <p class="text-xs text-white/40 mt-1">Rp {{ number_format($dendaLunas, 0, ',', '.') }} sudah dilunasi</p>
             </div>
         </div>
     </div>
@@ -161,11 +161,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const revData = @json($monthlyRevenue);
+    const renData = @json($monthlyRentals);
+
+    const allKeys = [...new Set([...Object.keys(revData), ...Object.keys(renData)])].sort();
+    const labels = allKeys.map(k => { const p = k.split('-'); const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return months[parseInt(p[1])-1] + ' ' + p[0]; });
+    const revenueValues = allKeys.map(k => revData[k] ? Math.round(parseFloat(revData[k]) / 1000000) : 0);
+    const rentalValues = allKeys.map(k => renData[k] ? parseInt(renData[k]) : 0);
 
     new Chart(document.getElementById('revenueChart'), {
         type: 'line',
-        data: { labels: m, datasets: [{ label: 'Pendapatan', data: [25,28,26,45,55,38,60,52,48,42,46,85], borderColor: '#C1121F', backgroundColor: 'rgba(193,18,31,0.1)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 0 }] },
+        data: { labels: labels, datasets: [{ label: 'Pendapatan', data: revenueValues, borderColor: '#C1121F', backgroundColor: 'rgba(193,18,31,0.1)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 0 }] },
         options: {
             responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8, callbacks: { label: function(ctx) { return 'Rp ' + ctx.parsed.y + 'Jt'; } } } },
@@ -175,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     new Chart(document.getElementById('customerChart'), {
         type: 'bar',
-        data: { labels: m, datasets: [{ label: 'Customer Baru', data: [12,15,10,25,30,18,35,22,20,15,19,45], backgroundColor: '#C1121F', borderRadius: 4, barPercentage: 0.6 }] },
+        data: { labels: labels, datasets: [{ label: 'Penyewaan', data: rentalValues, backgroundColor: '#C1121F', borderRadius: 4, barPercentage: 0.6 }] },
         options: {
             responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8 } },

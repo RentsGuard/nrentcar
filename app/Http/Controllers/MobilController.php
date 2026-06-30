@@ -78,23 +78,13 @@ class MobilController extends Controller
             'foto_mobil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $data = [
-            'nama_mobil' => $validated['nama_mobil'],
-            'plat_mobil' => $validated['plat_mobil'],
-            'tahun_mobil' => $validated['tahun_mobil'],
-            'tipe_mobil' => $validated['tipe_mobil'] ?? null,
-            'kapasitas_mobil' => $validated['kapasitas_mobil'],
-            'bahan_bakar' => $validated['bahan_bakar'] ?? null,
-            'harga_mobil' => $validated['harga_mobil'],
-            'status_mobil' => $validated['status_mobil'],
-            'managed_by' => auth()->id(),
-        ];
+        $validated['managed_by'] = auth()->id();
 
         if ($request->hasFile('foto_mobil')) {
-            $data['foto_mobil'] = $request->file('foto_mobil')->store('foto_mobil', 'public');
+            $validated['foto_mobil'] = $request->file('foto_mobil')->store('foto_mobil', 'public');
         }
 
-        $mobil = Mobil::create($data);
+        $mobil = Mobil::create($validated);
 
         activity()->performedOn($mobil)->log("Mobil {$mobil->nama_mobil} created");
 
@@ -132,25 +122,14 @@ class MobilController extends Controller
             'foto_mobil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $data = [
-            'nama_mobil' => $validated['nama_mobil'],
-            'plat_mobil' => $validated['plat_mobil'],
-            'tahun_mobil' => $validated['tahun_mobil'],
-            'tipe_mobil' => $validated['tipe_mobil'] ?? null,
-            'kapasitas_mobil' => $validated['kapasitas_mobil'],
-            'bahan_bakar' => $validated['bahan_bakar'] ?? null,
-            'harga_mobil' => $validated['harga_mobil'],
-            'status_mobil' => $validated['status_mobil'],
-        ];
-
         if ($request->hasFile('foto_mobil')) {
             if ($mobil->foto_mobil) {
                 Storage::disk('public')->delete($mobil->foto_mobil);
             }
-            $data['foto_mobil'] = $request->file('foto_mobil')->store('foto_mobil', 'public');
+            $validated['foto_mobil'] = $request->file('foto_mobil')->store('foto_mobil', 'public');
         }
 
-        $mobil->update($data);
+        $mobil->update($validated);
 
         activity()->performedOn($mobil)->log("Mobil {$mobil->nama_mobil} updated");
 

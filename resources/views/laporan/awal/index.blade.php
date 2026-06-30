@@ -114,6 +114,10 @@
             </table>
         </div>
 
+        <div class="px-5 py-3 border-t border-white/[0.05]">
+            {{ $penyewaans->links('partials.pagination') }}
+        </div>
+
         @if($penyewaans->isNotEmpty())
         <div class="px-5 py-3.5 border-t border-white/[0.05] bg-white/[0.015] flex flex-wrap items-center justify-between gap-3 text-sm">
             <span class="text-white/50">{{ $penyewaans->count() }} transaksi</span>
@@ -123,6 +127,12 @@
             <span class="text-white/50 shrink min-w-0">
                 Total: <strong class="text-white font-semibold truncate max-w-[180px] sm:max-w-none inline-block align-bottom">Rp{{ number_format($penyewaans->sum('total_harga'), 0, ',', '.') }}</strong>
             </span>
+        </div>
+        @endif
+
+        @if($penyewaans->hasPages())
+        <div class="px-5 py-3 border-t border-white/[0.05]">
+            {{ $penyewaans->links('partials.pagination') }}
         </div>
         @endif
     </div>

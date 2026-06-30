@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -70,5 +69,20 @@ class User extends Authenticatable
     public function verifiedCustomers(): HasMany
     {
         return $this->hasMany(Customer::class, 'verified_by');
+    }
+
+    public function dendaLunasBy(): HasMany
+    {
+        return $this->hasMany(Pengembalian::class, 'denda_lunas_by');
+    }
+
+    public function scopeAdmin($query)
+    {
+        return $query->where('role', 'admin');
+    }
+
+    public function scopeStaff($query)
+    {
+        return $query->where('role', 'staff');
     }
 }

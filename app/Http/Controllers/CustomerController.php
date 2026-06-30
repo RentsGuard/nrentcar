@@ -141,6 +141,7 @@ class CustomerController extends Controller
             'berlaku_hingga' => 'nullable|date',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'status_verifikasi' => 'nullable|in:disetujui,ditolak',
+            'catatan_verifikasi' => ['nullable', 'string', 'max:500'],
         ]);
 
         if (auth()->user()->role === 'admin' && $request->has('status_verifikasi')) {
@@ -154,6 +155,8 @@ class CustomerController extends Controller
                 $validated['tanggal_verifikasi'] = null;
             }
         }
+
+        $validated['catatan_verifikasi'] = $request->catatan_verifikasi;
 
         if ($request->has('seumur_hidup')) {
             $validated['berlaku_hingga'] = null;
@@ -206,24 +209,27 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id);
 
         $request->validate([
-            'action' => 'nullable|in:disetujui,ditolak',
+            'action' => ['required', 'in:disetujui,ditolak,'],
+            'catatan_verifikasi' => ['nullable', 'string', 'max:500'],
         ]);
 
-        if ($request->filled('action')) {
-            $customer->update([
-                'status_verifikasi' => $request->action,
-                'verified_by' => auth()->id(),
-                'tanggal_verifikasi' => now(),
-            ]);
+        $action = $request->action;
+        $data = [
+            'status_verifikasi' => $action === '' ? null : $action,
+            'catatan_verifikasi' => $request->catatan_verifikasi,
+        ];
+
+        if ($action === 'disetujui' || $action === 'ditolak') {
+            $data['verified_by'] = auth()->id();
+            $data['tanggal_verifikasi'] = now();
         } else {
-            $customer->update([
-                'status_verifikasi' => null,
-                'verified_by' => null,
-                'tanggal_verifikasi' => null,
-            ]);
+            $data['verified_by'] = null;
+            $data['tanggal_verifikasi'] = null;
         }
 
-        $verb = $request->action ?? 'direset';
+        $customer->update($data);
+
+        $verb = $action ?: 'direset';
         activity()->performedOn($customer)->log("Customer {$customer->nama_customer} verifikasi: {$verb}");
 
         return redirect('/customer/'.$id)

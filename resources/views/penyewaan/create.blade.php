@@ -33,6 +33,7 @@
                                 <option value="{{ $c->id }}" {{ old('customer_id') == $c->id ? 'selected' : '' }}>{{ $c->nama_customer }} - {{ $c->nik }}</option>
                                 @endforeach
                             </select>
+                            @error('customer_id') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
@@ -43,26 +44,31 @@
                                 <option value="{{ $m->id }}" data-harga-mobil="{{ $m->harga_mobil }}" {{ old('mobil_id') == $m->id ? 'selected' : '' }}>{{ $m->nama_mobil }} - {{ $m->plat_mobil }} (Rp{{ number_format($m->harga_mobil, 0, ',', '.') }}/hari)</option>
                                 @endforeach
                             </select>
+                            @error('mobil_id') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tanggal Sewa</label>
                         <input type="date" name="tanggal_sewa" id="tanggal_sewa" value="{{ old('tanggal_sewa') }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('tanggal_sewa') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Jam Sewa</label>
                         <input type="time" name="jam_sewa" id="jam_sewa" value="{{ old('jam_sewa', '08:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('jam_sewa') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tanggal Kembali</label>
                         <input type="date" name="tanggal_kembali" id="tanggal_kembali" value="{{ old('tanggal_kembali') }}" required class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('tanggal_kembali') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Jam Kembali</label>
                         <input type="time" name="jam_kembali" id="jam_kembali" value="{{ old('jam_kembali', '17:00') }}" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('jam_kembali') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
@@ -80,8 +86,8 @@
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Denda / Jam</label>
                         <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></span>
-                            <input type="number" name="denda_per_jam" value="{{ old('denda_per_jam', 50000) }}" required min="0" placeholder="Rp 50000" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">Rp</span>
+                            <input type="number" name="denda_per_jam" value="{{ old('denda_per_jam', 50000) }}" required min="0" placeholder="50000" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                         </div>
                     </div>
 

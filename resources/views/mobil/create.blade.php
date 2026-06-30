@@ -27,7 +27,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2 md:col-span-2">
                         <label class="text-sm font-medium text-white/80">Nama Mobil</label>
-                        <input type="text" name="nama_mobil" value="{{ old('nama_mobil') }}" required placeholder="Contoh: Toyota Avanza" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        <input type="text" name="nama_mobil" value="{{ old('nama_mobil') }}" required placeholder="Contoh: Toyota Avanza" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('nama_mobil') border-red-500 @enderror">
+                        @error('nama_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
@@ -39,6 +40,7 @@
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Tahun Mobil</label>
                         <input type="number" name="tahun_mobil" value="{{ old('tahun_mobil') }}" required min="2000" max="2030" placeholder="2024" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('tahun_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
@@ -49,11 +51,13 @@
                             <option value="{{ $t }}" {{ old('tipe_mobil') == $t ? 'selected' : '' }}>{{ $t }}</option>
                             @endforeach
                         </select>
+                        @error('tipe_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Baris</label>
                         <input type="number" name="kapasitas_mobil" value="{{ old('kapasitas_mobil', 4) }}" required min="1" max="20" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                        @error('kapasitas_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
@@ -64,14 +68,16 @@
                             <option value="{{ $b }}" {{ old('bahan_bakar') == $b ? 'selected' : '' }}>{{ $b }}</option>
                             @endforeach
                         </select>
+                        @error('bahan_bakar') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-white/80">Harga Sewa / Hari</label>
                         <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></span>
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">Rp</span>
                             <input type="number" name="harga_mobil" value="{{ old('harga_mobil') }}" required min="0" placeholder="500000" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                         </div>
+                        @error('harga_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="space-y-2">
@@ -81,6 +87,7 @@
                             <option value="disewa" {{ old('status_mobil') == 'disewa' ? 'selected' : '' }}>Disewa</option>
                             <option value="maintenance" {{ old('status_mobil') == 'maintenance' ? 'selected' : '' }}>Maintenance</option>
                         </select>
+                        @error('status_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
@@ -90,6 +97,7 @@
 
                 <div class="space-y-2">
                     <input type="file" name="foto_mobil" accept="image/jpeg,image/png" class="w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/20 file:bg-[#C1121F] file:text-white file:font-semibold file:text-sm hover:file:bg-[#a30f1a] transition-all">
+                    @error('foto_mobil') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">

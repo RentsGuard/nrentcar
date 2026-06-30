@@ -167,6 +167,16 @@ function togglePw(fieldId, iconId) {
     else { f.type = 'password'; i.className = 'bi bi-eye'; }
 }
 </script>
+@push('scripts')
+<script>
+document.querySelectorAll('form').forEach(function(form) {
+    form.addEventListener('submit', function() {
+        var btn = this.querySelector('[type="submit"]');
+        if (btn) btn.disabled = true;
+    });
+});
+</script>
+@endpush
 @stack('scripts')
 </body>
 </html>

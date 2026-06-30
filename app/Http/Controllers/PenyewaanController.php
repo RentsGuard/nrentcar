@@ -13,7 +13,7 @@ class PenyewaanController extends Controller
 {
     public function index()
     {
-        $penyewaans = Penyewaan::with('customer', 'mobil', 'user')->latest()->get();
+        $penyewaans = Penyewaan::with('customer', 'mobil', 'user')->latest()->paginate(15);
 
         return view('penyewaan.index', compact('penyewaans'));
     }

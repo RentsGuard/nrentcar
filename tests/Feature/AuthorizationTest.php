@@ -72,10 +72,10 @@ class AuthorizationTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_staff_can_toggle_visibility(): void
+    public function test_staff_cannot_toggle_visibility(): void
     {
         $response = $this->actingAs($this->staff)->put("/mobil/{$this->mobil->id}/toggle-visibility");
-        $response->assertStatus(302);
+        $response->assertStatus(403);
     }
 
     public function test_staff_cannot_delete_mobil(): void

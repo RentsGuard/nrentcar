@@ -79,13 +79,6 @@
                                 <a href="/customer/{{ $customer->id }}/edit" class="w-8 h-8 flex items-center justify-center rounded-lg text-white/70 hover:bg-white/[0.08] transition-colors" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <form action="/customer/{{ $customer->id }}" method="POST" style="display:inline;" class="delete-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn-delete w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-500/10 transition-colors" title="Hapus" data-name="{{ $customer->nama_customer }}">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
                             </div>
                         </td>
                     </tr>
@@ -107,26 +100,3 @@
     </div>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-document.querySelectorAll('.btn-delete').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        var form = this.closest('form');
-        var name = this.dataset.name;
-        Swal.fire({
-            titleText: 'Hapus ' + name + '?',
-            text: 'Tindakan ini tidak dapat dibatalkan.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#C1121F',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Ya, hapus',
-            cancelButtonText: 'Batal',
-            background: '#141414',
-            color: '#fff',
-        }).then(function(r) { if (r.isConfirmed) form.submit(); });
-    });
-});
-</script>
-@endpush

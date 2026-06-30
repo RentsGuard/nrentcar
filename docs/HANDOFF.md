@@ -4,6 +4,32 @@
 
 | Area | Status | Notes |
 |------|--------|-------|
+<<<<<<< HEAD
+| Auth (Login, Logout) | ✅ | Throttle 5:1, role redirect |
+| Layout (Sidebar + Navbar) | ✅ | Alpine.js, active glow, role badges |
+| Admin Dashboard | ✅ | 6 stat cards, Chart.js |
+| Staff Dashboard | ✅ | Same + staff greeting |
+| Staff CRUD | ✅ | Search, SweetAlert2 delete, reset password |
+| Landing + Error Pages | ✅ | Hero, car grid, 403/404 dark theme |
+>>>>>>> feature/tambah-data-denda
+| Customer CRUD | ✅ | KTP upload, activity log |
+| Profile | ✅ | Foto profil, password |
+| Mobil, Penyewaan, Verifikasi UI | ✅ | Views only — no CRUD logic |
+| Laporan, Pengaturan UI | ✅ | Views only — no export logic |
+| Pengembalian + Denda | ⏳ | Branch `feature/tambah-data-denda` |
+| Dependency Integration | ✅ | Semua package terpakai minimal sekali |
+
+> Semua views pake Tailwind v4 (no Bootstrap). Lihat `UIreference/` untuk referensi desain.
+
+## Key Config
+
+- **DB:** singular tables (`mobil`, `penyewaan`, `verifikasi`), field user `nama_user` (bukan `name`)
+- **Roles:** `admin` + `staff` (no `user` role)
+- **Tailwind:** v4 via `@theme {}` di CSS — no `tailwind.config.js`
+- **CSS:** `@vite('resources/css/app.css')` di layout head
+- **JS:** `resources/js/app.js` (Alpine, SweetAlert2, @fontsource/inter)
+>>>>>>> feature/tambah-data-denda
+=======
 | Auth | ✅ | Throttle 5:1, role redirect |
 | Layout (Sidebar + Navbar) | ✅ | Alpine.js, active glow, logout sidebar |
 | Admin Dashboard | ✅ | 7 stat cards, Chart.js |
@@ -36,6 +62,7 @@
 - **DB engine:** Laragon MySQL 8.4.3, port 3306
 - **Test DB:** `rentscar_testing` — isolated from production `rentscar`
 - **DB default guard:** `config/database.php` default `'mysql'` (was `'sqlite'`); `AppServiceProvider` blocks silent SQLite fallback
+>>>>>>> aqsha
 
 ## Credentials
 
@@ -46,6 +73,9 @@
 
 ## Stack
 
+<<<<<<< HEAD
+Laravel 12 / PHP 8.5.5 / Tailwind v4.3 / Vite 7.x / MySQL
+=======
 Laravel 12 / PHP 8.5.5 / Tailwind v4.3 / Vite 7.x / MySQL (Laragon)
 
 ## Known Issues & Fixes
@@ -133,19 +163,47 @@ UI/UX audit & fixes across all 42 views:
 5. **If duplicate MySQL returns** — only click MySQL → Start once in Laragon UI.
 6. (Optional) Run `sc.exe stop MySQL && sc.exe config MySQL start= disabled` as Admin to stop Windows MySQL service conflicting with Laragon.
 7. **Jika ada `<select>` baru di view yang akan datang** — sudah di-cover oleh global `select { color-scheme: dark; }` + `select option { background: #0D0D0D; color: #fff; }` di app.css. Tidak perlu per-file styling tambahan.
+>>>>>>> aqsha
 
 ## Security
 
 - Auth + RoleMiddleware (`role:admin` / `role:staff`)
 - CSRF active, throttle 5/min on login
+<<<<<<< HEAD
+>>>>>>> feature/tambah-data-denda
+=======
 - XSS protection (yieldContent, @json, titleText)
 - Mass assignment protected (no $request->all())
 - `password` cast: `'hashed'` in User model (detects bcrypt before re-hash)
+>>>>>>> aqsha
 
 ## Team
 
 | Member | Area | Progress |
 |--------|------|----------|
+<<<<<<< HEAD
+| **Aqsha** | Auth, Layout, Dashboards, Staff CRUD, Landing, Errors, All UI views, Dependencies | ✅ |
+| **Nisrina** | Customer, Mobil, Penyewaan, Verifikasi, Pengembalian CRUD | ⏳ Customer ✅, others: UI only |
+| **Haikal** | Public pages | Need assignment |
+| **Gibran** | Laporan, Export, Pengaturan | ⏳ UI only |
+| **Zahra** | Schema docs, Seeders, Testing | Need assignment 
+>>>>>>> feature/tambah-data-denda
+
+## Left
+
+- Store/update/destroy di Mobil, Penyewaan, Verifikasi, Pengembalian Controller
+- Laporan export (PDF/Excel), Pengaturan functionality
+- Public pages (Haikal), Testing & seeders (Zahra)
+
+## Blocker
+
+- `maatwebsite/excel` incompatible with PHP 8.5 → replaced with `openspout/openspout` ^5.7
+
+## AI Prompts per Member
+
+> Lihat file `docs/HANDOFF.md` versi sebelumnya atau konten di bawah untuk prompt length yang sudah dipakai tiap anggota. (Prompt dihapus dari file ini untuk menjaga ringkasnya — jika perlu, lihat riwayat git atau minta ke Aqsha)
+>>>>>>> feature/tambah-data-denda
+=======
 | **Aqsha** | Auth, Layout, Dashboards, Staff CRUD, Landing, Errors, All UI views | ✅ |
 | **Nisrina** | Customer, Mobil, Penyewaan, Verifikasi, Pengembalian CRUD | ✅ |
 | **Haikal** | Public pages, API integration | ⏳ |
@@ -158,3 +216,4 @@ UI/UX audit & fixes across all 42 views:
 - Obsolete packages removed: `laravel/breeze`, `laravel/sanctum`, `livewire/livewire`
 - Wilayah API dropdown removed entirely due to Alpine morphdom incompatibility
 - Two Laragon MySQL processes may cause connection issues — only click MySQL → Start once
+>>>>>>> aqsha

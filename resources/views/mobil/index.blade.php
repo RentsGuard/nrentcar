@@ -58,7 +58,9 @@
                         <option value="termahal" @selected(request('sort') === 'termahal')>Termahal</option>
                     </select>
                 </div>
-                <button type="submit" class="h-[38px] px-4 flex items-center justify-center rounded-xl bg-[#C1121F] text-white hover:bg-[#a30f1a] transition-colors shadow-[0_4px_15px_rgba(193,18,31,0.3)]"><i class="bi bi-search mr-1"></i> Filter</button>
+                <button type="submit" class="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-[#C1121F] text-white font-semibold text-xs hover:bg-[#a30f1a] transition-all">
+                    <i class="bi bi-funnel"></i> Filter
+                </button>
                 @if(request()->anyFilled('search','bahan_bakar','kapasitas','status','sort'))
                 <a href="/mobil" class="px-4 py-2.5 rounded-xl bg-white/[0.06] text-white/70 text-sm hover:text-white hover:bg-white/[0.1] transition-colors no-underline"><i class="bi bi-x-lg mr-1"></i>Reset</a>
                 @endif

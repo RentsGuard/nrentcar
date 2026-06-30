@@ -18,11 +18,11 @@
                             <input type="text" name="search" value="{{ request('search') }}"
                                 placeholder="Cari ID, nama customer, plat mobil..."
                                 class="w-full px-3 py-2.5 pl-10 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors">
-                            <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
+                            <i class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
                         </div>
                     </div>
                     <div>
-                        <label class="text-xs text-white/50 block mb-1.5 invisible select-none">_</label>
+                        <label class="text-xs text-white/50 block mb-1.5 invisible select-none"></label>
                         <button type="submit"
                             class="h-10 px-4 flex items-center justify-center rounded-xl bg-[#C1121F] text-white hover:bg-[#a30f1a] transition-colors shadow-[0_4px_15px_rgba(193,18,31,0.3)]">
                             <i class="bi bi-search mr-2"></i> Cari
@@ -30,7 +30,7 @@
                     </div>
                     @if(request('search'))
                     <div>
-                        <label class="text-xs text-white/50 block mb-1.5 invisible select-none">_</label>
+                        <label class="text-xs text-white/50 block mb-1.5 invisible select-none"></label>
                         <a href="/laporan/awal"
                             class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.05] transition-all no-underline">
                             <i class="bi bi-x-lg text-xs"></i>

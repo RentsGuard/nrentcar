@@ -79,6 +79,7 @@ class PengembalianTest extends TestCase
     {
         $response = $this->actingAs($this->admin)->post('/pengembalian', [
             'penyewaan_id' => $this->penyewaan->id,
+            'tanggal_pengembalian' => '2026-06-03T17:00',
             'kondisi_mobil' => 'Baik',
             'catatan' => 'Tepat waktu',
         ]);
@@ -92,6 +93,7 @@ class PengembalianTest extends TestCase
     {
         $this->actingAs($this->admin)->post('/pengembalian', [
             'penyewaan_id' => $this->penyewaan->id,
+            'tanggal_pengembalian' => '2026-06-03T17:00',
             'kondisi_mobil' => 'Baik',
         ]);
 
@@ -104,10 +106,55 @@ class PengembalianTest extends TestCase
 
         $response = $this->actingAs($this->admin)->post('/pengembalian', [
             'penyewaan_id' => $this->penyewaan->id,
+            'tanggal_pengembalian' => '2026-06-03T17:00',
             'kondisi_mobil' => 'Baik',
         ]);
 
         $response->assertStatus(404);
+    }
+
+    public function test_store_denda_correct_for_telat(): void
+    {
+        $this->actingAs($this->admin)->post('/pengembalian', [
+            'penyewaan_id' => $this->penyewaan->id,
+            'tanggal_pengembalian' => '2026-06-03T20:00',
+            'kondisi_mobil' => 'Baik',
+        ]);
+
+        $pengembalian = Pengembalian::where('penyewaan_id', $this->penyewaan->id)->first();
+
+        $this->assertEquals('telat', $pengembalian->status_pengembalian);
+        $this->assertEquals(3, $pengembalian->telat_jam);
+        $this->assertEquals(75000, $pengembalian->total_denda);
+    }
+
+    public function test_store_denda_correct_for_awal(): void
+    {
+        $this->actingAs($this->admin)->post('/pengembalian', [
+            'penyewaan_id' => $this->penyewaan->id,
+            'tanggal_pengembalian' => '2026-06-02T15:00',
+            'kondisi_mobil' => 'Baik',
+        ]);
+
+        $pengembalian = Pengembalian::where('penyewaan_id', $this->penyewaan->id)->first();
+
+        $this->assertEquals('awal', $pengembalian->status_pengembalian);
+        $this->assertEquals(0, $pengembalian->telat_jam);
+        $this->assertEquals(0, $pengembalian->total_denda);
+    }
+
+    public function test_store_denda_correct_for_tepat_waktu(): void
+    {
+        $this->actingAs($this->admin)->post('/pengembalian', [
+            'penyewaan_id' => $this->penyewaan->id,
+            'tanggal_pengembalian' => '2026-06-03T16:30',
+            'kondisi_mobil' => 'Baik',
+        ]);
+
+        $pengembalian = Pengembalian::where('penyewaan_id', $this->penyewaan->id)->first();
+
+        $this->assertEquals('tepat_waktu', $pengembalian->status_pengembalian);
+        $this->assertEquals(0, $pengembalian->telat_jam);
     }
 
     public function test_delete_pengembalian(): void

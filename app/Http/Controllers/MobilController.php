@@ -41,7 +41,7 @@ class MobilController extends Controller
             default => $query->latest(),
         };
 
-        $mobils = $query->get();
+        $mobils = $query->paginate(15)->withQueryString();
 
         $bahanBakarList = Mobil::query()
             ->select('bahan_bakar')

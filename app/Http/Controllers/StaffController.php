@@ -11,7 +11,7 @@ class StaffController extends Controller
 {
     public function index()
     {
-        $users = User::where('role', 'staff')->latest()->get();
+        $users = User::where('role', 'staff')->latest()->paginate(15);
 
         return view('staff.index', compact('users'));
     }

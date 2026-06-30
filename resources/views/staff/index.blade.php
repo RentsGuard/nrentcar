@@ -80,8 +80,8 @@
             </table>
         </div>
 
-        <div class="p-4 border-t border-white/[0.05] flex items-center justify-between text-sm text-white/50 bg-white/[0.01]">
-            <div>Menampilkan {{ count($users) }} data</div>
+        <div class="p-4 border-t border-white/[0.05] bg-white/[0.01]">
+            {{ $users->links('partials.pagination') }}
         </div>
     </div>
 </div>

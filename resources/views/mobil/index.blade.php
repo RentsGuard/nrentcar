@@ -141,6 +141,10 @@
         </div>
         @endforelse
     </div>
+
+    <div class="mt-6">
+        {{ $mobils->links('partials.pagination') }}
+    </div>
 </div>
 @endsection
 

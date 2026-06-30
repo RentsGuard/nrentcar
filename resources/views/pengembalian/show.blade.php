@@ -62,6 +62,7 @@
                             'telat' => 'bg-amber-500/10 text-amber-400 border-amber-500/20',
                             'rusak' => 'bg-red-500/10 text-red-400 border-red-500/20',
                             'telat_dan_rusak' => 'bg-red-500/10 text-red-400 border-red-500/20',
+                            'awal' => 'bg-blue-500/10 text-blue-400 border-blue-500/20',
                             default => 'bg-white/[0.1] text-white/80'
                         };
                         $sl = match($pengembalian->status_pengembalian) {
@@ -69,6 +70,7 @@
                             'telat' => 'Telat',
                             'rusak' => 'Rusak',
                             'telat_dan_rusak' => 'Telat & Rusak',
+                            'awal' => 'Awal',
                             default => $pengembalian->status_pengembalian
                         };
                         @endphp

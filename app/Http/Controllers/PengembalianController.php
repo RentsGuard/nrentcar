@@ -44,6 +44,7 @@ class PengembalianController extends Controller
     {
         $validated = $request->validate([
             'penyewaan_id' => 'required|exists:penyewaan,id',
+            'tanggal_pengembalian' => 'required|date',
             'kondisi_mobil' => 'nullable|string|max:255',
             'denda_kerusakan' => 'nullable|numeric|min:0',
             'catatan' => 'nullable|string',
@@ -57,7 +58,13 @@ class PengembalianController extends Controller
             return back()->with('error', 'Penyewaan ini sudah memiliki data pengembalian');
         }
 
-        $tanggalPengembalian = now();
+        $tanggalPengembalian = Carbon::parse($validated['tanggal_pengembalian']);
+        $tglMulai = Carbon::parse($penyewaan->tanggal_sewa->format('Y-m-d').' '.($penyewaan->jam_sewa ?? '08:00'));
+
+        if ($tanggalPengembalian->lessThanOrEqualTo($tglMulai)) {
+            return back()->withErrors(['tanggal_pengembalian' => 'Tanggal pengembalian harus setelah tanggal sewa.'])->withInput();
+        }
+
         $denda = $this->calculateDenda($penyewaan, $tanggalPengembalian, $request->jam_kembali);
 
         $data = [
@@ -123,14 +130,19 @@ class PengembalianController extends Controller
 
         $denda = $this->calculateDenda($penyewaan, $tglKembali, $request->jam_kembali);
 
+        $existingDendaPerJam = (int) ($pengembalian->denda_per_jam ?? $denda['denda_per_jam']);
+        $dendaTelatRecalc = $denda['telat_jam'] * $existingDendaPerJam;
+        $dendaKerusakan = $request->denda_kerusakan ? (int) $request->denda_kerusakan : 0;
+        $totalDendaRecalc = $dendaTelatRecalc + $dendaKerusakan;
+
         $data = [
             'tanggal_pengembalian' => $validated['tanggal_pengembalian'],
             'kondisi_mobil' => $validated['kondisi_mobil'] ?? null,
             'telat_jam' => $denda['telat_jam'],
-            'denda_per_jam' => $denda['denda_per_jam'],
-            'denda_telat' => $denda['denda_telat'],
-            'denda_kerusakan' => $denda['denda_kerusakan'],
-            'total_denda' => $denda['total_denda'],
+            'denda_per_jam' => $existingDendaPerJam,
+            'denda_telat' => $dendaTelatRecalc,
+            'denda_kerusakan' => $dendaKerusakan,
+            'total_denda' => $totalDendaRecalc,
             'status_pengembalian' => $denda['status_pengembalian'],
             'catatan' => $validated['catatan'] ?? null,
             'status_denda' => 'belum_dibayar',
@@ -209,19 +221,23 @@ class PengembalianController extends Controller
             ->with('success', 'Status denda dikembalikan ke belum dibayar');
     }
 
-    private function calculateDenda($penyewaan, $tanggalPengembalian, $jamKembali)
+    private function calculateDenda($penyewaan, $tanggalPengembalian, $jamKembali = null)
     {
-        $deadlineJam = $penyewaan->jam_kembali ?? '17:00';
-        $returnJam = $jamKembali ?? now()->format('H:i');
+        $expectedDate = $penyewaan->tanggal_kembali;
+        $expectedJam = $penyewaan->jam_kembali ?? '17:00';
+        $deadline = Carbon::parse($expectedDate->format('Y-m-d').' '.$expectedJam);
 
-        $deadline = Carbon::parse($tanggalPengembalian->format('Y-m-d').' '.$deadlineJam);
-        $returnDt = Carbon::parse($tanggalPengembalian->format('Y-m-d').' '.$returnJam);
+        $returnDt = $tanggalPengembalian->copy();
+        if ($jamKembali) {
+            $returnDt = Carbon::parse($returnDt->format('Y-m-d').' '.$jamKembali);
+        }
 
         $isLate = $returnDt->gt($deadline);
+        $isEarly = $returnDt->format('Y-m-d') < $expectedDate->format('Y-m-d');
 
         $telatJam = 0;
         $dendaTelat = 0;
-        $dendaPerJam = 10000;
+        $dendaPerJam = (int) ($penyewaan->denda_per_jam ?? 10000);
 
         if ($isLate) {
             $diffMin = $deadline->diffInMinutes($returnDt, false);
@@ -230,16 +246,17 @@ class PengembalianController extends Controller
         }
 
         $dendaKerusakan = request('denda_kerusakan') ? (int) request('denda_kerusakan') : 0;
-
         $totalDenda = $dendaTelat + $dendaKerusakan;
 
         $kondisi = request('kondisi_mobil');
-        if ($kondisi === 'rusak' && !$isLate) {
-            $status = 'rusak';
-        } elseif ($kondisi === 'rusak' && $isLate) {
+        if ($kondisi === 'rusak' && $isLate) {
             $status = 'telat_dan_rusak';
+        } elseif ($kondisi === 'rusak') {
+            $status = 'rusak';
         } elseif ($isLate) {
             $status = 'telat';
+        } elseif ($isEarly) {
+            $status = 'awal';
         } else {
             $status = 'tepat_waktu';
         }

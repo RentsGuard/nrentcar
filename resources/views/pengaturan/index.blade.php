@@ -82,13 +82,31 @@
 
     <div class="glass-card p-6">
         <h3 class="text-base font-semibold text-white mb-4">Aktivitas Terbaru</h3>
-        <div class="space-y-2">
-            @forelse($recentActivities as $act)
-            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
-                <div class="w-2 h-2 rounded-full bg-[#C1121F] shrink-0"></div>
-                <p class="text-sm text-white/70 flex-1">{{ $act->description }}</p>
-                <span class="text-xs text-white/40">{{ $act->created_at->diffForHumans() }}</span>
-            </div>
+            <div class="space-y-2">
+                @forelse($recentActivities as $act)
+                    <div class="flex items-center gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+                        <div class="w-2 h-2 rounded-full bg-[#C1121F] shrink-0"></div>
+
+                        <div class="flex-1">
+                            @if($act->causer)
+                                <p class="text-sm text-white/70">
+                                    <span class="font-semibold text-white">
+                                        {{ ucfirst($act->causer->role) }}
+                                    </span>
+                                    ({{ $act->causer->nama_user }})
+                                    {{ $act->description }}
+                                </p>
+                            @else
+                                <p class="text-sm text-white/70">
+                                    System {{ $act->description }}
+                                </p>
+                            @endif
+                        </div>
+
+                        <span class="text-xs text-white/40">
+                            {{ $act->created_at->diffForHumans() }}
+                        </span>
+                    </div>
             @empty
             <div class="flex items-center gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
                 <div class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></div>

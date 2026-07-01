@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->restrictOnDelete();
             $table->foreignId('mobil_id')->constrained('mobil')->restrictOnDelete();
-            $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->date('tanggal_sewa')->index();
             $table->date('tanggal_kembali')->index();
             $table->unsignedInteger('lama_sewa');

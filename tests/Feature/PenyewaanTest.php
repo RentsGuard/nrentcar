@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Customer;
 use App\Models\Mobil;
+use App\Models\Penyewaan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +15,9 @@ class PenyewaanTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected Customer $customer;
+
     protected Mobil $mobil;
 
     protected function setUp(): void
@@ -123,7 +126,7 @@ class PenyewaanTest extends TestCase
 
     protected function seedPenyewaan()
     {
-        return \App\Models\Penyewaan::create([
+        return Penyewaan::create([
             'customer_id' => $this->customer->id,
             'mobil_id' => $this->mobil->id,
             'user_id' => $this->admin->id,

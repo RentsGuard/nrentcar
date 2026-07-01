@@ -1,54 +1,48 @@
 # GitHub Actions — RentsCar
 
-## Current Status
+## Status Saat Ini
 
-No CI/CD pipeline configured yet.
+CI workflow Laravel sudah dikonfigurasi dan digunakan untuk validasi pull request.
 
-## Recommended Setup
+## Workflow yang Digunakan
 
-### PHP Lint & Tests
+File workflow aktif berada di [.github/workflows/laravel-check.yml](../.github/workflows/laravel-check.yml).
 
-```yaml
-name: Laravel CI
+### Ringkasan workflow
 
-on: [push, pull_request]
+- Menjalankan pemeriksaan saat push ke branch `main` dan saat pull request.
+- Menggunakan service MySQL untuk uji integrasi.
+- Menginstal dependency PHP dan Node.js.
+- Membuat build frontend dengan Vite.
+- Menjalankan migrasi Laravel dan pengujian otomatis.
+- Menjalankan pemeriksaan format kode dengan Pint.
 
-jobs:
-  laravel-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.5'
-          extensions: mbstring, pdo_mysql, gd
-      - run: composer install --no-progress
-      - run: npm ci
-      - run: npm run build
-      - run: php artisan key:generate
-      - run: php artisan test
-```
-
-### Node Build Check
+### Konfigurasi utama
 
 ```yaml
-name: Node Build
+name: Laravel Check
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: npm ci
-      - run: npm run build
+    env:
+      APP_ENV: testing
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: rentscar_testing
+      DB_USERNAME: sail
+      DB_PASSWORD: password
 ```
 
-## Notes
+## Catatan Penting
 
-- Needs `.env` secrets configured in GitHub repo settings
-- Database service container required for integration tests
+- Workflow menggunakan service MySQL dengan kredensial yang sesuai.
+- Pastikan PHP extensions `pdo_mysql`, `mysqli`, `pdo_sqlite`, dan `sqlite3` tersedia.
+- Proses testing mengandalkan migrasi database dan suite test Laravel.

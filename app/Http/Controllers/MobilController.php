@@ -140,7 +140,7 @@ class MobilController extends Controller
     public function toggleVisibility($id)
     {
         $mobil = Mobil::findOrFail($id);
-        $mobil->update(['is_visible' => !$mobil->is_visible]);
+        $mobil->update(['is_visible' => ! $mobil->is_visible]);
 
         $status = $mobil->is_visible ? 'ditampilkan' : 'disembunyikan';
         activity()->performedOn($mobil)->log("Mobil {$mobil->nama_mobil} {$status}");
@@ -173,5 +173,4 @@ class MobilController extends Controller
         return redirect('/mobil')
             ->with('success', 'Data mobil berhasil dihapus');
     }
-
 }

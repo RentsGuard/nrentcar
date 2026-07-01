@@ -16,6 +16,7 @@ class PengembalianTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected Penyewaan $penyewaan;
 
     protected function setUp(): void

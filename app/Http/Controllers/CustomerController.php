@@ -16,8 +16,8 @@ class CustomerController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('nama_customer', 'like', "%{$search}%")
-                  ->orWhere('nik', 'like', "%{$search}%")
-                  ->orWhere('no_hp', 'like', "%{$search}%");
+                    ->orWhere('nik', 'like', "%{$search}%")
+                    ->orWhere('no_hp', 'like', "%{$search}%");
             });
         }
 
@@ -88,9 +88,9 @@ class CustomerController extends Controller
         ])->findOrFail($id);
 
         // Statistik ringkasan
-        $totalSewa       = $customer->penyewaan->count();
-        $totalDenda      = $customer->penyewaan->sum(fn ($p) => optional($p->pengembalian)->total_denda ?? 0);
-        $penyewaanAktif  = $customer->penyewaan->where('status', 'aktif')->count();
+        $totalSewa = $customer->penyewaan->count();
+        $totalDenda = $customer->penyewaan->sum(fn ($p) => optional($p->pengembalian)->total_denda ?? 0);
+        $penyewaanAktif = $customer->penyewaan->where('status', 'aktif')->count();
         $riwayatKesalahan = $customer->penyewaan
             ->filter(fn ($p) => $p->pengembalian &&
                 in_array($p->pengembalian->status_pengembalian, ['telat', 'rusak', 'telat_dan_rusak']))

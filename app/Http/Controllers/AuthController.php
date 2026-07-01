@@ -25,6 +25,7 @@ class AuthController extends Controller
         if (RateLimiter::tooManyAttempts($key, 5)) {
             $seconds = RateLimiter::availableIn($key);
             $minutes = ceil($seconds / 60);
+
             return back()->with('error', "Terlalu banyak percobaan login. Coba lagi {$minutes} menit lagi.")
                 ->withInput($request->only('email'));
         }
@@ -34,6 +35,7 @@ class AuthController extends Controller
         if (! Auth::attempt($request->only('email', 'password'), $remember)) {
             RateLimiter::hit($key, 60);
             $attemptsLeft = max(0, 5 - RateLimiter::attempts($key));
+
             return back()->with('error', 'Login gagal')
                 ->with('attempts_left', $attemptsLeft)
                 ->withInput($request->only('email'));

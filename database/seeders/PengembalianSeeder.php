@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Penyewaan;
 use App\Models\Pengembalian;
+use App\Models\Penyewaan;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 

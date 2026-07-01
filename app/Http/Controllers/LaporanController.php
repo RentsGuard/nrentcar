@@ -9,7 +9,6 @@ use App\Models\Penyewaan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 
-
 class LaporanController extends Controller
 {
     public function index()
@@ -108,7 +107,9 @@ class LaporanController extends Controller
 
     private function applySearchFilter($query, $search)
     {
-        if (!$search) return $query;
+        if (! $search) {
+            return $query;
+        }
 
         return $query->where(function ($q) use ($search) {
             $q->whereHas('customer', function ($q) use ($search) {

@@ -1,36 +1,38 @@
 # Refactoring — RentsCar
 
-## Completed Refactoring
+## Refactoring yang Sudah Selesai
 
 ### 1. Bootstrap 5.3 → Tailwind CSS v4
 
-All Aqsha-owned views rewritten from Bootstrap utility classes to Tailwind v4.
+Semua tampilan yang menjadi tanggung jawab telah ditulis ulang dari kelas utilitas Bootstrap ke Tailwind v4.
 
-**Changes:**
-- Removed Bootstrap CSS CDN from layout
-- Removed Bootstrap-specific classes
-- Replaced grid system with Tailwind `grid` + `grid-cols-*`
-- Replaced Bootstrap utilities with Tailwind equivalents
-- No `tailwind.config.js` — v4 uses CSS `@theme {}` block
+**Perubahan:**
+- Menghapus CDN CSS Bootstrap dari layout
+- Menghapus kelas-kelas khusus Bootstrap
+- Mengganti sistem grid dengan Tailwind `grid` dan `grid-cols-*`
+- Mengganti utilitas Bootstrap dengan padanan Tailwind
+- Tidak ada `tailwind.config.js` karena Tailwind v4 menggunakan blok CSS `@theme {}`
 
-### 2. Manual JS → Alpine.js
+### 2. JavaScript Manual → Alpine.js
 
-- Sidebar open/close: `x-data`, `x-show`, `@click` replace `classList.toggle()`
-- Backdrop overlay: managed via Alpine state
-- `x-cloak` prevents FOUC
+- Sidebar buka/tutup: `x-data`, `x-show`, dan `@click` menggantikan `classList.toggle()`
+- Overlay backdrop dikelola melalui state Alpine
+- `x-cloak` digunakan untuk mencegah FOUC
 
-### 3. Native confirm() → SweetAlert2
+### 3. `confirm()` Bawaan → SweetAlert2
 
-- Staff delete confirmation uses `Swal.fire()` with custom styling
+- Konfirmasi hapus staff menggunakan `Swal.fire()` dengan gaya kustom
 
-### 4. Static Icons → Blade Heroicons
+### 4. Ikon Statis → Blade Heroicons
 
-- Dashboard sidebar icon replaced with `@heroicon('squares-2x2', 'solid')`
+- Ikon sidebar dashboard diganti dengan `@heroicon('squares-2x2', 'solid')`
 
 ### 5. Audit Trail
 
-- StaffController logs create/update/delete via Spatie Activitylog
+- StaffController mencatat aktivitas create, update, dan delete melalui Spatie Activitylog
 
-## Pending Refactoring
+## Refactoring yang Masih Menunggu
 
-- None in Aqsha area. Other team members may refactor their assigned CRUDs to Tailwind v4 conventions.
+- Anggota tim lain dapat melakukan refactoring CRUD yang menjadi tanggung jawab mereka sesuai konvensi Tailwind v4.
+
+- GitHub Actions sudah diperbaiki dan dijaga agar workflow tetap berjalan lancar saat pull request, terutama terkait setup PHP, database, dan pengujian otomatis.

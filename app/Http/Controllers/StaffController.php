@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penyewaan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -101,6 +102,8 @@ class StaffController extends Controller
         }
 
         $name = $user->nama_user;
+
+        Penyewaan::where('user_id', $user->id)->update(['user_id' => null]);
         $user->delete();
 
         activity()->log("Staff {$name} deleted");

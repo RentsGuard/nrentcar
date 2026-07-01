@@ -9,6 +9,14 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      APP_ENV: testing
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: rentscar_testing
+      DB_USERNAME: sail
+      DB_PASSWORD: password
 
     services:
       mysql:
@@ -52,13 +60,6 @@ jobs:
         run: npm run build
 
       - name: Prepare Laravel Application
-        env:
-          DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: rentscar_testing
-          DB_USERNAME: sail
-          DB_PASSWORD: password
         run: |
           cp .env.example .env
           php artisan key:generate

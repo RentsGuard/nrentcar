@@ -15,6 +15,7 @@ class AuthorizationTest extends TestCase
     use RefreshDatabase;
 
     protected User $staff;
+
     protected Mobil $mobil;
 
     protected function setUp(): void

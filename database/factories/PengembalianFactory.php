@@ -27,7 +27,7 @@ class PengembalianFactory extends Factory
 
     public function telat(int $jam, int $dendaPerJam = 50000): static
     {
-        return $this->state(fn(array $attr) => [
+        return $this->state(fn (array $attr) => [
             'telat_jam' => $jam,
             'denda_per_jam' => $dendaPerJam,
             'denda_telat' => $jam * $dendaPerJam,
@@ -38,7 +38,7 @@ class PengembalianFactory extends Factory
 
     public function rusak(int $nominal): static
     {
-        return $this->state(fn(array $attr) => [
+        return $this->state(fn (array $attr) => [
             'denda_kerusakan' => $nominal,
             'total_denda' => ($attr['denda_telat'] ?? 0) + $nominal,
             'status_pengembalian' => ($attr['telat_jam'] ?? 0) > 0 && $nominal > 0 ? 'telat_dan_rusak' : 'rusak',

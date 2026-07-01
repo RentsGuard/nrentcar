@@ -9,7 +9,6 @@ use Spatie\Activitylog\Models\Activity;
 
 class PengaturanController extends Controller
 {
-
     public function index()
     {
         $recentActivities = Activity::with('causer')
@@ -19,6 +18,7 @@ class PengaturanController extends Controller
 
         return view('pengaturan.index', compact('recentActivities'));
     }
+
     public function roleAkses()
     {
         $users = User::withCount('penyewaan', 'verifiedCustomers')->latest()->get();

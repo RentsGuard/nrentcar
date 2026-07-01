@@ -34,9 +34,9 @@ class DashboardController extends Controller
         $totalDenda = Pengembalian::sum('total_denda');
         $dendaLunas = Pengembalian::where('status_denda', 'lunas')->sum('total_denda');
         $pengembalianHariIni = Pengembalian::where(function ($q) {
-                $q->whereDate('tanggal_pengembalian', today())
-                  ->orWhereDate('denda_lunas_at', today());
-            })
+            $q->whereDate('tanggal_pengembalian', today())
+                ->orWhereDate('denda_lunas_at', today());
+        })
             ->count();
 
         $view = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'staff.dashboard';

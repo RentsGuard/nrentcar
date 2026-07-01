@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Penyewaan;
 use App\Models\Pengembalian;
+use App\Models\Penyewaan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -85,6 +85,7 @@ class PengembalianController extends Controller
             $pengembalian = Pengembalian::create($data);
             $penyewaan->update(['status' => 'selesai']);
             $penyewaan->mobil()->update(['status_mobil' => 'tersedia']);
+
             return $pengembalian;
         });
 
@@ -197,7 +198,7 @@ class PengembalianController extends Controller
 
         activity()->performedOn($pengembalian)->log("Pengembalian #{$pengembalian->penyewaan_id} denda ditandai lunas");
 
-        return redirect('/pengembalian/' . $pengembalian->id)
+        return redirect('/pengembalian/'.$pengembalian->id)
             ->with('success', 'Denda ditandai lunas');
     }
 
@@ -217,7 +218,7 @@ class PengembalianController extends Controller
 
         activity()->performedOn($pengembalian)->log("Pengembalian #{$pengembalian->penyewaan_id} status denda dibatalkan");
 
-        return redirect('/pengembalian/' . $pengembalian->id)
+        return redirect('/pengembalian/'.$pengembalian->id)
             ->with('success', 'Status denda dikembalikan ke belum dibayar');
     }
 

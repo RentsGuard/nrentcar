@@ -56,8 +56,8 @@ class PenyewaanController extends Controller
         $validated['jam_sewa'] = $validated['jam_sewa'] ?? '08:00';
         $validated['jam_kembali'] = $validated['jam_kembali'] ?? '17:00';
 
-        $mulai = Carbon::parse($validated['tanggal_sewa'] . ' ' . $validated['jam_sewa']);
-        $selesai = Carbon::parse($validated['tanggal_kembali'] . ' ' . $validated['jam_kembali']);
+        $mulai = Carbon::parse($validated['tanggal_sewa'].' '.$validated['jam_sewa']);
+        $selesai = Carbon::parse($validated['tanggal_kembali'].' '.$validated['jam_kembali']);
 
         if ($selesai <= $mulai) {
             return back()->withErrors(['tanggal_kembali' => 'Tanggal dan jam kembali harus setelah tanggal dan jam sewa.'])->withInput();
@@ -78,6 +78,7 @@ class PenyewaanController extends Controller
         $penyewaan = DB::transaction(function () use ($validated, $mobil) {
             $penyewaan = Penyewaan::create($validated);
             $mobil->update(['status_mobil' => 'disewa']);
+
             return $penyewaan;
         });
 
@@ -105,7 +106,7 @@ class PenyewaanController extends Controller
     {
         $penyewaan = Penyewaan::findOrFail($id);
 
-        if (!in_array($penyewaan->status, ['aktif', 'menunggu'])) {
+        if (! in_array($penyewaan->status, ['aktif', 'menunggu'])) {
             return back()->with('error', 'Hanya penyewaan aktif atau menunggu yang dapat diedit.');
         }
 
@@ -126,8 +127,8 @@ class PenyewaanController extends Controller
         $validated['jam_sewa'] = $validated['jam_sewa'] ?? '08:00';
         $validated['jam_kembali'] = $validated['jam_kembali'] ?? '17:00';
 
-        $mulai = Carbon::parse($validated['tanggal_sewa'] . ' ' . $validated['jam_sewa']);
-        $selesai = Carbon::parse($validated['tanggal_kembali'] . ' ' . $validated['jam_kembali']);
+        $mulai = Carbon::parse($validated['tanggal_sewa'].' '.$validated['jam_sewa']);
+        $selesai = Carbon::parse($validated['tanggal_kembali'].' '.$validated['jam_kembali']);
 
         if ($selesai <= $mulai) {
             return back()->withErrors(['tanggal_kembali' => 'Tanggal dan jam kembali harus setelah tanggal dan jam sewa.'])->withInput();

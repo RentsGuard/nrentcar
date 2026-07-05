@@ -5,9 +5,7 @@
 
 @section('content')
 <style>
-.page-section { min-height:100vh; position:relative; overflow:hidden; background:var(--bg-primary,#080808); }
-.page-section::before { content:''; position:absolute; top:-300px; right:-200px; width:700px; height:700px; background:radial-gradient(circle,rgba(193,18,31,0.08) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
-.page-section::after { content:''; position:absolute; bottom:-200px; left:-150px; width:500px; height:500px; background:radial-gradient(circle,rgba(193,18,31,0.05) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
+.page-section { min-height:100vh; position:relative; overflow:hidden; background:linear-gradient(180deg,#080808 0%,#101010 100%); }
 </style>
 
 <div class="page-section">
@@ -28,6 +26,14 @@
         </div>
     </nav>
 
+    <div class="sm:hidden sticky top-0 z-30 bg-[#080808]/95 backdrop-blur-xl border-y border-white/[0.06] px-4 py-3">
+        <div class="grid grid-cols-3 gap-2 text-center">
+            <a href="/" class="py-2 rounded-lg bg-white/[0.04] text-white/80 text-xs font-medium no-underline">Beranda</a>
+            <a href="/tentang-kami" class="py-2 rounded-lg bg-white/[0.04] text-white/80 text-xs font-medium no-underline">Tentang</a>
+            <a href="https://wa.me/{{ config('app.admin_wa') }}" target="_blank" class="py-2 rounded-lg text-white text-xs font-semibold no-underline" style="background:#25D366">WhatsApp</a>
+        </div>
+    </div>
+
     <div class="px-6 sm:px-10 pb-16 relative z-10">
         <div class="text-center mb-10">
             <p class="text-xs font-semibold uppercase tracking-widest text-[#C1121F] mb-2">Armada Kami</p>
@@ -39,7 +45,7 @@
             <div class="flex flex-wrap gap-3 items-end">
                 <div class="flex-1 min-w-[200px]">
                     <label class="text-xs text-white/50 block mb-1.5">Cari Mobil</label>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama mobil, tipe, plat..." class="w-full px-4 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm placeholder:text-white/30 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama mobil atau tipe..." class="w-full px-4 py-2.5 rounded-xl bg-[#0D0D0D] border border-white/[0.1] text-white text-sm placeholder:text-white/30 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] focus:outline-none transition-colors">
                 </div>
                 <div class="w-36">
                     <label class="text-xs text-white/50 block mb-1.5">Bahan Bakar</label>

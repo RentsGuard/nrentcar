@@ -12,14 +12,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicMobilController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\WilayahController;
-use App\Models\Mobil;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', [PublicMobilController::class, 'home']);
 Route::get('/cars', [PublicMobilController::class, 'index'])->name('public.mobil.index');
 Route::get('/cars/{id}', [PublicMobilController::class, 'show'])->name('public.mobil.show');
-Route::get('/tentang-kami', function () {
-    return view('public.tentang');
-});
+Route::get('/tentang-kami', [PublicMobilController::class, 'tentang']);
 
 Route::prefix('api/wilayah')->group(function () {
     Route::get('/provinsi', [WilayahController::class, 'provinces']);
@@ -28,21 +26,13 @@ Route::prefix('api/wilayah')->group(function () {
     Route::get('/kelurahan/{districtId}', [WilayahController::class, 'villages']);
 });
 
-Route::get('/', function () {
-    $mobilTersedia = Mobil::where('is_visible', true)->latest()->take(6)->get();
-
-    return view('welcome', compact('mobilTersedia'));
-});
-
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', function () {
-        return redirect(auth()->user()->role === 'admin' ? '/admin/dashboard' : '/staff/dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'redirectByRole'])->name('dashboard');
 
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware('role:admin');
     Route::get('/staff/dashboard', [DashboardController::class, 'index'])->middleware('role:staff');
@@ -53,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer', [CustomerController::class, 'index']);
     Route::get('/customer/create', [CustomerController::class, 'create']);
     Route::post('/customer', [CustomerController::class, 'store']);
+    Route::get('/customer/{id}/ktp', [CustomerController::class, 'ktpImage']);
     Route::get('/customer/{id}', [CustomerController::class, 'show']);
     Route::get('/customer/{id}/edit', [CustomerController::class, 'edit']);
     Route::put('/customer/{id}', [CustomerController::class, 'update']);
@@ -81,12 +72,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/akhir', [LaporanController::class, 'akhir']);
     Route::get('/laporan/akhir/cetak', [LaporanController::class, 'cetakAkhir']);
 
-    Route::get('/pengaturan', [PengaturanController::class, 'index']);
-    Route::get('/pengaturan/tampilan', [PengaturanController::class, 'tampilan']);
-    Route::put('/pengaturan/tampilan', [PengaturanController::class, 'tampilanUpdate']);
-    Route::get('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasi']);
-    Route::put('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasiUpdate']);
-
     Route::get('/pengembalian', [PengembalianController::class, 'index']);
     Route::get('/pengembalian/create', [PengembalianController::class, 'create']);
     Route::post('/pengembalian', [PengembalianController::class, 'store']);
@@ -99,7 +84,12 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::post('/customer/{id}/verify', [CustomerController::class, 'verify']);
+        Route::get('/pengaturan', [PengaturanController::class, 'index']);
         Route::get('/pengaturan/role-akses', [PengaturanController::class, 'roleAkses']);
+        Route::get('/pengaturan/tampilan', [PengaturanController::class, 'tampilan']);
+        Route::put('/pengaturan/tampilan', [PengaturanController::class, 'tampilanUpdate']);
+        Route::get('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasi']);
+        Route::put('/pengaturan/notifikasi', [PengaturanController::class, 'notifikasiUpdate']);
 
         Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
         Route::get('/staff/create', [StaffController::class, 'create'])->name('staff.create');

@@ -5,9 +5,7 @@
 
 @section('content')
 <style>
-.hero-section { min-height:100vh; display:flex; flex-direction:column; position:relative; overflow:hidden; background:var(--bg-primary,#080808); }
-.hero-section::before { content:''; position:absolute; top:-300px; right:-200px; width:700px; height:700px; background:radial-gradient(circle,rgba(193,18,31,0.1) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
-.hero-section::after { content:''; position:absolute; bottom:-200px; left:-150px; width:500px; height:500px; background:radial-gradient(circle,rgba(193,18,31,0.06) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
+.hero-section { min-height:78vh; display:flex; flex-direction:column; position:relative; overflow:hidden; background:linear-gradient(180deg,#080808 0%,#101010 100%); }
 </style>
 
 <div class="hero-section">
@@ -34,7 +32,7 @@
             <i class="bi bi-star-fill text-[10px]"></i> Premium Car Rental Service
         </span>
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4 max-w-2xl tracking-tight">
-            Sewa Mobil <span class="text-[#C1121F]">Premium</span><br>Untuk Perjalanan Anda
+            Sewa Mobil <span class="text-[#C1121F]">Premium</span><br> Untuk Perjalanan Anda
         </h1>
         <p class="text-base sm:text-lg text-white/60 max-w-lg mb-8">Nikmati pengalaman berkendara terbaik dengan armada mobil premium kami. Harga terjangkau, kualitas terjamin.</p>
         <div class="flex flex-wrap gap-4 justify-center">
@@ -42,6 +40,14 @@
                 <i class="bi bi-car-front"></i> Lihat Mobil
             </a>
         </div>
+    </div>
+</div>
+
+<div class="sm:hidden sticky top-0 z-30 bg-[#080808]/95 backdrop-blur-xl border-y border-white/[0.06] px-4 py-3">
+    <div class="grid grid-cols-3 gap-2 text-center">
+        <a href="/cars" class="py-2 rounded-lg bg-white/[0.04] text-white/80 text-xs font-medium no-underline">Mobil</a>
+        <a href="/tentang-kami" class="py-2 rounded-lg bg-white/[0.04] text-white/80 text-xs font-medium no-underline">Tentang</a>
+        <a href="https://wa.me/{{ config('app.admin_wa') }}" target="_blank" class="py-2 rounded-lg text-white text-xs font-semibold no-underline" style="background:#25D366">WhatsApp</a>
     </div>
 </div>
 

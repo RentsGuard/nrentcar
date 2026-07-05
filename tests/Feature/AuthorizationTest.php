@@ -72,6 +72,20 @@ class AuthorizationTest extends TestCase
         $response->assertStatus(403);
     }
 
+    public function test_staff_cannot_access_general_settings(): void
+    {
+        $response = $this->actingAs($this->staff)->get('/pengaturan');
+        $response->assertStatus(403);
+    }
+
+    public function test_staff_sidebar_does_not_show_settings_link(): void
+    {
+        $response = $this->actingAs($this->staff)->get('/staff/dashboard');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('Pengaturan');
+    }
+
     public function test_staff_cannot_toggle_visibility(): void
     {
         $response = $this->actingAs($this->staff)->put("/mobil/{$this->mobil->id}/toggle-visibility");
@@ -95,6 +109,22 @@ class AuthorizationTest extends TestCase
     {
         $response = $this->get('/cars');
         $response->assertStatus(200);
+    }
+
+    public function test_guest_cannot_access_hidden_public_car_detail(): void
+    {
+        $this->mobil->update(['is_visible' => false]);
+
+        $response = $this->get("/cars/{$this->mobil->id}");
+        $response->assertStatus(404);
+    }
+
+    public function test_public_car_search_does_not_match_plate_number(): void
+    {
+        $response = $this->get('/cars?search=B+9999+TST');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('Test Car');
     }
 
     public function test_guest_can_access_tentang(): void

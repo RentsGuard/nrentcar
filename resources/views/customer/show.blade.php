@@ -385,7 +385,7 @@
                 </div>
                 <div class="p-6">
                     @if($customer->foto_ktp)
-                    <img src="{{ asset('storage/'.$customer->foto_ktp) }}" alt="KTP {{ $customer->nama_customer }}" class="w-full rounded-lg border border-white/[0.1]">
+                    <img src="{{ $customer->foto_ktp_url }}" alt="KTP {{ $customer->nama_customer }}" class="w-full rounded-lg border border-white/[0.1]">
                     @else
                     <div class="flex flex-col items-center justify-center py-8 text-white/40">
                         <i class="bi bi-card-image text-4xl mb-3"></i>

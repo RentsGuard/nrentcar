@@ -96,11 +96,13 @@
                 <span class="font-medium text-sm">Laporan</span>
             </a>
 
+            @if(auth()->user()->role === 'admin')
             <a href="{{ url('/pengaturan') }}" class="relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group {{ request()->is('pengaturan*') ? 'bg-[#C1121F]/10 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white' }}">
                 @if(request()->is('pengaturan*'))<span class="absolute left-0 top-0 bottom-0 w-1 bg-[#C1121F] rounded-r-full shadow-[0_0_10px_rgba(193,18,31,0.8)]"></span>@endif
                 <i class="bi bi-gear text-lg {{ request()->is('pengaturan*') ? 'text-[#C1121F]' : 'group-hover:text-white/80' }}"></i>
                 <span class="font-medium text-sm">Pengaturan</span>
             </a>
+            @endif
 
             <a href="{{ url('/') }}" target="_blank" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group text-white/60 hover:bg-white/[0.04] hover:text-white">
                 <i class="bi bi-globe text-lg group-hover:text-white/80"></i>

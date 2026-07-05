@@ -44,7 +44,16 @@ All Aqsha-owned views rewritten from Bootstrap utility classes to Tailwind v4.
 | Duplikasi route `/laporan/ringkasan` | Hapus baris duplikat |
 | `route('dashboard')` undefined | Tambah named route `/dashboard` di `routes/web.php` |
 | `UserFactory` missing `email_verified_at` + `unverified()` | Tambah default `email_verified_at => now()` + method `unverified()` |
+| Public car detail exposed hidden cars by guessed ID | `PublicMobilController@show()` sekarang wajib `is_visible = true` |
+| Public search matched plate numbers | Search publik sekarang hanya nama mobil dan tipe mobil |
+| Public car detail displayed plate numbers | Plat nomor disembunyikan di halaman publik, tetap ada di dashboard internal |
+| Staff could submit verification fields through customer update | Field verifikasi hanya diproses jika user adalah admin |
+| Foto KTP tersimpan di public disk | Upload KTP baru masuk private disk dan dibuka lewat route internal setelah login |
+| Settings routes accessible by staff | Semua route `/pengaturan` dipindahkan ke middleware `role:admin` |
+| Staff sidebar linked to admin-only settings | Link pengaturan hanya dirender untuk admin |
+| Public mobile navigation was too limited | Tambah mobile nav publik untuk Mobil, Tentang, dan WhatsApp |
+| Route cache blocked by closure routes | Homepage, tentang page, dan dashboard redirect dipindahkan ke controller method |
 
 ## Pending Refactoring
 
-- None in Aqsha area. Other team members may refactor their assigned CRUDs to Tailwind v4 conventions.
+- Optional: extract repeated public navigation into a Blade partial if the public pages continue to grow.

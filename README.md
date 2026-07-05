@@ -7,22 +7,22 @@ A full-featured car rental management system built with Laravel 12. Manage cars,
 - **Auth & Roles** — Admin/Staff login with role-based redirect (throttle: 5/min)
 - **Dashboard** — 7 stat cards + real Chart.js charts (revenue, rentals)
 - **Staff Management** — Admin-only CRUD, password reset, foto profil
-- **Customer Management** — Full KTP fields (18 fields), foto_ktp upload, verification workflow
+- **Customer Management** — Full KTP fields (18 fields), private foto_ktp upload, verification workflow
 - **Car Management** — CRUD with foto upload, tipe_mobil (Matic/Manual), visibility toggle
 - **Rental (Penyewaan)** — Customer/mobil dropdowns, auto-calc duration & price, status sync
 - **Returns (Pengembalian)** — Manual fine input, auto-calc late fees, marks rental complete
 - **Reports** — Stat cards, real Chart.js charts, PDF export (DOMPDF), date filtering
-- **Settings** — Appearance (name, description, accent color), notifications, role access (admin)
+- **Settings** — Admin-only appearance, notifications, role access
 - **Activity Log** — Spatie Activitylog tracks all actions
-- **Public Pages** — Car listing + detail with WhatsApp booking link
+- **Public Pages** — Car listing + detail with WhatsApp booking link, hidden-car protection, no public plate exposure
 - **Responsive** — Dark theme with Tailwind CSS v4 + Alpine.js
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Backend | Laravel 12, PHP 8.4.2 |
-| Frontend | Blade, Tailwind CSS v4, Alpine.js, Chart.js |
+| Backend | Laravel 12, PHP 8.2+ |
+| Frontend | Blade, Tailwind CSS v4, Alpine.js, Chart.js CDN |
 | Database | MySQL 8.4 (Laragon) |
 | Build | Vite 7, Node 22 |
 | Auth | Session-based, custom RoleMiddleware |
@@ -115,6 +115,9 @@ php artisan serve
 | `DB_USERNAME` | root | Database user |
 | `DB_PASSWORD` | (empty) | Database password |
 | `SESSION_DRIVER` | file | Session storage |
+| `SESSION_ENCRYPT` | true | Encrypt session payload |
+| `SESSION_SECURE_COOKIE` | true | Send session cookie only over HTTPS |
+| `SESSION_HTTP_ONLY` | true | Block JavaScript access to session cookie |
 | `ADMIN_WA_NUMBER` | 6282284611795 | WhatsApp number for booking |
 
 ## Database
@@ -131,6 +134,8 @@ Seed data:
 - **Customers**: 5 verified customers
 - **Penyewaan**: 6 rental records
 - **Pengembalian**: Matching returns
+
+Change or remove seeded demo credentials before production hosting.
 
 ## Running Locally
 
@@ -162,19 +167,21 @@ php artisan test --filter=MobilTest
 # Tests use isolated 'rentscar_testing' database
 ```
 
-**39 tests, 77 assertions** — Auth, Authorization, Customer, Mobil, Penyewaan, Pengembalian, Cetak.
+**52 tests, 107 assertions** — Unit, Auth, Authorization, Customer, Mobil, Penyewaan, Pengembalian, Cetak.
 
 ## Deployment
 
 ### Production Checklist
 
-1. Set `APP_ENV=production`, `APP_DEBUG=false` in `.env`
-2. Set `SESSION_DRIVER=file` (or `database` with encrypted sessions)
-3. Set `APP_URL` to your domain
-4. Run `php artisan route:cache`, `php artisan config:cache`
-5. Run `php artisan storage:link`
-6. Set up cron for `php artisan schedule:run`
-7. Use HTTPS (set `SESSION_SECURE_COOKIE=true`)
+1. Set `APP_ENV=production`, `APP_DEBUG=false`, and `APP_URL=https://your-domain.com`
+2. Fill the real hosting database name, username, and password
+3. Set `SESSION_ENCRYPT=true`, `SESSION_SECURE_COOKIE=true`, `SESSION_HTTP_ONLY=true`
+4. Set `ADMIN_WA_NUMBER` to the production WhatsApp number
+5. Run `php artisan migrate --force`
+6. Run `php artisan storage:link` for public car/profile images
+7. Run `npm run build`
+8. Run `php artisan config:cache`, `php artisan route:cache`, `php artisan view:cache`
+9. Use HTTPS and replace seeded demo accounts/passwords before public launch
 
 ## Troubleshooting
 

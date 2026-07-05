@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends Controller
 {
@@ -67,7 +68,7 @@ class CustomerController extends Controller
         $validated['berlaku_hingga'] = null;
 
         if ($request->hasFile('foto_ktp')) {
-            $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp', 'public');
+            $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp');
         }
 
         $customer = Customer::create($validated);
@@ -136,13 +137,16 @@ class CustomerController extends Controller
             'pekerjaan' => 'nullable|string|max:255',
             'kewarganegaraan' => 'nullable|string|max:10',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'status_verifikasi' => 'nullable|in:disetujui,ditolak',
-            'catatan_verifikasi' => ['nullable', 'string', 'max:500'],
         ]);
 
         if (auth()->user()->role === 'admin' && $request->has('status_verifikasi')) {
+            $verification = $request->validate([
+                'status_verifikasi' => 'nullable|in:disetujui,ditolak',
+                'catatan_verifikasi' => ['nullable', 'string', 'max:500'],
+            ]);
+
             if ($request->filled('status_verifikasi')) {
-                $validated['status_verifikasi'] = $request->status_verifikasi;
+                $validated['status_verifikasi'] = $verification['status_verifikasi'];
                 $validated['verified_by'] = auth()->id();
                 $validated['tanggal_verifikasi'] = now();
             } else {
@@ -150,16 +154,18 @@ class CustomerController extends Controller
                 $validated['verified_by'] = null;
                 $validated['tanggal_verifikasi'] = null;
             }
+
+            $validated['catatan_verifikasi'] = $verification['catatan_verifikasi'] ?? null;
         }
 
-        $validated['catatan_verifikasi'] = $request->catatan_verifikasi;
         $validated['berlaku_hingga'] = null;
 
         if ($request->hasFile('foto_ktp')) {
             if ($customer->foto_ktp) {
+                Storage::delete($customer->foto_ktp);
                 Storage::disk('public')->delete($customer->foto_ktp);
             }
-            $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp', 'public');
+            $validated['foto_ktp'] = $request->file('foto_ktp')->store('foto_ktp');
         }
 
         $customer->update($validated);
@@ -181,6 +187,7 @@ class CustomerController extends Controller
         }
 
         if ($customer->foto_ktp) {
+            Storage::delete($customer->foto_ktp);
             Storage::disk('public')->delete($customer->foto_ktp);
         }
 
@@ -227,5 +234,30 @@ class CustomerController extends Controller
 
         return redirect('/customer/'.$id)
             ->with('success', 'Status verifikasi berhasil diperbarui');
+    }
+
+    public function ktpImage($id): Response
+    {
+        $customer = Customer::findOrFail($id);
+
+        abort_unless($customer->foto_ktp, 404);
+
+        if (Storage::exists($customer->foto_ktp)) {
+            return Storage::response($customer->foto_ktp, null, $this->privateImageHeaders());
+        }
+
+        if (Storage::disk('public')->exists($customer->foto_ktp)) {
+            return Storage::disk('public')->response($customer->foto_ktp, null, $this->privateImageHeaders());
+        }
+
+        abort(404);
+    }
+
+    private function privateImageHeaders(): array
+    {
+        return [
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
+        ];
     }
 }

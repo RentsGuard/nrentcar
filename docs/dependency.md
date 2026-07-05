@@ -1,102 +1,65 @@
-# Dependency — RentsCar
+# Dependency - RentsCar
 
 ## Backend
 
 | Package | Fungsi | Versi |
 |---------|--------|-------|
-<<<<<<< HEAD
-| `laravel/framework` | Framework utama (MVC, ORM, routing) | ^12.x |
-| `laravel/breeze` | Auth scaffolding (login, logout) | ^2.x |
-| `laravel/livewire` | Komponen realtime UI tanpa refresh | ^4.x |
-| `laravel/sanctum` | API token authentication | ^4.x |
-| `barryvdh/laravel-dompdf` | Generate PDF (invoice, laporan) | ^3.1 |
-| `spatie/laravel-activitylog` | Audit trail aktivitas user | ^5.0 |
-| `intervention/image` | Image processing (upload/resize) | ^4.x |
-| `blade-ui-kit/blade-heroicons` | SVG icon untuk dashboard | ^2.x |
-
-> **Note:** `maatwebsite/excel` tidak bisa dipasang (PHP 8.5 incompatible). Diganti `openspout/openspout` untuk export Excel.
+| `laravel/framework` | Framework utama aplikasi (MVC, routing, ORM, validasi, session) | ^12.0 |
+| `barryvdh/laravel-dompdf` | Generate PDF untuk laporan dan tanda terima | ^3.1 |
+| `blade-ui-kit/blade-heroicons` | Icon Heroicons untuk dashboard | ^2.7 |
+| `laravel/tinker` | REPL Laravel untuk development dan debugging ringan | ^2.10 |
+| `spatie/laravel-activitylog` | Audit trail aktivitas user internal | ^5.0 |
 
 ## Development & Testing
 
-| Package | Fungsi |
-|---------|--------|
-| `phpunit/phpunit` | Unit testing |
-| `fakerphp/faker` | Data dummy |
-| `laravel/tinker` | REPL Laravel |
-| `laravel/pint` | Code formatter |
-| `laravel/pail` | Log monitoring |
-| `barryvdh/laravel-debugbar` | Debugging tool |
->>>>>>> feature/tambah-data-denda
-=======
-| `laravel/framework` | Framework utama | ^12.x |
-| `laravel/breeze` | Auth scaffolding | ^2.x |
-| `laravel/livewire` | Komponen realtime | ^4.x |
-| `laravel/sanctum` | API token auth | ^4.x |
-| `barryvdh/laravel-dompdf` | Generate PDF | ^3.1 |
-| `spatie/laravel-activitylog` | Audit trail | ^5.0 |
-| `intervention/image` | Image processing | ^4.x |
-| `blade-ui-kit/blade-heroicons` | SVG icons | ^2.x |
-
-> `maatwebsite/excel` incompatible PHP 8.5 → pakai `openspout/openspout`
-
-## Dev & Testing
-
-| Package | Fungsi |
-|---------|--------|
-| `phpunit/phpunit` | Unit test |
-| `fakerphp/faker` | Data dummy |
-| `laravel/pint` | Code formatter |
-| `barryvdh/laravel-debugbar` | Debug |
->>>>>>> aqsha
+| Package | Fungsi | Versi |
+|---------|--------|-------|
+| `fakerphp/faker` | Data dummy untuk factory dan seeder | ^1.23 |
+| `laravel/pail` | Monitoring log saat development | ^1.2 |
+| `laravel/pint` | Code formatter PHP | ^1.24 |
+| `mockery/mockery` | Mocking untuk test | ^1.6 |
+| `nunomaduro/collision` | Error output CLI yang lebih jelas | ^8.6 |
+| `phpunit/phpunit` | Unit dan feature testing | ^11.5 |
 
 ## Frontend
 
 | Package | Fungsi | Versi |
 |---------|--------|-------|
-| `vite` | Build tool | ^5.x |
-<<<<<<< HEAD
-| `tailwindcss` | CSS framework (v4 via `@theme {}`) | ^4.x |
-| `alpinejs` | UI interaktivitas (modal, sidebar) | ^3.x |
-| `chart.js` | Grafik dashboard | ^4.x |
-| `sweetalert2` | Notifikasi pop-up interaktif | ^11.x |
-| `@fontsource/inter` | Font Inter | ^5.x |
+| `@fontsource/inter` | Font Inter lokal melalui Vite | ^5.2 |
+| `alpinejs` | Interaktivitas UI seperti sidebar dan state ringan | ^3.15 |
+| `axios` | HTTP client bawaan frontend Laravel | ^1.18 |
+| `sweetalert2` | Dialog konfirmasi dan notifikasi | ^11.26 |
+| `@tailwindcss/vite` | Integrasi Tailwind CSS v4 dengan Vite | ^4.3 |
+| `laravel-vite-plugin` | Integrasi asset Vite dengan Laravel | ^2.0 |
+| `tailwindcss` | Utility-first CSS framework | ^4.3 |
+| `vite` | Build tool frontend | ^7.0 |
+| `concurrently` | Menjalankan server, queue, log, dan Vite secara paralel saat development | ^9.0 |
 
-## Cara Install
+## CDN Assets
 
-```bash
-# Backend
-composer require barryvdh/laravel-dompdf
-composer require spatie/laravel-activitylog
->>>>>>> feature/tambah-data-denda
-=======
-| `tailwindcss` | CSS framework (v4) | ^4.x |
-| `alpinejs` | UI interaktivitas | ^3.x |
-| `chart.js` | Grafik | ^4.x |
-| `sweetalert2` | Notifikasi | ^11.x |
-| `@fontsource/inter` | Font Inter | ^5.x |
+| Asset | Fungsi | Sumber |
+|-------|--------|--------|
+| Bootstrap Icons | Icon publik dan dashboard | `cdn.jsdelivr.net` |
+| Chart.js | Grafik dashboard dan laporan | `cdn.jsdelivr.net` |
+| Leaflet | Peta lokasi pada landing page | `unpkg.com` |
 
 ## Install
 
 ```bash
 # Backend
-composer require barryvdh/laravel-dompdf spatie/laravel-activitylog
->>>>>>> aqsha
-
-# Dev
-composer require barryvdh/laravel-debugbar --dev
+composer install
 
 # Frontend
-npm install chart.js alpinejs sweetalert2
+npm install
+
+# Production asset build
 npm run build
 ```
 
 ## Dampak Dependency
 
-1. **Mempercepat dev** — library siap pakai (PDF, aktivitas log, chart)
-2. **Standarisasi** — komunitas luas, lebih aman dari implementasi manual
-3. **Konsistensi** — composer.lock + package-lock jamin versi sama
-4. **Risiko** — kompatibilitas versi, vendor lock-in, konsumsi resource (DOMPDF butuh memori besar untuk dataset besar → solusi: chunking/queue)
-<<<<<<< HEAD
->>>>>>> feature/tambah-data-denda
-=======
->>>>>>> aqsha
+1. **Mempercepat development** - library siap pakai untuk PDF, audit log, icon, chart, dan UI interaktif.
+2. **Standarisasi** - package populer dengan dokumentasi dan komunitas yang luas.
+3. **Konsistensi versi** - `composer.lock` dan `package-lock.json` menjaga versi dependency tetap sama antar environment.
+4. **Risiko operasional** - DOMPDF dapat memakai memori besar jika dataset laporan terlalu besar, sehingga laporan besar sebaiknya difilter atau diproses bertahap.
+5. **Kesiapan hosting** - asset frontend harus dibangun dengan `npm run build` sebelum deploy production.

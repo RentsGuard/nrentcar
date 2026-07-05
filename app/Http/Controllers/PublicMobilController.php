@@ -7,6 +7,18 @@ use Illuminate\Http\Request;
 
 class PublicMobilController extends Controller
 {
+    public function home()
+    {
+        $mobilTersedia = Mobil::where('is_visible', true)->latest()->take(6)->get();
+
+        return view('welcome', compact('mobilTersedia'));
+    }
+
+    public function tentang()
+    {
+        return view('public.tentang');
+    }
+
     public function index(Request $request)
     {
         $query = Mobil::where('is_visible', true);
@@ -14,8 +26,7 @@ class PublicMobilController extends Controller
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_mobil', 'like', "%{$search}%")
-                    ->orWhere('tipe_mobil', 'like', "%{$search}%")
-                    ->orWhere('plat_mobil', 'like', "%{$search}%");
+                    ->orWhere('tipe_mobil', 'like', "%{$search}%");
             });
         }
 
@@ -58,7 +69,7 @@ class PublicMobilController extends Controller
 
     public function show($id)
     {
-        $mobil = Mobil::findOrFail($id);
+        $mobil = Mobil::where('is_visible', true)->findOrFail($id);
         $mobilLain = Mobil::where('is_visible', true)
             ->where('id', '!=', $id)
             ->inRandomOrder()

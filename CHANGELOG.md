@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-07-05
+
+### Added
+- Authenticated private route for viewing customer KTP images
+- Regression tests for hidden public cars, private KTP storage, KTP access, admin-only settings, and public plate-number privacy
+- Mobile public navigation shortcuts for car list, about page, and WhatsApp contact
+
+### Changed
+- New KTP uploads are stored on the private disk instead of the public disk
+- Customer KTP previews now use the authenticated internal image route
+- All settings routes and the settings sidebar link are admin-only
+- Public car detail now shows a rental CTA only when the car is available, otherwise it shows an availability question CTA
+- Public landing/listing/detail backgrounds use simpler gradients and no decorative radial blobs
+- `.env.example` now enables encrypted, secure, HTTP-only sessions by default
+- Public homepage, about page, and dashboard redirect routes now use controller methods so route caching works
+
+### Fixed
+- Hidden cars can no longer be opened through guessed `/cars/{id}` URLs
+- Public car search no longer matches plate numbers
+- Public car detail no longer exposes plate numbers
+- Staff can no longer submit customer verification fields through the general customer update route
+- Staff dashboard no longer shows an admin-only settings link
+- `docs/dependency.md` conflict markers were removed and dependencies were corrected
+
 ## [1.0.0] — 2026-06-30
 
 ### Added

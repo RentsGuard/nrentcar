@@ -134,7 +134,7 @@
                 <div class="space-y-2">
                     @if($customer->foto_ktp)
                     <div class="mb-3">
-                        <img src="{{ asset('storage/'.$customer->foto_ktp) }}" alt="KTP {{ $customer->nama_customer }}" class="w-48 rounded-lg border border-white/[0.1]">
+                        <img src="{{ $customer->foto_ktp_url }}" alt="KTP {{ $customer->nama_customer }}" class="w-48 rounded-lg border border-white/[0.1]">
                         <p class="text-xs text-white/50 mt-1">KTP saat ini. Upload baru untuk mengganti.</p>
                     </div>
                     @endif
@@ -219,5 +219,4 @@
     </form>
 </div>
 @endsection
-
 

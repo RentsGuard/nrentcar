@@ -5,9 +5,7 @@
 
 @section('content')
 <style>
-.detail-page { min-height:100vh; position:relative; overflow:hidden; background:var(--bg-primary,#080808); }
-.detail-page::before { content:''; position:absolute; top:-300px; right:-200px; width:700px; height:700px; background:radial-gradient(circle,rgba(193,18,31,0.08) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
-.detail-page::after { content:''; position:absolute; bottom:-200px; left:-150px; width:500px; height:500px; background:radial-gradient(circle,rgba(193,18,31,0.05) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
+.detail-page { min-height:100vh; position:relative; overflow:hidden; background:linear-gradient(180deg,#080808 0%,#101010 100%); }
 </style>
 
 <div class="detail-page">
@@ -27,6 +25,14 @@
             @endauth
         </div>
     </nav>
+
+    <div class="sm:hidden sticky top-0 z-30 bg-[#080808]/95 backdrop-blur-xl border-y border-white/[0.06] px-4 py-3">
+        <div class="grid grid-cols-3 gap-2 text-center">
+            <a href="/cars" class="py-2 rounded-lg bg-white/[0.04] text-white/80 text-xs font-medium no-underline">Mobil</a>
+            <a href="/tentang-kami" class="py-2 rounded-lg bg-white/[0.04] text-white/80 text-xs font-medium no-underline">Tentang</a>
+            <a href="https://wa.me/{{ config('app.admin_wa') }}" target="_blank" class="py-2 rounded-lg text-white text-xs font-semibold no-underline" style="background:#25D366">WhatsApp</a>
+        </div>
+    </div>
 
     <div class="px-6 sm:px-10 pb-16 relative z-10">
         <a href="/cars" class="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors no-underline mb-6"><i class="bi bi-arrow-left"></i> Kembali ke daftar mobil</a>
@@ -73,13 +79,13 @@
                                 <span class="text-sm text-white/50 flex items-center gap-2"><i class="bi bi-tag"></i> Tipe</span>
                                 <span class="text-sm text-white font-medium">{{ $mobil->tipe_mobil }}</span>
                             </div>
-                            <div class="flex items-center justify-between py-2">
-                                <span class="text-sm text-white/50 flex items-center gap-2"><i class="bi bi-upc-scan"></i> Plat</span>
-                                <span class="text-sm text-white font-medium">{{ $mobil->plat_mobil }}</span>
-                            </div>
                         </div>
 
+                        @if($mobil->status_mobil === 'tersedia')
                         <a href="https://wa.me/{{ config('app.admin_wa') }}?text={{ urlencode('Halo, saya ingin menyewa '.$mobil->nama_mobil.' (Rp '.number_format($mobil->harga_mobil,0,',','.').'/hari - '.$mobil->tipe_mobil.' '.$mobil->tahun_mobil.'). Apakah masih tersedia?') }}" target="_blank" class="block w-full text-center py-3 rounded-xl text-white font-semibold text-sm hover:brightness-110 transition-all no-underline" style="background:#25D366;box-shadow:0 8px 25px rgba(37,211,102,0.3)"><i class="bi bi-whatsapp mr-2"></i>Sewa Sekarang via WhatsApp</a>
+                        @else
+                        <a href="https://wa.me/{{ config('app.admin_wa') }}?text={{ urlencode('Halo, saya ingin bertanya tentang ketersediaan '.$mobil->nama_mobil.'.') }}" target="_blank" class="block w-full text-center py-3 rounded-xl bg-white/[0.08] text-white font-semibold text-sm hover:bg-white/[0.12] transition-all no-underline"><i class="bi bi-whatsapp mr-2"></i>Tanya Ketersediaan</a>
+                        @endif
                     </div>
                 </div>
             </div>

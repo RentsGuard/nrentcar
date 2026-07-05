@@ -9,6 +9,11 @@ use App\Models\Penyewaan;
 
 class DashboardController extends Controller
 {
+    public function redirectByRole()
+    {
+        return redirect(auth()->user()->role === 'admin' ? '/admin/dashboard' : '/staff/dashboard');
+    }
+
     public function index()
     {
         $totalMobil = Mobil::count();

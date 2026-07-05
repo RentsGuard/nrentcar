@@ -5,7 +5,7 @@ Dokumen ini menjelaskan langkah instalasi proyek **RentsCar - Sistem Manajemen R
 
 ## Persyaratan Sistem
 
-* PHP 8.4.2 atau lebih baru
+* PHP 8.2 atau lebih baru
 * Composer
 * Node.js dan NPM
 * MySQL atau MariaDB
@@ -75,6 +75,10 @@ DB_PORT=3306
 DB_DATABASE=rentscar
 DB_USERNAME=root
 DB_PASSWORD=
+SESSION_ENCRYPT=true
+SESSION_SECURE_COOKIE=true
+SESSION_HTTP_ONLY=true
+SESSION_SAME_SITE=lax
 ```
 
 Jalankan migration untuk membuat struktur tabel database:
@@ -82,6 +86,16 @@ Jalankan migration untuk membuat struktur tabel database:
 ```bash
 php artisan migrate
 ```
+
+## Setup Storage
+
+Jalankan storage link untuk file publik seperti foto mobil dan foto profil:
+
+```bash
+php artisan storage:link
+```
+
+Foto KTP customer disimpan pada private disk dan hanya dapat diakses melalui route internal setelah login.
 
 ## Build Asset Frontend
 
@@ -124,6 +138,12 @@ php artisan test
 
 Proyek menggunakan framework testing bawaan Laravel yang berjalan di atas PHPUnit untuk menguji keandalan sistem.
 
+Untuk menjalankan feature test saja:
+
+```bash
+php artisan test --testsuite=Feature
+```
+
 ## Hak Akses Sistem
 
 Sistem RentsCar memisahkan akses pengguna berdasarkan peran (Role-Based Access Control).
@@ -134,6 +154,9 @@ Sistem RentsCar memisahkan akses pengguna berdasarkan peran (Role-Based Access C
 * Mengelola data pelanggan
 * Mengelola transaksi rental
 * Mengelola laporan
+* Mengelola staff
+* Mengelola pengaturan sistem
+* Melakukan verifikasi customer
 * Mengakses dashboard sistem
 
 ### Staff
@@ -142,6 +165,48 @@ Sistem RentsCar memisahkan akses pengguna berdasarkan peran (Role-Based Access C
 * Mengelola data pelanggan
 * Melakukan proses pengembalian kendaraan
 * Melihat data kendaraan yang tersedia
+* Melihat laporan operasional
+
+## Persiapan Hosting Production
+
+Sebelum hosting, sesuaikan nilai berikut pada `.env` server:
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://domain-anda.com
+
+DB_DATABASE=nama_database_hosting
+DB_USERNAME=user_database_hosting
+DB_PASSWORD=password_database_hosting
+
+SESSION_ENCRYPT=true
+SESSION_SECURE_COOKIE=true
+SESSION_HTTP_ONLY=true
+SESSION_SAME_SITE=lax
+
+ADMIN_WA_NUMBER=628xxxxxxxxxx
+```
+
+Jalankan perintah production setelah dependency terpasang dan `.env` sudah benar:
+
+```bash
+php artisan key:generate
+php artisan migrate --force
+php artisan storage:link
+npm run build
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+Jika hosting menggunakan PowerShell dan `npm` diblokir, gunakan:
+
+```bash
+npm.cmd run build
+```
+
+Jangan gunakan akun seed default untuk production. Ganti email dan password admin/staff sebelum website dibuka publik.
 
 ## Troubleshooting
 
@@ -252,6 +317,8 @@ Instalasi dianggap berhasil apabila:
 * Dashboard dapat diakses
 * Data mobil dapat dikelola
 * Transaksi rental dapat dilakukan
+* Foto KTP hanya dapat dibuka setelah login
+* Staff tidak dapat membuka menu pengaturan
 * Asset frontend berhasil dibangun menggunakan Vite
 * Seluruh test berjalan tanpa kegagalan
 
@@ -269,6 +336,7 @@ php artisan key:generate
 
 php artisan migrate
 
+php artisan storage:link
 npm run build
 
 php artisan serve

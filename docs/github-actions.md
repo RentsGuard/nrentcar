@@ -1,12 +1,18 @@
-# GitHub Actions - RentsCar
+# GitHub Actions — RentsCar
 
-## Current Status
+**Apa (What):** Pipeline CI/CD untuk otomatisasi testing dan build.
 
-No CI/CD pipeline is committed in this repository yet.
+**Kenapa (Why):** Memastikan setiap perubahan tidak merusak kode yang sudah berjalan. Test otomatis dijalankan setiap push/PR.
 
-## Recommended Setup
+**Siapa (Who):** Semua developer yang melakukan push atau pull request ke branch `main`.
 
-### Laravel CI
+**Kapan (When):** Dijalankan otomatis oleh GitHub saat ada `push` atau `pull_request` ke `main`.
+
+**Dimana (Where):** Berjalan di runner GitHub (Ubuntu). Services: MySQL 8.4.
+
+**Bagaimana (How):** Workflow `.github/workflows/laravel-check.yml`.
+
+## Workflow: Laravel CI
 
 ```yaml
 name: Laravel CI
@@ -47,47 +53,30 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: mbstring, pdo_mysql, gd, zip
           coverage: none
-
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-
       - run: composer install --no-interaction --prefer-dist --no-progress
       - run: npm ci
       - run: npm run build
       - run: php artisan test --testsuite=Feature
 ```
 
-### Production Build Check
+Pipeline menjalankan:
+1. `composer install`
+2. `npm install` + `npm run build`
+3. Laravel Pint (PSR-12 lint)
+4. PHPUnit tests
 
-```yaml
-name: Frontend Build
+## Catatan
 
-on: [push, pull_request]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-```
-
-## Notes
-
-- Do not store production `.env` values in the repository.
-- Use GitHub repository secrets for deploy credentials.
-- Tests require MySQL because `phpunit.xml` uses `DB_CONNECTION=mysql`.
-- Deployment should still be triggered manually or from a protected branch after the domain, database name, database user, and password are ready.
+- Jangan simpan nilai `.env` production di repository
+- Gunakan GitHub repository secrets untuk kredensial deploy
+- Test membutuhkan MySQL (`phpunit.xml` pakai `DB_CONNECTION=mysql`)
+- Deployment tetap manual dari branch terproteksi

@@ -1,206 +1,83 @@
-# NrentCar — Car Rental Management System
+# NrentCar — Sistem Manajemen Rental Mobil
 
-A full-featured car rental management system built with Laravel 12. Manage cars, customers, rentals, returns, fines, and reports — all in one place.
+**Apa (What):** Aplikasi web untuk manajemen bisnis rental mobil. Kelola armada, pelanggan, transaksi sewa, pengembalian, denda, dan laporan dalam satu dashboard.
 
-## Features
+**Kenapa (Why):** Menggantikan pencatatan manual dengan sistem digital terintegrasi. Mempercepat operasional, mengurangi kesalahan input, dan menyediakan laporan akurat.
 
-- **Auth & Roles** — Admin/Staff login with role-based redirect (throttle: 5/min)
-- **Dashboard** — 7 stat cards + real Chart.js charts (revenue, rentals)
-- **Staff Management** — Admin-only CRUD, password reset, foto profil
-- **Customer Management** — Full KTP fields (18 fields), private foto_ktp upload, verification workflow
-- **Car Management** — CRUD with foto upload, tipe_mobil (Matic/Manual), visibility toggle
-- **Rental (Penyewaan)** — Customer/mobil dropdowns, auto-calc duration & price, status sync
-- **Returns (Pengembalian)** — Manual fine input, auto-calc late fees, marks rental complete
-- **Reports** — Stat cards, real Chart.js charts, PDF export (DOMPDF), date filtering
-- **Settings** — Admin-only appearance, notifications, role access
-- **Activity Log** — Spatie Activitylog tracks all actions
-- **Public Pages** — Car listing + detail with WhatsApp booking link, hidden-car protection, no public plate exposure
-- **Responsive** — Dark theme with Tailwind CSS v4 + Alpine.js
+**Siapa (Who):** Admin (pemilik/manajer) dan Staff (karyawan). Publik dapat melihat katalog mobil dan menghubungi via WhatsApp.
 
-## Tech Stack
+**Kapan (When):** Digunakan setiap hari — dari pendaftaran pelanggan baru hingga pembuatan laporan bulanan.
 
-| Layer | Technology |
-|-------|-----------|
-| Backend | Laravel 12, PHP 8.2+ |
-| Frontend | Blade, Tailwind CSS v4, Alpine.js, Chart.js CDN |
-| Database | MySQL 8.4 (Laragon) |
-| Build | Vite 7, Node 22 |
-| Auth | Session-based, custom RoleMiddleware |
-| PDF | DOMPDF |
-| Activity Log | Spatie Activitylog |
-| Icons | Bootstrap Icons + Blade Heroicons |
-| Notifications | SweetAlert2 |
+**Dimana (Where):** Berjalan di web server (Laragon lokal atau hosting). Basis operasi di Padang, Indonesia.
 
-## Project Structure
+**Bagaimana (How):** Dibangun dengan Laravel 12, PHP 8.2+, MySQL 8.4, Tailwind CSS v4, Alpine.js, Vite 7.
+
+## Fitur Utama
+
+| Fitur | Keterangan |
+|-------|------------|
+| Auth & Role | Login admin/staff, throttle 5 percobaan, redirect berdasarkan role |
+| Dashboard | 7 kartu statistik + grafik Chart.js (pendapatan, penyewaan) |
+| Manajemen Staff | CRUD admin-only, reset password, foto profil |
+| Manajemen Customer | 18 field data KTP, upload foto KTP privat, workflow verifikasi |
+| Manajemen Mobil | CRUD + foto, tipe Matic/Manual, toggle visibilitas |
+| Penyewaan | Pilih customer & mobil, auto-kalkulasi, sinkronisasi status |
+| Pengembalian + Denda | Catat pengembalian, hitung denda, status lunas/belum |
+| Laporan | Statistik, grafik Chart.js, ekspor PDF, filter tanggal |
+| Pengaturan | Admin-only (tampilan, notifikasi, role akses) |
+| Halaman Publik | Daftar & detail mobil, pemesanan WhatsApp, peta lokasi |
+| Activity Log | Spatie Activitylog — catat semua aksi penting |
+
+## Struktur Proyek
 
 ```
 app/
 ├── Http/
-│   ├── Controllers/    # 13 controllers
+│   ├── Controllers/    # 13 controller
 │   └── Middleware/      # RoleMiddleware
-├── Models/              # 6 models (User, Customer, Mobil, Penyewaan, Pengembalian, Setting)
-├── Providers/           # AppServiceProvider
-bootstrap/
-├── app.php              # Middleware registration
-├── providers.php
-config/                  # 11 config files
+├── Models/              # 6 model
+bootstrap/app.php        # Registrasi middleware
+config/                  # 11 file konfigurasi
 database/
-├── migrations/          # 18 migration files
-├── seeders/             # 7 seeders
-├── factories/           # 5 factories
+├── migrations/          # 19 file
+├── seeders/             # 7 seeder
+├── factories/           # 5 factory
 resources/
-├── views/               # 41 Blade views
-├── css/                 # app.css (Tailwind v4 theme)
-├── js/                  # app.js (Alpine, SweetAlert2, Fontsource)
-routes/
-└── web.php              # All routes
+├── views/               # 41 Blade view
+├── css/                 # app.css (Tailwind v4)
+├── js/                  # app.js (Alpine, SweetAlert2)
+routes/web.php           # Semua route
 tests/
-├── Feature/             # 7 feature test files
-├── Unit/                # 1 unit test
+├── Feature/             # 7 file
+├── Unit/                # 1 file
 ```
 
-## Installation
+## Instalasi
 
-### Prerequisites
-
-- PHP 8.2+
-- Composer
-- Node.js 20+
-- MySQL 8+
-- Laragon (recommended on Windows)
-
-### Setup
-
-```bash
-# Clone
-git clone https://github.com/your-org/nrentcar.git
-cd nrentcar
-
-# Install PHP dependencies
-composer install
-
-# Install Node dependencies
-npm install
-
-# Environment
-cp .env.example .env
-php artisan key:generate
-
-# Database
-# Create MySQL database 'nrentcar'
-# Update .env: DB_DATABASE=nrentcar, DB_USERNAME=root, DB_PASSWORD=
-
-# Migrate & seed
-php artisan migrate:fresh --seed
-
-# Build frontend
-npm run build
-
-# Create storage link
-php artisan storage:link
-
-# Start
-php artisan serve
-```
-
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `APP_NAME` | NrentCar | Application name |
-| `APP_ENV` | production | Environment (local/production) |
-| `APP_DEBUG` | false | Debug mode |
-| `APP_URL` | http://nrentcar.test | App URL |
-| `DB_DATABASE` | nrentcar | Database name |
-| `DB_USERNAME` | root | Database user |
-| `DB_PASSWORD` | (empty) | Database password |
-| `SESSION_DRIVER` | file | Session storage |
-| `SESSION_ENCRYPT` | true | Encrypt session payload |
-| `SESSION_SECURE_COOKIE` | true | Send session cookie only over HTTPS |
-| `SESSION_HTTP_ONLY` | true | Block JavaScript access to session cookie |
-| `ADMIN_WA_NUMBER` | 6282284611795 | WhatsApp number for booking |
-
-## Database
-
-Run fresh seed:
-
-```bash
-php artisan migrate:fresh --seed
-```
-
-Seed data:
-- **Users**: Admin (admin@gmail.com / 123456), Staff (staff@gmail.com / 123456)
-- **Mobil**: 8 cars (various types)
-- **Customers**: 5 verified customers
-- **Penyewaan**: 6 rental records
-- **Pengembalian**: Matching returns
-
-Change or remove seeded demo credentials before production hosting.
-
-## Running Locally
-
-```bash
-# Dev server with Vite
-composer run dev
-
-# Or separately
-php artisan serve
-npm run dev
-```
-
-## Build Commands
-
-```bash
-npm run build    # Production build
-npm run dev      # Dev build with HMR
-```
+Lihat [docs/installation.md](docs/installation.md).
 
 ## Testing
 
 ```bash
-# Run all tests
+# Semua test
 php artisan test
 
-# Specific test suite
+# Test spesifik
 php artisan test --filter=MobilTest
-
-# Tests use isolated 'rentscar_testing' database
 ```
 
-**52 tests, 107 assertions** — Unit, Auth, Authorization, Customer, Mobil, Penyewaan, Pengembalian, Cetak.
+**52 test, 107 assertions** — Unit, Auth, Authorization, Customer, Mobil, Penyewaan, Pengembalian, Cetak.
 
 ## Deployment
 
-### Production Checklist
+1. Set `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL=https://domain-anda.com`
+2. Isi kredensial database hosting di `.env`
+3. `php artisan migrate --force`
+4. `php artisan storage:link`
+5. `npm run build`
+6. `php artisan config:cache`, `route:cache`, `view:cache`
+7. Gunakan HTTPS, ganti akun seed default
 
-1. Set `APP_ENV=production`, `APP_DEBUG=false`, and `APP_URL=https://your-domain.com`
-2. Fill the real hosting database name, username, and password
-3. Set `SESSION_ENCRYPT=true`, `SESSION_SECURE_COOKIE=true`, `SESSION_HTTP_ONLY=true`
-4. Set `ADMIN_WA_NUMBER` to the production WhatsApp number
-5. Run `php artisan migrate --force`
-6. Run `php artisan storage:link` for public car/profile images
-7. Run `npm run build`
-8. Run `php artisan config:cache`, `php artisan route:cache`, `php artisan view:cache`
-9. Use HTTPS and replace seeded demo accounts/passwords before public launch
-
-## Troubleshooting
-
-| Issue | Fix |
-|-------|-----|
-| Login session lost on restart | `SESSION_DRIVER=file` (not `database`) |
-| Duplicate MySQL processes | Click MySQL → Start once in Laragon |
-| Wilayah API not loading | API fallback: type address manually |
-| Tests wipe production DB | Tests use `rentscar_testing` database |
-
-## GitHub Actions
-
-`.github/workflows/laravel-check.yml` runs on push/PR to `main`:
-
-- `composer install`
-- `npm install && npm run build`
-- Laravel Pint (PSR-12 lint)
-- PHPUnit tests
-
-## License
+## Lisensi
 
 MIT

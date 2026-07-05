@@ -1,44 +1,56 @@
-# Features - RentsCar
+# Fitur — RentsCar
 
-## Implemented
+**Apa (What):** Daftar fitur yang sudah dan belum diimplementasikan.
 
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Login/Logout | Done | Role-based redirect, session regeneration, login throttle 5 attempts |
-| Admin Dashboard | Done | Stat cards, Chart.js revenue/customer charts, recent data |
-| Staff Dashboard | Done | Operational dashboard for staff role |
-| Staff CRUD | Done | Admin-only index, create, edit, delete, password reset |
-| Landing Page | Done | Public hero, available car grid, WhatsApp contact, map |
-| Public Car Listing | Done | Search/filter/sort, visible-car only, mobile quick nav |
-| Public Car Detail | Done | Visible-car only, WhatsApp CTA, no public plate-number exposure |
-| Error Pages | Done | 403, 404, 500, 503 dark theme |
-| Customer CRUD | Done | Full KTP fields, private `foto_ktp` storage, verification workflow |
-| Customer Verification | Done | Admin-only approve/reject and verification notes |
-| Mobil CRUD | Done | Photo upload, status management, visibility toggle, activity log |
-| Penyewaan CRUD | Done | Verified-customer dropdown, available-car dropdown, duration and price calculation |
-| Pengembalian + Denda | Done | Return recording, late fee calculation, damage fine, paid/unpaid fine status |
-| Profile | Done | Profile photo upload and password change |
-| Laporan | Done | Summary cards, Chart.js preview, PDF export, date filtering |
-| Pengaturan | Done | Admin-only appearance, notification, role/access views |
-| Activity Log | Done | Spatie Activitylog for important internal actions |
-| Seeders | Done | Users, cars, customers, rentals, returns, verification data |
-| Testing | Done | Feature tests for auth, authorization, customer, mobil, penyewaan, pengembalian, PDF |
+**Kenapa (Why):** Referensi status pengembangan — fitur apa saja yang tersedia dan apa yang ditunda.
 
-## Public-Hosting Hardening
+**Siapa (Who):** Developer, tester, dan pemilik proyek.
 
-| Area | Status | Notes |
-|------|--------|-------|
-| KTP privacy | Done | New uploads use private disk and authenticated image route |
-| Hidden car protection | Done | `/cars/{id}` only serves cars with `is_visible = true` |
-| Public fleet privacy | Done | Public search/detail do not expose plate numbers |
-| Settings access | Done | All settings routes and sidebar links are admin-only |
-| Session defaults | Done | `.env.example` enables encrypted, secure, HTTP-only sessions |
-| Security headers | Done | Global middleware sends frame, content-type, referrer, permissions, and CSP headers |
+**Kapan (When):** Digunakan saat perencanaan sprint, code review, dan onboarding developer baru.
 
-## Deferred
+**Dimana (Where):** Seluruh aplikasi RentsCar — backend, frontend, dan halaman publik.
 
-| Feature | Reason |
-|---------|--------|
-| Public online booking form | Current public flow uses WhatsApp confirmation, which matches the current project scope |
-| Payment gateway | Not part of current project scope |
-| Multi-tenant rental companies | Mentioned in early planning, but not implemented in this single-business prototype |
+**Bagaimana (How):** Status fitur dikategorikan: Done, Public-Hosting Hardening, Deferred.
+
+## Implementasi
+
+| Fitur | Status | Catatan |
+|-------|--------|---------|
+| Login/Logout | Done | Redirect berbasis role, regenerasi session, throttle 5 percobaan |
+| Dashboard Admin | Done | Kartu stat, grafik Chart.js pendapatan/customer, data terbaru |
+| Dashboard Staff | Done | Dashboard operasional untuk role staff |
+| CRUD Staff | Done | Admin-only: index, create, edit, delete, reset password |
+| Landing Page | Done | Hero publik, grid mobil tersedia, kontak WhatsApp, peta |
+| Daftar Mobil Publik | Done | Search/filter/sort, hanya mobil visible, navigasi mobile |
+| Detail Mobil Publik | Done | Hanya mobil visible, CTA WhatsApp, tanpa plat nomor |
+| Halaman Error | Done | 403, 404, 500, 503 — dark theme |
+| CRUD Customer | Done | 18 field KTP, penyimpanan foto KTP privat, workflow verifikasi |
+| Verifikasi Customer | Done | Admin-only approve/reject dan catatan verifikasi |
+| CRUD Mobil | Done | Upload foto, manajemen status, toggle visibilitas, activity log |
+| CRUD Penyewaan | Done | Dropdown customer verified + mobil tersedia, auto-kalkulasi |
+| Pengembalian + Denda | Done | Catat pengembalian, hitung denda telat, denda kerusakan, status lunas |
+| Profil | Done | Upload foto profil, ganti password |
+| Laporan | Done | Kartu ringkasan, grafik Chart.js, ekspor PDF, filter tanggal |
+| Pengaturan | Done | Admin-only: tampilan, notifikasi, role/akses |
+| Activity Log | Done | Spatie Activitylog untuk aksi internal penting |
+| Seeder | Done | Users, mobil, customer, penyewaan, pengembalian, verifikasi |
+| Testing | Done | Feature test: auth, authorization, customer, mobil, penyewaan, pengembalian, PDF |
+
+## Hardening Hosting Publik
+
+| Area | Status | Catatan |
+|------|--------|---------|
+| Privasi KTP | Done | Upload ke private disk, akses via route terautentikasi |
+| Proteksi mobil tersembunyi | Done | `/cars/{id}` hanya serve `is_visible = true` |
+| Privasi armada publik | Done | Search/detail publik tidak tampilkan plat nomor |
+| Akses pengaturan | Done | Semua route dan sidebar pengaturan admin-only |
+| Default session | Done | `.env.example` mengaktifkan encrypted, secure, HTTP-only |
+| Security headers | Done | Middleware global: frame, content-type, referrer, permissions, CSP |
+
+## Ditunda
+
+| Fitur | Alasan |
+|-------|--------|
+| Form booking publik online | Flow saat ini via WhatsApp — sesuai scope proyek |
+| Payment gateway | Di luar scope proyek saat ini |
+| Multi-tenant rental | Tidak diimplementasikan — prototipe single-business |

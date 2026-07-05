@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('title', 'Tentang Kami - NrentCar')
+@section('meta_description', 'Kenali NrentCar Padang — mitra terpercaya rental mobil di Padang. Armada berkualitas, harga bersaing, pelayanan profesional. Hubungi kami untuk informasi lebih lanjut.')
 
 @section('content')
 <style>

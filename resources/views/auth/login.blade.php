@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - RentSCar</title>
+    <meta name="description" content="Masuk ke dashboard manajemen NrentCar. Kelola armada, customer, dan penyewaan mobil dalam satu sistem terpadu.">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -59,14 +62,16 @@
                     <div class="space-y-5">
                         <div class="space-y-1.5">
                             <label class="text-sm font-medium text-white/80">Email</label>
-                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="admin@gmail.com" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="admin@gmail.com" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('email') border-red-500 @enderror">
+                            @error('email') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div class="space-y-1.5">
                             <div class="flex items-center justify-between">
                                 <label class="text-sm font-medium text-white/80">Password</label>
                             </div>
-                            <input type="password" name="password" required placeholder="••••••••" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                            <input type="password" name="password" required placeholder="••••••••" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white px-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)] @error('password') border-red-500 @enderror">
+                            @error('password') <p class="text-xs text-red-400 mt-1">{{ $message }}</p> @enderror
                             @if(session()->has('attempts_left'))
                             <p class="text-xs text-yellow-400/80 mt-1">Sisa percobaan: {{ session('attempts_left') }}</p>
                             @endif

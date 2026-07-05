@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ trim($__env->yieldContent('title')) ?: 'RentSCar' }} - Sistem Rental Mobil</title>
+    <meta name="description" content="@yield('meta_description', 'Sewa mobil premium di Padang dengan harga terjangkau. Nikmati pengalaman berkendara terbaik dengan armada mobil berkualitas dari RentSCar.')">
+    <meta property="og:title" content="{{ trim($__env->yieldContent('title')) ?: 'RentSCar' }} - Sistem Rental Mobil">
+    <meta property="og:description" content="@yield('meta_description', 'Sewa mobil premium di Padang dengan harga terjangkau. Nikmati pengalaman berkendara terbaik dengan armada mobil berkualitas dari RentSCar.')">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('images/nrentcar.png') }}">
+    <meta property="og:site_name" content="RentSCar">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">

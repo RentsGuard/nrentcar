@@ -121,9 +121,9 @@
                         </button>
                     </form>
                     @if(auth()->user()->role === 'admin' && $mobil->penyewaan_count === 0)
-                    <form action="/mobil/{{ $mobil->id }}" method="POST" onsubmit="return confirm('Yakin hapus mobil ' + @json($mobil->nama_mobil) + '? Data tidak bisa dikembalikan.')">
+                    <form action="/mobil/{{ $mobil->id }}" method="POST" class="delete-form">
                         @csrf @method('DELETE')
-                        <button type="submit" class="inline-flex items-center justify-center gap-2 h-9 px-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 text-sm transition-colors" title="Hapus permanen">
+                        <button type="submit" class="btn-delete-mobil inline-flex items-center justify-center gap-2 h-9 px-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 text-sm transition-colors" title="Hapus permanen" data-name="{{ $mobil->nama_mobil }}">
                             <i class="bi bi-trash"></i>
                         </button>
                     </form>
@@ -148,4 +148,27 @@
 </div>
 @endsection
 
+@push('scripts')
+<script>
+document.querySelectorAll('.delete-form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = this.querySelector('.btn-delete-mobil');
+        var name = btn.dataset.name;
+        Swal.fire({
+            titleText: 'Hapus ' + name + '?',
+            text: 'Data tidak bisa dikembalikan.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#C1121F',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Ya, hapus',
+            cancelButtonText: 'Batal',
+            background: '#141414',
+            color: '#fff',
+        }).then(function(r) { if (r.isConfirmed) form.submit(); });
+    });
+});
+</script>
+@endpush
 

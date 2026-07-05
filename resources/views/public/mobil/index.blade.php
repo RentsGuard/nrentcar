@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('title', 'Daftar Mobil - RentSCar')
+@section('meta_description', 'Lihat daftar mobil premium tersedia untuk disewa di Padang. Berbagai pilihan mobil berkualitas dengan harga terjangkau. Sewa mobil mudah dan cepat.')
 
 @section('content')
 <style>

@@ -40,6 +40,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('/dashboard', function () {
+        return redirect(auth()->user()->role === 'admin' ? '/admin/dashboard' : '/staff/dashboard');
+    })->name('dashboard');
+
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware('role:admin');
     Route::get('/staff/dashboard', [DashboardController::class, 'index'])->middleware('role:staff');
 
@@ -72,7 +76,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/penyewaan/{id}/batalkan', [PenyewaanController::class, 'batalkan']);
 
     Route::get('/laporan', [LaporanController::class, 'index']);
-    Route::get('/laporan/ringkasan', [LaporanController::class, 'index']);
     Route::get('/laporan/awal', [LaporanController::class, 'awal']);
     Route::get('/laporan/awal/cetak/{penyewaan}', [LaporanController::class, 'cetakAwal']);
     Route::get('/laporan/akhir', [LaporanController::class, 'akhir']);

@@ -1,5 +1,8 @@
 @extends('layout')
 
+@section('title', 'Beranda')
+@section('meta_description', 'Sewa mobil premium di Padang dengan harga terjangkau. Nikmati pengalaman berkendara terbaik dengan armada mobil berkualitas dari NrentCar.')
+
 @section('content')
 <style>
 .hero-section { min-height:100vh; display:flex; flex-direction:column; position:relative; overflow:hidden; background:var(--bg-primary,#080808); }

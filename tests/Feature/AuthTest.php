@@ -18,14 +18,14 @@ class AuthTest extends TestCase
         User::create([
             'nama_user' => 'Admin',
             'email' => 'admin@test.com',
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('12345678'),
             'role' => 'admin',
         ]);
 
         User::create([
             'nama_user' => 'Staff',
             'email' => 'staff@test.com',
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('12345678'),
             'role' => 'staff',
         ]);
     }
@@ -40,17 +40,17 @@ class AuthTest extends TestCase
     {
         $response = $this->post('/login', [
             'email' => 'admin@test.com',
-            'password' => '123456',
+            'password' => '12345678',
         ]);
 
         $response->assertRedirect('/admin/dashboard');
     }
 
-    public function test_staff_login_redirects_to_staff_dashboard(): void
+    public function test_staff_login_redirects_to_staff_dashboard()
     {
         $response = $this->post('/login', [
             'email' => 'staff@test.com',
-            'password' => '123456',
+            'password' => '12345678',
         ]);
 
         $response->assertRedirect('/staff/dashboard');

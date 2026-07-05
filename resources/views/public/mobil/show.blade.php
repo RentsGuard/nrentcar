@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('title', $mobil->nama_mobil)
+@section('meta_description', 'Sewa '.$mobil->nama_mobil.' ('.$mobil->tipe_mobil.' '.$mobil->tahun_mobil.') mulai Rp '.number_format($mobil->harga_mobil,0,',','.').'/hari. Tersedia di Padang, hubungi kami untuk reservasi.')
 
 @section('content')
 <style>

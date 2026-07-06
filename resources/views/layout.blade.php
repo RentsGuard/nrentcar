@@ -215,6 +215,24 @@ var icons = document.querySelectorAll('.theme-toggle-icon');
 var isDark = html.classList.contains('dark');
 localStorage.setItem('theme', isDark ? 'dark' : 'light');
 icons.forEach(function(el){ el.className = 'bi ' + (isDark ? 'bi-moon-fill' : 'bi-sun-fill') + ' theme-toggle-icon'; });
+
+if (window.dashCharts) {
+var tc = isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.5)';
+var gc = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.08)';
+var tb = isDark ? '#141414' : '#ffffff';
+var tbd = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+var ttc = isDark ? '#fff' : '#1a1a2e';
+window.dashCharts.forEach(function(c){
+c.options.scales.x.ticks.color = tc;
+c.options.scales.y.ticks.color = tc;
+c.options.scales.y.grid.color = gc;
+c.options.plugins.tooltip.backgroundColor = tb;
+c.options.plugins.tooltip.borderColor = tbd;
+c.options.plugins.tooltip.titleColor = ttc;
+c.options.plugins.tooltip.bodyColor = ttc;
+c.update();
+});
+}
 }
 
 (function() {

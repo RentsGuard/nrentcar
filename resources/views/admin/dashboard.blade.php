@@ -17,7 +17,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4">
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-car-front text-xl text-white/70"></i></div>
+                <div class="stat-icon"><i class="bi bi-car-front"></i></div>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Total Mobil</p>
@@ -27,7 +27,7 @@
 
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-check-circle text-xl text-white/70"></i></div>
+                <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Mobil Tersedia</p>
@@ -37,7 +37,7 @@
 
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-people text-xl text-white/70"></i></div>
+                <div class="stat-icon"><i class="bi bi-people"></i></div>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Total Customer</p>
@@ -47,7 +47,7 @@
 
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-shield-check text-xl text-white/70"></i></div>
+                <div class="stat-icon"><i class="bi bi-shield-check"></i></div>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Terverifikasi</p>
@@ -57,7 +57,7 @@
 
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-journal-text text-xl text-white/70"></i></div>
+                <div class="stat-icon"><i class="bi bi-journal-text"></i></div>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Penyewaan</p>
@@ -67,7 +67,7 @@
 
         <div class="glass-card p-6 flex flex-col justify-between h-full">
             <div class="flex justify-between items-start mb-4">
-                <div class="p-3 rounded-lg bg-white/[0.04] border border-white/[0.05]"><i class="bi bi-cash-stack text-xl text-white/70"></i></div>
+                <div class="stat-icon"><i class="bi bi-cash-stack"></i></div>
             </div>
             <div>
                 <p class="text-sm font-medium text-white/50 mb-1">Pendapatan</p>
@@ -163,31 +163,39 @@
 document.addEventListener('DOMContentLoaded', function() {
     const revData = @json($monthlyRevenue);
     const renData = @json($monthlyRentals);
+    const isDark = document.documentElement.classList.contains('dark');
+    const tc = isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.5)';
+    const gc = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.08)';
+    const tb = isDark ? '#141414' : '#ffffff';
+    const tbd = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+    const ttc = isDark ? '#fff' : '#1a1a2e';
+
+    window.dashCharts = window.dashCharts || [];
 
     const allKeys = [...new Set([...Object.keys(revData), ...Object.keys(renData)])].sort();
     const labels = allKeys.map(k => { const p = k.split('-'); const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return months[parseInt(p[1])-1] + ' ' + p[0]; });
     const revenueValues = allKeys.map(k => revData[k] ? Math.round(parseFloat(revData[k]) / 1000000) : 0);
     const rentalValues = allKeys.map(k => renData[k] ? parseInt(renData[k]) : 0);
 
-    new Chart(document.getElementById('revenueChart'), {
+    window.dashCharts.push(new Chart(document.getElementById('revenueChart'), {
         type: 'line',
         data: { labels: labels, datasets: [{ label: 'Pendapatan', data: revenueValues, borderColor: '#C1121F', backgroundColor: 'rgba(193,18,31,0.1)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 0 }] },
         options: {
             responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8, callbacks: { label: function(ctx) { return 'Rp ' + ctx.parsed.y + 'Jt'; } } } },
-            scales: { x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 }, callback: function(v) { return 'Rp' + v + 'M'; } } } }
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: tb, borderColor: tbd, borderWidth: 1, titleColor: ttc, bodyColor: ttc, cornerRadius: 8, callbacks: { label: function(ctx) { return 'Rp ' + ctx.parsed.y + 'Jt'; } } } },
+            scales: { x: { grid: { display: false }, ticks: { color: tc, font: { size: 12 } } }, y: { grid: { color: gc }, ticks: { color: tc, font: { size: 12 }, callback: function(v) { return 'Rp' + v + 'M'; } } } }
         }
-    });
+    }));
 
-    new Chart(document.getElementById('customerChart'), {
+    window.dashCharts.push(new Chart(document.getElementById('customerChart'), {
         type: 'bar',
         data: { labels: labels, datasets: [{ label: 'Penyewaan', data: rentalValues, backgroundColor: '#C1121F', borderRadius: 4, barPercentage: 0.6 }] },
         options: {
             responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#fff', bodyColor: '#fff', cornerRadius: 8 } },
-            scales: { x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } } }
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: tb, borderColor: tbd, borderWidth: 1, titleColor: ttc, bodyColor: ttc, cornerRadius: 8 } },
+            scales: { x: { grid: { display: false }, ticks: { color: tc, font: { size: 12 } } }, y: { grid: { color: gc }, ticks: { color: tc, font: { size: 12 } } } }
         }
-    });
+    }));
 });
 </script>
 @endpush

@@ -1,82 +1,177 @@
 # NrentCar — Sistem Manajemen Rental Mobil
 
-**Apa (What):** Aplikasi web untuk manajemen bisnis rental mobil. Kelola armada, pelanggan, transaksi sewa, pengembalian, denda, dan laporan dalam satu dashboard.
+Aplikasi web full-featured untuk manajemen bisnis rental mobil berbasis Laravel 12. Kelola armada, pelanggan, transaksi sewa, pengembalian, denda, dan laporan dalam satu dashboard.
 
-**Kenapa (Why):** Menggantikan pencatatan manual dengan sistem digital terintegrasi. Mempercepat operasional, mengurangi kesalahan input, dan menyediakan laporan akurat.
+## Status Saat Ini
 
-**Siapa (Who):** Admin (pemilik/manajer) dan Staff (karyawan). Publik dapat melihat katalog mobil dan menghubungi via WhatsApp.
+| Area                 | Status                                                                                                                                                                         |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Auth & Role          | Laravel Breeze (login, register, password reset, email verification, profile edit), role-based redirect (admin→/admin/dashboard, staff→/staff/dashboard), throttle 5 percobaan |
+| Manajemen Mobil      | CRUD + foto upload, tipe Matic/Manual, toggle visibilitas, admin-only delete                                                                                                   |
+| Manajemen Customer   | 18 field data KTP, upload foto KTP, workflow verifikasi (setujui/tolak oleh admin)                                                                                             |
+| Penyewaan            | Pilih customer & mobil dari dropdown, auto-kalkulasi durasi & harga, sync status mobil, batalkan penyewaan                                                                     |
+| Pengembalian + Denda | Catat pengembalian, input denda manual, auto-kalkulasi denda telat, tandai/batalkan lunas                                                                                      |
+| Dashboard            | Kartu statistik + grafik Chart.js (pendapatan, penyewaan)                                                                                                                      |
+| Laporan              | Statistik, grafik, ekspor PDF (DOMPDF), filter tanggal                                                                                                                         |
+| Pengaturan           | Tampilan (nama, deskripsi, warna aksen), notifikasi, role akses (admin-only)                                                                                                   |
+| Halaman Publik       | Daftar & detail mobil, pemesanan via WhatsApp, peta lokasi                                                                                                                     |
+| Activity Log         | Spatie Activitylog — catat semua aksi CRUD                                                                                                                                     |
+| Testing              | 66 test, 147 assertions — Unit, Auth, Authorization, Customer, Mobil, Penyewaan, Pengembalian, Cetak, Profile                                                                  |
 
-**Kapan (When):** Digunakan setiap hari — dari pendaftaran pelanggan baru hingga pembuatan laporan bulanan.
+## Tujuan Proyek
 
-**Dimana (Where):** Berjalan di web server (Laragon lokal atau hosting). Basis operasi di Padang, Indonesia.
+- Menggantikan pencatatan manual dengan sistem digital terintegrasi.
+- Mempercepat operasional rental mobil (pendaftaran pelanggan hingga laporan bulanan).
+- Menyediakan dashboard terpisah untuk admin (manajer) dan staff (karyawan).
+- Mendokumentasikan konstruksi dan evolusi perangkat lunak secara bertahap.
 
-**Bagaimana (How):** Dibangun dengan Laravel 12, PHP 8.2+, MySQL 8.4, Tailwind CSS v4, Alpine.js, Vite 7.
+## Masalah Yang Diselesaikan
+
+- Data pelanggan, mobil, dan transaksi masih tercatat manual (buku/Excel).
+- Tidak ada sistem role-based access — semua karyawan bisa akses semua data.
+- Pelacakan status mobil (tersedia/disewa/maintenance) tidak real-time.
+- Perubahan dependency, fitur, dan refactoring perlu dicatat agar evolusi proyek mudah ditelusuri.
+
+## Target Pengguna
+
+- Pengunjung website yang ingin melihat katalog mobil dan harga sewa.
+- Staff yang mengelola transaksi penyewaan dan pengembalian sehari-hari.
+- Admin (pemilik/manajer) yang mengelola data master, staff, dan laporan bisnis.
+- Developer yang mengembangkan dan memelihara aplikasi.
 
 ## Fitur Utama
 
-| Fitur | Keterangan |
-|-------|------------|
-| Auth & Role | Login admin/staff, throttle 5 percobaan, redirect berdasarkan role |
-| Dashboard | 7 kartu statistik + grafik Chart.js (pendapatan, penyewaan) |
-| Manajemen Staff | CRUD admin-only, reset password, foto profil |
-| Manajemen Customer | 18 field data KTP, upload foto KTP privat, workflow verifikasi |
-| Manajemen Mobil | CRUD + foto, tipe Matic/Manual, toggle visibilitas |
-| Penyewaan | Pilih customer & mobil, auto-kalkulasi, sinkronisasi status |
-| Pengembalian + Denda | Catat pengembalian, hitung denda, status lunas/belum |
-| Laporan | Statistik, grafik Chart.js, ekspor PDF, filter tanggal |
-| Pengaturan | Admin-only (tampilan, notifikasi, role akses) |
-| Halaman Publik | Daftar & detail mobil, pemesanan WhatsApp, peta lokasi |
-| Activity Log | Spatie Activitylog — catat semua aksi penting |
+### Fitur Tersedia
 
-## Struktur Proyek
+- **Auth & Roles** — Breeze login/register/reset password/verifikasi email, role-based redirect
+- **Staff Management** — Admin-only CRUD, reset password, foto profil
+- **Customer Management** — 18 field KTP, upload foto_ktp, workflow verifikasi (setujui/tolak)
+- **Car Management** — CRUD + foto, tipe Matic/Manual, toggle visibilitas, admin-only delete
+- **Rental (Penyewaan)** — Customer/mobil dropdown, auto-kalkulasi durasi & harga, sync status
+- **Returns (Pengembalian)** — Input denda, auto-kalkulasi denda telat, tandai/batalkan lunas
+- **Dashboard** — Kartu statistik + grafik Chart.js
+- **Reports** — Statistik, Chart.js, PDF export (DOMPDF), filter tanggal
+- **Settings** — Appearance, notifications, role access (admin-only)
+- **Activity Log** — Spatie Activitylog — semua aksi CRUD tercatat
+- **Public Pages** — Car listing + detail, WhatsApp booking, peta lokasi
+- **Dark Theme** — Tailwind CSS v3 + Alpine.js, tema gelap konsisten
 
-```
-app/
-├── Http/
-│   ├── Controllers/    # 13 controller
-│   └── Middleware/      # RoleMiddleware
-├── Models/              # 6 model
-bootstrap/app.php        # Registrasi middleware
-config/                  # 11 file konfigurasi
-database/
-├── migrations/          # 19 file
-├── seeders/             # 7 seeder
-├── factories/           # 5 factory
-resources/
-├── views/               # 41 Blade view
-├── css/                 # app.css (Tailwind v4)
-├── js/                  # app.js (Alpine, SweetAlert2)
-routes/web.php           # Semua route
-tests/
-├── Feature/             # 7 file
-├── Unit/                # 1 file
-```
+### Fitur Rencana Pengembangan
 
-## Instalasi
+- Upload bukti pembayaran manual.
+- Workflow refund/koreksi pembayaran.
+- Notifikasi real-time (email/WA).
+- API untuk integrasi pihak ketiga.
 
-Lihat [docs/installation.md](docs/installation.md).
+## Tech Stack
 
-## Testing
+| Layer        | Technology                                            |
+| ------------ | ----------------------------------------------------- |
+| Backend      | Laravel 12, PHP 8.5                                   |
+| Frontend     | Blade, Tailwind CSS v3 + PostCSS, Alpine.js, Chart.js |
+| Database     | MySQL 8.4 (Laragon)                                   |
+| Build        | Vite 7, Node 22                                       |
+| Auth         | Laravel Breeze (Blade + Alpine stack)                 |
+| PDF          | DOMPDF (barryvdh/laravel-dompdf)                      |
+| Activity Log | Spatie Activitylog                                    |
+| Icons        | Bootstrap Icons + inline SVG                          |
+| Notifikasi   | SweetAlert2                                           |
+
+## Instalasi Singkat
 
 ```bash
-# Semua test
-php artisan test
+git clone https://github.com/RentsGuard/nrentcar.git
+cd nrentcar
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+```
 
-# Test spesifik
+Buat database MySQL `nrentcar`, update `.env`:
+
+```
+DB_DATABASE=nrentcar
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+```bash
+php artisan migrate:fresh --seed
+npm run build
+php artisan storage:link
+php artisan serve
+```
+
+Dokumentasi instalasi lengkap: [`docs/installation.md`](docs/installation.md).
+
+## Akses Lokal
+
+| Role  | Email           | Password |
+| ----- | --------------- | -------- |
+| Admin | admin@gmail.com | 12345678 |
+| Staff | staff@gmail.com | 12345678 |
+
+Password seeded hanya untuk development. Ganti sebelum production.
+
+## Menjalankan Test
+
+```bash
+php artisan test
+# atau spesifik
 php artisan test --filter=MobilTest
 ```
 
-**52 test, 107 assertions** — Unit, Auth, Authorization, Customer, Mobil, Penyewaan, Pengembalian, Cetak.
+**66 test, 147 assertions.** Test menggunakan database terisolasi `rentscar_testing`.
+
+## Build Asset Frontend
+
+```bash
+npm run build    # Production build
+npm run dev      # Dev build dengan HMR
+```
 
 ## Deployment
 
 1. Set `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL=https://domain-anda.com`
-2. Isi kredensial database hosting di `.env`
+2. Atur database hosting di `.env`
 3. `php artisan migrate --force`
 4. `php artisan storage:link`
 5. `npm run build`
 6. `php artisan config:cache`, `route:cache`, `view:cache`
-7. Gunakan HTTPS, ganti akun seed default
+7. Gunakan HTTPS, ganti password akun seed default
+
+## Struktur Dokumentasi
+
+```text
+README.md
+docs/
+├── installation.md
+├── features.md
+├── dependency.md
+├── refactoring.md
+├── github-actions.md
+```
+
+## Tim Pengembang
+
+| Nama                       | NIM          | Peran Proyek      |
+| -------------------------- | ------------ | ----------------- |
+| (Muhammad Sharif Al Aqsha) | (2411081035) | Project Manager   |
+| (Zahra Cyurisma Hanena)    | (2411082041) | System Analyst    |
+| (Nisrina Nur'aini Yurizal) | (2411082037) | Lead Programmer   |
+| (Haikal Pratama)           | (2411081042) | Lead Programmer   |
+| (Muhammad Gibran Pangestu) | (2411083021) | Quality Assurance |
+
+## Dokumentasi
+
+| Dokumen                                            | Deskripsi                                |
+| -------------------------------------------------- | ---------------------------------------- |
+| [`docs/installation.md`](docs/installation.md)     | Panduan instalasi & troubleshooting      |
+| [`docs/features.md`](docs/features.md)             | Dokumentasi fitur aplikasi               |
+| [`docs/dependency.md`](docs/dependency.md)         | Dependency backend & frontend            |
+| [`docs/refactoring.md`](docs/refactoring.md)       | Catatan refactoring & perubahan struktur |
+| [`docs/github-actions.md`](docs/github-actions.md) | Workflow CI/CD                           |
 
 ## Lisensi
 

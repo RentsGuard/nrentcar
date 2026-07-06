@@ -5,7 +5,7 @@
 
 @section('content')
 <style>
-.page-section { min-height:100vh; position:relative; overflow:hidden; background:linear-gradient(180deg,#080808 0%,#101010 100%); }
+.page-section { min-height:100vh; position:relative; overflow:hidden; background:linear-gradient(180deg,var(--bg-page) 0%,var(--bg-card) 100%); }
 </style>
 
 <div class="page-section">

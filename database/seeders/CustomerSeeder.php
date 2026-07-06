@@ -4,11 +4,16 @@ namespace Database\Seeders;
 
 use App\Models\Customer;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerSeeder extends Seeder
 {
     public function run(): void
     {
+        $src = __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'ktp' . DIRECTORY_SEPARATOR . 'ktp_sample.jpg';
+        $ktpPath = 'foto_ktp/seed_ktp_sample.jpg';
+        Storage::disk('public')->put($ktpPath, file_get_contents($src));
+
         $customers = [
             [
                 'nama_customer' => 'Budi Santoso', 'email' => 'budi@gmail.com', 'no_hp' => '081234567890',
@@ -18,6 +23,7 @@ class CustomerSeeder extends Seeder
                 'kecamatan' => 'Menteng', 'kota_kabupaten' => 'Jakarta Pusat', 'provinsi' => 'DKI Jakarta',
                 'agama' => 'Islam', 'status_perkawinan' => 'Kawin', 'pekerjaan' => 'PNS',
                 'kewarganegaraan' => 'WNI', 'berlaku_hingga' => '2030-01-01',
+                'foto_ktp' => $ktpPath, 'status_verifikasi' => 'disetujui',
             ],
             [
                 'nama_customer' => 'Siti Nurhaliza', 'email' => 'siti@gmail.com', 'no_hp' => '081234567891',
@@ -27,6 +33,7 @@ class CustomerSeeder extends Seeder
                 'kecamatan' => 'Sumur Bandung', 'kota_kabupaten' => 'Bandung', 'provinsi' => 'Jawa Barat',
                 'agama' => 'Islam', 'status_perkawinan' => 'Belum Kawin', 'pekerjaan' => 'Karyawan Swasta',
                 'kewarganegaraan' => 'WNI', 'berlaku_hingga' => '2032-02-02',
+                'foto_ktp' => $ktpPath, 'status_verifikasi' => 'disetujui',
             ],
             [
                 'nama_customer' => 'Agus Wijaya', 'email' => 'agus@gmail.com', 'no_hp' => '081234567892',
@@ -36,6 +43,7 @@ class CustomerSeeder extends Seeder
                 'kecamatan' => 'Genteng', 'kota_kabupaten' => 'Surabaya', 'provinsi' => 'Jawa Timur',
                 'agama' => 'Kristen', 'status_perkawinan' => 'Kawin', 'pekerjaan' => 'Wirausaha',
                 'kewarganegaraan' => 'WNI', 'berlaku_hingga' => '2029-03-03',
+                'foto_ktp' => $ktpPath, 'status_verifikasi' => 'disetujui',
             ],
             [
                 'nama_customer' => 'Dewi Lestari', 'email' => 'dewi@gmail.com', 'no_hp' => '081234567893',
@@ -45,6 +53,7 @@ class CustomerSeeder extends Seeder
                 'kecamatan' => 'Gedongtengen', 'kota_kabupaten' => 'Yogyakarta', 'provinsi' => 'DI Yogyakarta',
                 'agama' => 'Katolik', 'status_perkawinan' => 'Belum Kawin', 'pekerjaan' => 'Mahasiswa',
                 'kewarganegaraan' => 'WNI', 'berlaku_hingga' => '2035-04-04',
+                'foto_ktp' => $ktpPath, 'status_verifikasi' => 'disetujui',
             ],
             [
                 'nama_customer' => 'Eko Prasetyo', 'email' => 'eko@gmail.com', 'no_hp' => '081234567894',
@@ -54,6 +63,7 @@ class CustomerSeeder extends Seeder
                 'kecamatan' => 'Semarang Tengah', 'kota_kabupaten' => 'Semarang', 'provinsi' => 'Jawa Tengah',
                 'agama' => 'Islam', 'status_perkawinan' => 'Cerai', 'pekerjaan' => 'Dokter',
                 'kewarganegaraan' => 'WNI', 'berlaku_hingga' => '2033-05-05',
+                'foto_ktp' => $ktpPath, 'status_verifikasi' => 'disetujui',
             ],
         ];
 

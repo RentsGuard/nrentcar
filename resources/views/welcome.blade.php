@@ -5,7 +5,7 @@
 
 @section('content')
 <style>
-.hero-section { min-height:78vh; display:flex; flex-direction:column; position:relative; overflow:hidden; background:linear-gradient(180deg,#080808 0%,#101010 100%); }
+.hero-section { min-height:78vh; display:flex; flex-direction:column; position:relative; overflow:hidden; background:linear-gradient(180deg,var(--bg-page) 0%,var(--bg-card) 100%); }
 </style>
 
 <div class="hero-section">

@@ -5,7 +5,7 @@
 
 @section('content')
 <style>
-.page-section { min-height:100vh; position:relative; overflow:hidden; background:var(--bg-primary,#080808); }
+.page-section { min-height:100vh; position:relative; overflow:hidden; background:var(--bg-page); }
 .page-section::before { content:''; position:absolute; top:-300px; right:-200px; width:700px; height:700px; background:radial-gradient(circle,rgba(193,18,31,0.08) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
 .page-section::after { content:''; position:absolute; bottom:-200px; left:-150px; width:500px; height:500px; background:radial-gradient(circle,rgba(193,18,31,0.05) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
 #map { height:400px; border-radius:1rem; z-index:1; }

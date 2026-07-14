@@ -48,7 +48,7 @@
                     </div>
                     <div>
                         <span class="text-white/50">Telat</span>
-                        <p class="text-white font-medium mt-0.5">{{ $pengembalian->telat_jam ? $pengembalian->telat_jam.' jam' : '-' }}</p>
+                        <p class="text-white font-medium mt-0.5">{{ $pengembalian->telat_jam ? $pengembalian->telat_jam.' hari' : '-' }}</p>
                     </div>
                     <div>
                         <span class="text-white/50">Kondisi</span>
@@ -92,12 +92,12 @@
                 <h3 class="text-sm font-semibold text-white/70 uppercase tracking-wider mb-4">Ringkasan Denda</h3>
                 <div class="space-y-3">
                     <div class="flex justify-between text-sm">
-                        <span class="text-white/50">Denda / Jam</span>
+                        <span class="text-white/50">Denda / Hari</span>
                         <span class="text-white font-medium">{{ $pengembalian->denda_per_jam ? 'Rp '.number_format($pengembalian->denda_per_jam, 0, ',', '.') : 'Rp 0' }}</span>
                     </div>
                     <div class="flex justify-between text-sm">
                         <span class="text-white/50">Telat</span>
-                        <span class="text-white font-medium">{{ $pengembalian->telat_jam ? $pengembalian->telat_jam.' jam' : '-' }}</span>
+                            <span class="text-white font-medium">{{ $pengembalian->telat_jam ? $pengembalian->telat_jam.' hari' : '-' }}</span>
                     </div>
                     <div class="flex justify-between text-sm">
                         <span class="text-white/50">Denda Telat</span>

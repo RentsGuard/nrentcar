@@ -70,12 +70,12 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Telat (jam)</label>
-                        <div class="h-10 flex items-center text-white font-medium">{{ $pengembalian->telat_jam ?? 0 }} jam</div>
+                        <label class="text-sm font-medium text-white/80">Telat (hari)</label>
+                        <div class="h-10 flex items-center text-white font-medium">{{ $pengembalian->telat_jam ?? 0 }} hari</div>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Denda / Jam</label>
+                        <label class="text-sm font-medium text-white/80">Denda / Hari</label>
                         <div class="h-10 flex items-center text-white font-medium">Rp {{ number_format($pengembalian->denda_per_jam ?? 0, 0, ',', '.') }}</div>
                     </div>
 
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 text-amber-400 text-xs">
-                    <i class="bi bi-info-circle"></i> Denda telat dihitung otomatis per jam. Denda kerusakan dapat disesuaikan. Simpan untuk re-kalkulasi.
+                    <i class="bi bi-info-circle"></i> Denda telat dihitung otomatis per hari. Denda kerusakan dapat disesuaikan. Simpan untuk re-kalkulasi.
                 </div>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">

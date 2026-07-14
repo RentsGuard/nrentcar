@@ -84,10 +84,10 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-white/80">Denda / Jam</label>
+                        <label class="text-sm font-medium text-white/80">Denda / Hari</label>
                         <div class="relative">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">Rp</span>
-                            <input type="number" name="denda_per_jam" value="{{ old('denda_per_jam', 50000) }}" required min="0" placeholder="50000" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
+                            <input type="number" name="denda_per_jam" value="{{ old('denda_per_jam', 350000) }}" required min="0" placeholder="350000" class="w-full h-10 rounded-lg border border-white/[0.1] bg-[#0D0D0D] text-white pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-white/40 focus:border-[#C1121F]/50 focus:shadow-[0_0_0_2px_rgba(193,18,31,0.3)]">
                         </div>
                     </div>
 
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 text-amber-400 text-xs">
-                    <i class="bi bi-info-circle"></i> Lama sewa & total harga dihitung otomatis dari tanggal/jam dan harga sewa mobil. Total denda telat dihitung otomatis saat pengembalian. Denda per jam disesuaikan dengan harga mobil.
+                    <i class="bi bi-info-circle"></i> Lama sewa & total harga dihitung otomatis dari tanggal/jam dan harga sewa mobil. Total denda telat dihitung otomatis saat pengembalian. Denda per hari disesuaikan dengan harga mobil.
                 </div>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">

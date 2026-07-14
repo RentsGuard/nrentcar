@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 text-amber-400 text-xs">
-                    <i class="bi bi-info-circle"></i> Denda telat dihitung otomatis per jam jika melewati tanggal kembali yang dijadwalkan. Denda kerusakan diisi manual jika ada.
+                    <i class="bi bi-info-circle"></i> Denda telat dihitung otomatis per hari jika melewati tanggal kembali yang dijadwalkan. Denda kerusakan diisi manual jika ada.
                 </div>
 
                 <div class="pt-6 border-t border-white/[0.05] flex justify-end">

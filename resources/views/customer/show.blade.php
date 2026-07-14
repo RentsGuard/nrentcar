@@ -318,7 +318,7 @@
                                     @if($pg->telat_jam)
                                     <div class="rounded-lg bg-yellow-500/5 border border-yellow-500/10 px-3 py-2">
                                         <p class="text-xs text-white/40">Telat</p>
-                                        <p class="text-sm font-semibold text-yellow-400">{{ $pg->telat_jam }} jam</p>
+                                        <p class="text-sm font-semibold text-yellow-400">{{ $pg->telat_jam }} hari</p>
                                     </div>
                                     @endif
                                     @if($pg->denda_telat > 0)

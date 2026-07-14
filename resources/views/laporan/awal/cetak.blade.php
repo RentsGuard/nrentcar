@@ -95,7 +95,7 @@
             <li>Pemilik kendaraan berhak mengambil kembali kendaraan apabila ditemukan pelanggaran atau kejanggalan dalam penggunaannya.</li>
             <li>Kendaraan harus dikembalikan dalam kondisi yang sama seperti saat diterima.</li>
             <li>Kerusakan body kendaraan menjadi tanggung jawab penyewa.</li>
-            <li>Keterlambatan pengembalian dikenakan denda sebesar Rp {{ number_format($penyewaan->denda_per_jam ?? 40000, 0, ',', '.') }} per jam.</li>
+            <li>Keterlambatan pengembalian dikenakan denda sebesar Rp {{ number_format($penyewaan->denda_per_jam ?? 350000, 0, ',', '.') }} per hari.</li>
         </ol>
     </div>
 

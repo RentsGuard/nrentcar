@@ -42,7 +42,7 @@
                         <p class="text-white font-medium mt-0.5">{{ $penyewaan->lama_sewa }} Hari</p>
                     </div>
                     <div>
-                        <span class="text-white/50">Denda / Jam</span>
+                        <span class="text-white/50">Denda / Hari</span>
                         <p class="text-white font-medium mt-0.5">{{ $penyewaan->denda_per_jam ? 'Rp '.number_format($penyewaan->denda_per_jam, 0, ',', '.') : 'Rp 0' }}</p>
                     </div>
                     <div>

@@ -131,15 +131,15 @@ class PengembalianController extends Controller
         $dendaKerusakan = $validated['denda_kerusakan'] ?? 0;
         $denda = $this->calculateDenda($penyewaan, $tglKembali, $dendaKerusakan, $validated['kondisi_mobil']);
 
-        $existingDendaPerJam = (int) ($penyewaan->denda_per_jam ?? $denda['denda_per_jam']);
-        $dendaTelatRecalc = $denda['telat_jam'] * $existingDendaPerJam;
+        $existingDendaPerHari = (int) ($penyewaan->denda_per_jam ?? $denda['denda_per_jam']);
+        $dendaTelatRecalc = $denda['telat_jam'] * $existingDendaPerHari;
         $totalDendaRecalc = $dendaTelatRecalc + $dendaKerusakan;
 
         $data = [
             'tanggal_pengembalian' => $validated['tanggal_pengembalian'],
             'kondisi_mobil' => $validated['kondisi_mobil'] ?? null,
             'telat_jam' => $denda['telat_jam'],
-            'denda_per_jam' => $existingDendaPerJam,
+            'denda_per_jam' => $existingDendaPerHari,
             'denda_telat' => $dendaTelatRecalc,
             'denda_kerusakan' => $dendaKerusakan,
             'total_denda' => $pengembalian->status_denda === 'lunas' ? $pengembalian->total_denda : $totalDendaRecalc,
@@ -237,12 +237,12 @@ class PengembalianController extends Controller
 
         $telatJam = 0;
         $dendaTelat = 0;
-        $dendaPerJam = (int) ($penyewaan->denda_per_jam ?? 10000);
+        $dendaPerHari = (int) ($penyewaan->denda_per_jam ?? 200000);
 
         if ($isLate) {
             $diffMin = $deadline->diffInMinutes($returnDt, false);
-            $telatJam = (int) ceil($diffMin / 60);
-            $dendaTelat = $telatJam * $dendaPerJam;
+            $telatJam = (int) ceil($diffMin / (60 * 24));
+            $dendaTelat = $telatJam * $dendaPerHari;
         }
 
         $dendaKerusakan = $dendaKerusakan ?? 0;
@@ -263,7 +263,7 @@ class PengembalianController extends Controller
 
         return [
             'telat_jam' => $telatJam,
-            'denda_per_jam' => $dendaPerJam,
+            'denda_per_jam' => $dendaPerHari,
             'denda_telat' => $dendaTelat,
             'denda_kerusakan' => $dendaKerusakan,
             'total_denda' => $totalDenda,
